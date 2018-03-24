@@ -127,4 +127,7 @@ clone_themes:
 clone_plugins:
 	git clone --recursive git@github.com:getpelican/pelican-plugins.git
 
+clone_github_page:
+	git clone git@github.com:pappasam/pappasam.github.io.git output
+
 .PHONY: html help clean regenerate serve serve-global devserver stopserver publish ssh_upload rsync_upload dropbox_upload ftp_upload s3_upload cf_upload github clone_themes clone_plugins
