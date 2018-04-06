@@ -51,7 +51,7 @@ LOAD_CONTENT_CACHE = False
 # Elegant theme-specific configurations
 #######################################################################
 
-THEME = 'pelican-themes/elegant'
+THEME = 'pelican-themes/pelican-elegant'
 STATIC_PATHS = ['theme/images', 'images']
 SOCIAL_PROFILE_LABEL = 'Contact Me'
 USE_SHORTCUT_ICONS=True
