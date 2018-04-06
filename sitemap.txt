@@ -1,0 +1,10 @@
+http://localhost:8000/index.html
+http://localhost:8000/archives.html
+http://localhost:8000/tags.html
+http://localhost:8000/categories.html
+http://localhost:8000/
+http://localhost:8000/archives.html
+http://localhost:8000/tags.html
+http://localhost:8000/categories.html
+http://localhost:8000/pages/about.html
+http://localhost:8000/cool-things-in-vim.html
