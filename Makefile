@@ -121,11 +121,8 @@ github: publish
 	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
 	git push origin $(GITHUB_PAGES_BRANCH)
 
-clone_theme:
-	mkdir -p pelican-themes
-	git clone \
-		git@github.com:pappasam/pelican-elegant.git \
-		pelican-themes/pelican-elegant
+clone_themes:
+	git clone --recursive git@github.com:getpelican/pelican-themes.git
 
 clone_plugins:
 	git clone --recursive git@github.com:getpelican/pelican-plugins.git

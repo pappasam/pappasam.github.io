@@ -4,13 +4,21 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Samuel Roeca'
 SITENAME = 'Software Journeyman'
-SITEURL = 'http://localhost:8000'
+
+JINJA_ENVIRONMENT = {
+    'extensions': [
+        'jinja2.ext.i18n',
+    ],
+}
+
+USE_FOLDER_AS_CATEGORY = True
 
 PATH = 'content'
 
 TIMEZONE = 'EST'
 
 DEFAULT_LANG = 'en'
+I18N_TEMPLATES_LANG = 'en'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -19,20 +27,6 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-# Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
-
-# Social widget
-SOCIAL = (
-    ('github', 'https://github.com/pappasam'),
-    ('linkedin-square', 'https://www.linkedin.com/in/samuel-roeca-23010735'),
-    ('facebook','https://www.facebook.com/sam.roeca'),
-    ('twitter', 'https://twitter.com/SamRoeca'),
-    ('email', 'samuel.roeca@gmail.com'),
-)
 
 DEFAULT_PAGINATION = 10
 
@@ -48,26 +42,44 @@ FILENAME_METADATA = '(?P<slug>.*)'
 LOAD_CONTENT_CACHE = False
 
 #######################################################################
-# Elegant theme-specific configurations
+# Flex theme-specific configurations
 #######################################################################
 
-THEME = 'pelican-themes/pelican-elegant'
-STATIC_PATHS = ['theme/images', 'images']
-SOCIAL_PROFILE_LABEL = 'Contact Me'
-USE_SHORTCUT_ICONS=True
-JINJA_ENVIRONMENT = {
-    'extensions': [
-        'jinja2.ext.i18n',
-    ],
-}
-DIRECT_TEMPLATES = ((
+THEME = 'pelican-themes/Flex'
+
+SITESUBTITLE = "Sam Roeca's Blog"
+SITEDESCRIPTION = "Samuel Roeca's blog"
+SITEURL = 'http://localhost:8000'
+SITELOGO = '/images/sam-headshot-kepler-300x300.jpg'
+
+MAIN_MENU = True
+
+LINKS = (
+    # ('About', '/pages/about.html'),
+)
+
+SOCIAL = (
+    ('github', 'https://github.com/pappasam'),
+    ('linkedin-square', 'https://www.linkedin.com/in/samuel-roeca-23010735'),
+    ('facebook','https://www.facebook.com/sam.roeca'),
+    ('twitter', 'https://twitter.com/SamRoeca'),
+    ('envelope-o', 'samuel.roeca@gmail.com'),
+)
+
+DIRECT_TEMPLATES = [
     'index',
-    'tags',
     'categories',
+    'category',
+    'authors',
     'archives',
-    'search',
-    '404',
-))
+]
+
+MENUITEMS = (
+    ('Archives', '/archives.html'),
+    ('Categories', '/categories.html'),
+    ('Tags', '/tags.html'),
+)
+
 TAG_SAVE_AS = ''
 CATEGORY_SAVE_AS = ''
 AUTHOR_SAVE_AS = ''
@@ -78,13 +90,20 @@ AUTHOR_SAVE_AS = ''
 
 PLUGIN_PATHS = ['pelican-plugins']
 PLUGINS = [
+    'i18n_subsites',
     'sitemap',
     'extract_toc',
     'tipue_search',        # this must be modified for now to work
     'neighbors',
     'assets',              # minifies css assets
     'filetime_from_git',
+    'autopages',
 ]
+
+# autopages
+AUTHOR_PAGE_PATH = 'authors'
+CATEGORY_PAGE_PATH = 'category'
+TAG_PAGE_PATH = 'tags'
 
 # tipue_search
 #   see http://archerimagine.com/articles/pelican/integration-problem-with-elegant-theme.html#missing-icons-for-social-links
