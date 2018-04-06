@@ -56,8 +56,9 @@ PLUGIN_PATHS = ['pelican-plugins']
 PLUGINS = [
     'sitemap',
     'extract_toc',
-    'tipue_search',  # this must be modified for now to work
+    'tipue_search',     # this must be modified for now to work
     'neighbors',
+    'assets',           # minifies css assets
 ]
 DIRECT_TEMPLATES = ((
     'index',
