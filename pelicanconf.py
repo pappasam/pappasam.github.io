@@ -40,7 +40,9 @@ DEFAULT_PAGINATION = 10
 #RELATIVE_URLS = True
 
 # How to extract data from filename
-FILENAME_METADATA = '(?P<date>\d{4}-\d{2}-\d{2})_(?P<slug>.*)'
+# Currently, only does the slug
+# FILENAME_METADATA = '(?P<date>\d{4}-\d{2}-\d{2})_(?P<slug>.*)'
+FILENAME_METADATA = '(?P<slug>.*)'
 
 # Ignore caching
 LOAD_CONTENT_CACHE = False
