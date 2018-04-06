@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Samuel Roeca'
 SITENAME = 'Software Journeyman'
+SITEURL = 'http://localhost:8000'
 
 PATH = 'content'
 
@@ -25,8 +26,13 @@ LINKS = (('Pelican', 'http://getpelican.com/'),
          ('You can modify those links in your config file', '#'),)
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+SOCIAL = (
+    ('github', 'https://github.com/pappasam'),
+    ('linkedin-square', 'https://www.linkedin.com/in/samuel-roeca-23010735'),
+    ('facebook','https://www.facebook.com/sam.roeca'),
+    ('twitter', 'https://twitter.com/SamRoeca'),
+    ('email', 'samuel.roeca@gmail.com'),
+)
 
 DEFAULT_PAGINATION = 10
 
@@ -45,7 +51,7 @@ LOAD_CONTENT_CACHE = False
 
 THEME = 'pelican-themes/elegant'
 STATIC_PATHS = ['theme/images', 'images']
-SITEURL = 'http://localhost:8000'
+SOCIAL_PROFILE_LABEL = 'Contact Me'
 USE_SHORTCUT_ICONS=True
 JINJA_ENVIRONMENT = {
     'extensions': [
@@ -53,12 +59,15 @@ JINJA_ENVIRONMENT = {
     ],
 }
 PLUGIN_PATHS = ['pelican-plugins']
+# manually modify tipue_search plugin:
+# see http://archerimagine.com/articles/pelican/integration-problem-with-elegant-theme.html#missing-icons-for-social-links
 PLUGINS = [
     'sitemap',
     'extract_toc',
-    'tipue_search',     # this must be modified for now to work
+    'tipue_search',        # this must be modified for now to work
     'neighbors',
-    'assets',           # minifies css assets
+    'assets',              # minifies css assets
+    'filetime_from_git',
 ]
 DIRECT_TEMPLATES = ((
     'index',
@@ -71,3 +80,8 @@ DIRECT_TEMPLATES = ((
 TAG_SAVE_AS = ''
 CATEGORY_SAVE_AS = ''
 AUTHOR_SAVE_AS = ''
+
+GIT_FILETIME_FROM_GIT = True
+GIT_SHA_METADATA = True
+GIT_GENERATE_PERMALINK = False
+GIT_HISTORY_FOLLOWS_RENAME = True
