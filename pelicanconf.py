@@ -60,17 +60,6 @@ JINJA_ENVIRONMENT = {
         'jinja2.ext.i18n',
     ],
 }
-PLUGIN_PATHS = ['pelican-plugins']
-# manually modify tipue_search plugin:
-# see http://archerimagine.com/articles/pelican/integration-problem-with-elegant-theme.html#missing-icons-for-social-links
-PLUGINS = [
-    'sitemap',
-    'extract_toc',
-    'tipue_search',        # this must be modified for now to work
-    'neighbors',
-    'assets',              # minifies css assets
-    'filetime_from_git',
-]
 DIRECT_TEMPLATES = ((
     'index',
     'tags',
@@ -83,7 +72,41 @@ TAG_SAVE_AS = ''
 CATEGORY_SAVE_AS = ''
 AUTHOR_SAVE_AS = ''
 
+#######################################################################
+# Pelican Plugins
+#######################################################################
+
+PLUGIN_PATHS = ['pelican-plugins']
+PLUGINS = [
+    'sitemap',
+    'extract_toc',
+    'tipue_search',        # this must be modified for now to work
+    'neighbors',
+    'assets',              # minifies css assets
+    'filetime_from_git',
+]
+
+# tipue_search
+#   see http://archerimagine.com/articles/pelican/integration-problem-with-elegant-theme.html#missing-icons-for-social-links
+#   manually modify
+
+# filetime_from_git
 GIT_FILETIME_FROM_GIT = True
 GIT_SHA_METADATA = True
 GIT_GENERATE_PERMALINK = False
 GIT_HISTORY_FOLLOWS_RENAME = True
+
+# sitemap
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 1,
+        'pages': 1,
+        'indexes': 1,
+    },
+    'changefreqs': {
+        'articles': 'always',
+        'pages': 'always',
+        'indexes': 'always',
+    },
+}
