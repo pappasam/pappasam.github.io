@@ -62,7 +62,7 @@ SOCIAL = (
     ('linkedin-square', 'https://www.linkedin.com/in/samuel-roeca-23010735'),
     ('facebook','https://www.facebook.com/sam.roeca'),
     ('twitter', 'https://twitter.com/SamRoeca'),
-    ('envelope-o', 'samuel.roeca@gmail.com'),
+    ('envelope-o', 'mailto:samuel.roeca@gmail.com'),
 )
 
 DIRECT_TEMPLATES = [
