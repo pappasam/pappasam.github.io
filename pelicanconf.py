@@ -27,7 +27,6 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
@@ -69,9 +68,9 @@ SOCIAL = (
 DIRECT_TEMPLATES = [
     'index',
     'categories',
-    'category',
     'authors',
     'archives',
+    'tags',
 ]
 
 MENUITEMS = (
@@ -79,10 +78,6 @@ MENUITEMS = (
     ('Categories', '/categories.html'),
     ('Tags', '/tags.html'),
 )
-
-TAG_SAVE_AS = ''
-CATEGORY_SAVE_AS = ''
-AUTHOR_SAVE_AS = ''
 
 #######################################################################
 # Pelican Plugins
@@ -97,13 +92,8 @@ PLUGINS = [
     'neighbors',
     'assets',              # minifies css assets
     'filetime_from_git',
-    'autopages',
 ]
 
-# autopages
-AUTHOR_PAGE_PATH = 'authors'
-CATEGORY_PAGE_PATH = 'category'
-TAG_PAGE_PATH = 'tags'
 
 # tipue_search
 #   see http://archerimagine.com/articles/pelican/integration-problem-with-elegant-theme.html#missing-icons-for-social-links
