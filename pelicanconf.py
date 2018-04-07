@@ -43,7 +43,8 @@ LOAD_CONTENT_CACHE = False
 # static pathes for publishing
 STATIC_PATHS = [
     'images',
-    'theme/images'
+    'theme/images',
+    'gif',
 ]
 
 # Code blocks
@@ -105,20 +106,12 @@ PLUGINS = [
     'tipue_search',        # this must be modified for now to work
     'neighbors',
     'assets',              # minifies css assets
-    'filetime_from_git',
     'code_include',
 ]
-
 
 # tipue_search
 #   see http://archerimagine.com/articles/pelican/integration-problem-with-elegant-theme.html#missing-icons-for-social-links
 #   manually modify
-
-# filetime_from_git
-GIT_FILETIME_FROM_GIT = True
-GIT_SHA_METADATA = True
-GIT_GENERATE_PERMALINK = False
-GIT_HISTORY_FOLLOWS_RENAME = True
 
 # sitemap
 SITEMAP = {
