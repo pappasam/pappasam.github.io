@@ -53,6 +53,7 @@ STATIC_PATHS = [
 THEME = 'pelican-themes/Flex'
 
 FAVICON = '/theme/images/favicon.ico'
+PYGMENTS_STYLE = 'tango'
 
 SITESUBTITLE = "Sam Roeca's Blog"
 SITEDESCRIPTION = "Samuel Roeca's blog"
@@ -100,6 +101,7 @@ PLUGINS = [
     'neighbors',
     'assets',              # minifies css assets
     'filetime_from_git',
+    'code_include',
 ]
 
 
