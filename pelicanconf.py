@@ -40,11 +40,19 @@ FILENAME_METADATA = '(?P<slug>.*)'
 # Ignore caching
 LOAD_CONTENT_CACHE = False
 
+# static pathes for publishing
+STATIC_PATHS = [
+    'images',
+    'theme/images'
+]
+
 #######################################################################
 # Flex theme-specific configurations
 #######################################################################
 
 THEME = 'pelican-themes/Flex'
+
+FAVICON = '/theme/images/favicon.ico'
 
 SITESUBTITLE = "Sam Roeca's Blog"
 SITEDESCRIPTION = "Samuel Roeca's blog"
