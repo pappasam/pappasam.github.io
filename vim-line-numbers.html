@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="https://pappasam.github.io/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://pappasam.github.io/theme/pygments/tango.min.css">
+  <link rel="stylesheet" type="text/css" href="https://pappasam.github.io/theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="https://pappasam.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Software Journeyman Atom">
+
+
+    <link rel="shortcut icon" href="/theme/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/images/favicon.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Samuel Roeca" />
+<meta name="description" content="TL;DR If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the myusuf3/numbers.vim plugin. The Problem When editing text in a Vim window, I use relative numbers to help me use motions across text relative to …" />
+<meta name="keywords" content="Vim, Vim Plugins">
+<meta property="og:site_name" content="Software Journeyman"/>
+<meta property="og:title" content="Vim Line Numbers"/>
+<meta property="og:description" content="TL;DR If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the myusuf3/numbers.vim plugin. The Problem When editing text in a Vim window, I use relative numbers to help me use motions across text relative to …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://pappasam.github.io/vim-line-numbers.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-04-07 00:00:00-05:00"/>
+<meta property="article:modified_time" content="2018-04-07 00:00:00-05:00"/>
+<meta property="article:author" content="https://pappasam.github.io/author/samuel-roeca.html">
+<meta property="article:section" content="Vim"/>
+<meta property="article:tag" content="Vim"/>
+<meta property="article:tag" content="Vim Plugins"/>
+<meta property="og:image" content="/images/sam-headshot-kepler-300x300.jpg">
+
+  <title>Software Journeyman &ndash; Vim Line Numbers</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://pappasam.github.io">
+        <img src="/images/sam-headshot-kepler-300x300.jpg" alt="" title="">
+      </a>
+      <h1><a href="https://pappasam.github.io"></a></h1>
+
+<p>Sam Roeca's Blog</p>
+      <nav>
+        <ul class="list">
+          <li><a href="https://pappasam.github.io/pages/about.html#about">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-github" href="https://github.com/pappasam" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-linkedin-square" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank"><i class="fa fa-linkedin-square"></i></a></li>
+        <li><a class="sc-facebook" href="https://www.facebook.com/sam.roeca" target="_blank"><i class="fa fa-facebook"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/SamRoeca" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-envelope-o" href="mailto:samuel.roeca@gmail.com" target="_blank"><i class="fa fa-envelope-o"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://pappasam.github.io">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://pappasam.github.io/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="vim-line-numbers">Vim Line Numbers</h1>
+    <p>
+          Posted on Sat 07 April 2018 in <a href="https://pappasam.github.io/category/vim.html">Vim</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <div class="section" id="tl-dr">
+<h2>TL;DR</h2>
+<p>If you want your Vim line numbers to be relative and/or not relative at the
+correct times, I recommend installing the <a class="reference external" href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a> plugin.</p>
+</div>
+<div class="section" id="the-problem">
+<h2>The Problem</h2>
+<p>When editing text in a Vim window, I use relative numbers to help me use
+motions across text relative to my cursor. However, when I have multiple
+windows open, relative numbers look pretty weird in windows that I am not
+currently editing.  It would be nice for Vim to intelligently alternate between
+relativenumber and norelativenumber based on my Vim cursor location. Base Vim
+does not have this capability, so we have three options:</p>
+<ol class="arabic simple">
+<li>Accept a suboptimal workflow</li>
+<li>Wrap our own solution in our .vimrc</li>
+<li>Find a Plugin</li>
+</ol>
+<p>I lived with option 1 for a while, but eventually grew too annoyed.  I then
+tried researching plugins, but thought I understood the problem well-enough to
+write my own solution. So I went straight to option 2 and tried wrapping my own
+solution.</p>
+</div>
+<div class="section" id="wrapping-my-own-solution">
+<h2>Wrapping my own solution</h2>
+<p>The following code represents my original solution:</p>
+<div class="highlight"><pre><span></span><span class="lineno"> 1 </span><span class="k">function</span><span class="p">!</span> ToggleRelativeNumber<span class="p">()</span>
+<span class="lineno"> 2 </span>  <span class="k">if</span> &amp;<span class="nb">rnu</span>
+<span class="lineno"> 3 </span>    <span class="k">set</span> <span class="nb">norelativenumber</span>
+<span class="lineno"> 4 </span>  <span class="k">else</span>
+<span class="lineno"> 5 </span>    <span class="k">set</span> <span class="nb">relativenumber</span>
+<span class="lineno"> 6 </span>  <span class="k">endif</span>
+<span class="lineno"> 7 </span><span class="k">endfunction</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span><span class="k">function</span><span class="p">!</span> RNUInsertEnter<span class="p">()</span>
+<span class="lineno">10 </span>  <span class="k">if</span> &amp;<span class="nb">rnu</span>
+<span class="lineno">11 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
+<span class="lineno">12 </span>    <span class="k">set</span> <span class="nb">norelativenumber</span>
+<span class="lineno">13 </span>  <span class="k">else</span>
+<span class="lineno">14 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
+<span class="lineno">15 </span>  <span class="k">endif</span>
+<span class="lineno">16 </span><span class="k">endfunction</span>
+<span class="lineno">17 </span>
+<span class="lineno">18 </span><span class="k">function</span><span class="p">!</span> RNUInsertLeave<span class="p">()</span>
+<span class="lineno">19 </span>  <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">&#39;rnu&#39;</span>
+<span class="lineno">20 </span>    <span class="k">set</span> <span class="nb">relativenumber</span>
+<span class="lineno">21 </span>  <span class="k">else</span>
+<span class="lineno">22 </span>    <span class="k">set</span> <span class="nb">norelativenumber</span>
+<span class="lineno">23 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
+<span class="lineno">24 </span>  <span class="k">endif</span>
+<span class="lineno">25 </span><span class="k">endfunction</span>
+<span class="lineno">26 </span>
+<span class="lineno">27 </span><span class="k">function</span><span class="p">!</span> RNUWinEnter<span class="p">()</span>
+<span class="lineno">28 </span>  <span class="k">if</span> exists<span class="p">(</span><span class="s1">&#39;w:line_number_state&#39;</span><span class="p">)</span>
+<span class="lineno">29 </span>    <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">&#39;rnu&#39;</span>
+<span class="lineno">30 </span>      <span class="k">set</span> <span class="nb">relativenumber</span>
+<span class="lineno">31 </span>    <span class="k">else</span>
+<span class="lineno">32 </span>      <span class="k">set</span> <span class="nb">norelativenumber</span>
+<span class="lineno">33 </span>    <span class="k">endif</span>
+<span class="lineno">34 </span>  <span class="k">else</span>
+<span class="lineno">35 </span>    <span class="k">set</span> <span class="nb">relativenumber</span>
+<span class="lineno">36 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
+<span class="lineno">37 </span>  <span class="k">endif</span>
+<span class="lineno">38 </span><span class="k">endfunction</span>
+<span class="lineno">39 </span>
+<span class="lineno">40 </span><span class="k">function</span><span class="p">!</span> RNUWinLeave<span class="p">()</span>
+<span class="lineno">41 </span>  <span class="k">if</span> &amp;<span class="nb">rnu</span>
+<span class="lineno">42 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
+<span class="lineno">43 </span>  <span class="k">else</span>
+<span class="lineno">44 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
+<span class="lineno">45 </span>  <span class="k">endif</span>
+<span class="lineno">46 </span>  <span class="k">set</span> <span class="nb">norelativenumber</span>
+<span class="lineno">47 </span><span class="k">endfunction</span>
+<span class="lineno">48 </span>
+<span class="lineno">49 </span><span class="c">&quot; autocmd that will set up the w:created variable</span>
+<span class="lineno">50 </span>autocmd <span class="nb">VimEnter</span> * autocmd <span class="nb">WinEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
+<span class="lineno">51 </span>autocmd <span class="nb">VimEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
+<span class="lineno">52 </span><span class="k">set</span> <span class="k">number</span> <span class="nb">relativenumber</span>
+<span class="lineno">53 </span>augroup rnu_nu
+<span class="lineno">54 </span>  autocmd<span class="p">!</span>
+<span class="lineno">55 </span><span class="c">  &quot;Initial window settings</span>
+<span class="lineno">56 </span>  autocmd <span class="nb">WinEnter</span> * <span class="k">if</span> <span class="p">!</span>exists<span class="p">(</span><span class="s1">&#39;w:created&#39;</span><span class="p">)</span> <span class="p">|</span>
+<span class="lineno">57 </span>        \<span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span> <span class="p">|</span>
+<span class="lineno">58 </span>        \<span class="k">endif</span>
+<span class="lineno">59 </span>  autocmd <span class="nb">User</span> Startified <span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span>
+<span class="lineno">60 </span><span class="c">  &quot; Don&#39;t have relative numbers during insert mode</span>
+<span class="lineno">61 </span>  autocmd <span class="nb">InsertEnter</span> * :<span class="k">call</span> RNUInsertEnter<span class="p">()</span>
+<span class="lineno">62 </span>  autocmd <span class="nb">InsertLeave</span> * :<span class="k">call</span> RNUInsertLeave<span class="p">()</span>
+<span class="lineno">63 </span><span class="c">  &quot; Set and unset relative numbers when buffer is active</span>
+<span class="lineno">64 </span>  autocmd <span class="nb">WinEnter</span> * :<span class="k">call</span> RNUWinEnter<span class="p">()</span>
+<span class="lineno">65 </span>  autocmd <span class="nb">WinLeave</span> * :<span class="k">call</span> RNUWinLeave<span class="p">()</span>
+<span class="lineno">66 </span>augroup <span class="k">end</span>
+</pre></div>
+<div class="section" id="the-good">
+<h3>The good</h3>
+<p>The solution worked for most windows and tabs, most of the time.</p>
+</div>
+<div class="section" id="the-bad">
+<h3>The bad</h3>
+<p>The code is a bit involved and it takes a little time to explain to others.</p>
+<ol class="arabic simple">
+<li>It relies on window-local variables (w:line_number_state, etc).
+These exacerbate Vim's already-difficult state-management woes.</li>
+<li>Several global functions are defined</li>
+<li>There are some quirks I don't fully understand around the creation of
+variables during Vim startup (hence lines 50 and 51).</li>
+</ol>
+<p>Despite these mild downsides, I was pretty proud that the solution mostly
+worked. That is, until I wasn't.</p>
+</div>
+<div class="section" id="the-back-breaking-straw">
+<h3>The back-breaking straw</h3>
+<p>My custom solution did not work appropriately with some of my plugins. Namely,
+it didn't play well with <a class="reference external" href="https://github.com/majutsushi/tagbar">majutsushi/tagbar</a>, which I use frequently enough
+for this feature-dearth to become royally annoying. Therefore, after learning
+the ins-and-outs of window-specific variables and every Vim autocmd, I went
+back to the Plugin ecosystem to see if I'd missed anything...</p>
+</div>
+</div>
+<div class="section" id="the-game-changing-plugin">
+<h2>The Game-Changing Plugin</h2>
+<p>Turns out a wonderful developer already solved this problem for me.
+Assuming you use <a class="reference external" href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a> to manage your plugins, place the
+following code in your .vimrc</p>
+<div class="highlight"><pre><span></span><span class="lineno">1 </span><span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">&#39;~/.vim/plugged&#39;</span><span class="p">)</span>
+<span class="lineno">2 </span><span class="c">&quot; Relative Numbering</span>
+<span class="lineno">3 </span>Plug <span class="s1">&#39;myusuf3/numbers.vim&#39;</span>
+<span class="lineno">4 </span><span class="c">&quot; Put the rest of your plugins below...</span>
+<span class="lineno">5 </span><span class="k">call</span> plug#<span class="k">end</span><span class="p">()</span>
+<span class="lineno">6 </span>
+<span class="lineno">7 </span><span class="c">&quot; Now, exclude the plugins you don&#39;t want numbers to deal with</span>
+<span class="lineno">8 </span><span class="k">let</span> <span class="k">g</span>:numbers_exclude <span class="p">=</span> [<span class="s1">&#39;startify&#39;</span><span class="p">,</span> <span class="s1">&#39;gundo&#39;</span><span class="p">,</span> <span class="s1">&#39;vimshell&#39;</span>]
+</pre></div>
+<p>This will give you a great editing experience. See below for a screencast:</p>
+<img alt="numbers.vim screencast" class="align-center" src="https://pappasam.github.io/gif/numbers-vim.gif" />
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>Numbers.vim provides a usable line-numbering solution with minimal required
+configuration. I regret nothing about my bespoke journey, but I'm glad that
+Numbers.vim is my destination.</p>
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://pappasam.github.io/tag/vim.html">Vim</a>
+      <a href="https://pappasam.github.io/tag/vim-plugins.html">Vim Plugins</a>
+    </p>
+  </div>
+
+
+
+
+</article>
+
+    <footer>
+<p>&copy; Samuel Roeca </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Software Journeyman ",
+  "url" : "https://pappasam.github.io",
+  "image": "/images/sam-headshot-kepler-300x300.jpg",
+  "description": "Samuel Roeca's blog"
+}
+</script>
+</body>
+</html>

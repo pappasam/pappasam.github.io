@@ -1,6 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://pappasam.github.io/" rel="alternate"></link><link href="https://pappasam.github.io/feeds/all.atom.xml" rel="self"></link><id>https://pappasam.github.io/</id><updated>2018-04-06T15:06:25-05:00</updated><entry><title>Cool things in Vim</title><link href="https://pappasam.github.io/cool-things-in-vim.html" rel="alternate"></link><published>2018-04-05T23:11:50-05:00</published><updated>2018-04-06T15:06:25-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:pappasam.github.io,2018-04-05:/cool-things-in-vim.html</id><summary type="html">&lt;p&gt;Vim is something that we can all agree is totally fun and useful.  I'm of the
-mindset that we should probably keep everything da-kine and fo' da boys.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;Vim is something that we can all agree is totally fun and useful.  I'm of the
-mindset that we should probably keep everything da-kine and fo' da boys.&lt;/p&gt;
-</content></entry></feed>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://pappasam.github.io/" rel="alternate"></link><link href="https://pappasam.github.io/feeds/all.atom.xml" rel="self"></link><id>https://pappasam.github.io/</id><updated>2018-04-07T00:00:00-05:00</updated><entry><title>Vim Line Numbers</title><link href="https://pappasam.github.io/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:pappasam.github.io,2018-04-07:/vim-line-numbers.html</id><summary type="html">&lt;div class="section" id="tl-dr"&gt;
+&lt;h2&gt;TL;DR&lt;/h2&gt;
+&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
+correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-problem"&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;When editing text in a Vim window, I use relative numbers to help me use
+motions across text relative to …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="tl-dr"&gt;
+&lt;h2&gt;TL;DR&lt;/h2&gt;
+&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
+correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-problem"&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;When editing text in a Vim window, I use relative numbers to help me use
+motions across text relative to my cursor. However, when I have multiple
+windows open, relative numbers look pretty weird in windows that I am not
+currently editing.  It would be nice for Vim to intelligently alternate between
+relativenumber and norelativenumber based on my Vim cursor location. Base Vim
+does not have this capability, so we have three options:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Accept a suboptimal workflow&lt;/li&gt;
+&lt;li&gt;Wrap our own solution in our .vimrc&lt;/li&gt;
+&lt;li&gt;Find a Plugin&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I lived with option 1 for a while, but eventually grew too annoyed.  I then
+tried researching plugins, but thought I understood the problem well-enough to
+write my own solution. So I went straight to option 2 and tried wrapping my own
+solution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="wrapping-my-own-solution"&gt;
+&lt;h2&gt;Wrapping my own solution&lt;/h2&gt;
+&lt;p&gt;The following code represents my original solution:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt; 1 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; ToggleRelativeNumber&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt; 2 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
+&lt;span class="lineno"&gt; 3 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt; 4 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt; 5 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt; 6 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="lineno"&gt; 7 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;span class="lineno"&gt; 8 &lt;/span&gt;
+&lt;span class="lineno"&gt; 9 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUInsertEnter&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;10 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
+&lt;span class="lineno"&gt;11 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;12 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;13 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt;14 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nornu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;15 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="lineno"&gt;16 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;span class="lineno"&gt;17 &lt;/span&gt;
+&lt;span class="lineno"&gt;18 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUInsertLeave&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;19 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;20 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;21 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt;22 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;23 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nornu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;24 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="lineno"&gt;25 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;span class="lineno"&gt;26 &lt;/span&gt;
+&lt;span class="lineno"&gt;27 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUWinEnter&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;28 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; exists&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;w:line_number_state&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;29 &lt;/span&gt;    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;30 &lt;/span&gt;      &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;31 &lt;/span&gt;    &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt;32 &lt;/span&gt;      &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;33 &lt;/span&gt;    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="lineno"&gt;34 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt;35 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;36 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;37 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="lineno"&gt;38 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;span class="lineno"&gt;39 &lt;/span&gt;
+&lt;span class="lineno"&gt;40 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUWinLeave&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;41 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
+&lt;span class="lineno"&gt;42 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;43 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="lineno"&gt;44 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nornu&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;45 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="lineno"&gt;46 &lt;/span&gt;  &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;47 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;span class="lineno"&gt;48 &lt;/span&gt;
+&lt;span class="lineno"&gt;49 &lt;/span&gt;&lt;span class="c"&gt;&amp;quot; autocmd that will set up the w:created variable&lt;/span&gt;
+&lt;span class="lineno"&gt;50 &lt;/span&gt;autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:created&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="lineno"&gt;51 &lt;/span&gt;autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:created&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="lineno"&gt;52 &lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;53 &lt;/span&gt;augroup rnu_nu
+&lt;span class="lineno"&gt;54 &lt;/span&gt;  autocmd&lt;span class="p"&gt;!&lt;/span&gt;
+&lt;span class="lineno"&gt;55 &lt;/span&gt;&lt;span class="c"&gt;  &amp;quot;Initial window settings&lt;/span&gt;
+&lt;span class="lineno"&gt;56 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;exists&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;w:created&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="lineno"&gt;57 &lt;/span&gt;        \&lt;span class="k"&gt;setlocal&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="lineno"&gt;58 &lt;/span&gt;        \&lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="lineno"&gt;59 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;User&lt;/span&gt; Startified &lt;span class="k"&gt;setlocal&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+&lt;span class="lineno"&gt;60 &lt;/span&gt;&lt;span class="c"&gt;  &amp;quot; Don&amp;#39;t have relative numbers during insert mode&lt;/span&gt;
+&lt;span class="lineno"&gt;61 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;InsertEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUInsertEnter&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;62 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;InsertLeave&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUInsertLeave&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;63 &lt;/span&gt;&lt;span class="c"&gt;  &amp;quot; Set and unset relative numbers when buffer is active&lt;/span&gt;
+&lt;span class="lineno"&gt;64 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUWinEnter&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;65 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;WinLeave&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUWinLeave&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;66 &lt;/span&gt;augroup &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="section" id="the-good"&gt;
+&lt;h3&gt;The good&lt;/h3&gt;
+&lt;p&gt;The solution worked for most windows and tabs, most of the time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-bad"&gt;
+&lt;h3&gt;The bad&lt;/h3&gt;
+&lt;p&gt;The code is a bit involved and it takes a little time to explain to others.&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;It relies on window-local variables (w:line_number_state, etc).
+These exacerbate Vim's already-difficult state-management woes.&lt;/li&gt;
+&lt;li&gt;Several global functions are defined&lt;/li&gt;
+&lt;li&gt;There are some quirks I don't fully understand around the creation of
+variables during Vim startup (hence lines 50 and 51).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Despite these mild downsides, I was pretty proud that the solution mostly
+worked. That is, until I wasn't.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-back-breaking-straw"&gt;
+&lt;h3&gt;The back-breaking straw&lt;/h3&gt;
+&lt;p&gt;My custom solution did not work appropriately with some of my plugins. Namely,
+it didn't play well with &lt;a class="reference external" href="https://github.com/majutsushi/tagbar"&gt;majutsushi/tagbar&lt;/a&gt;, which I use frequently enough
+for this feature-dearth to become royally annoying. Therefore, after learning
+the ins-and-outs of window-specific variables and every Vim autocmd, I went
+back to the Plugin ecosystem to see if I'd missed anything...&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-game-changing-plugin"&gt;
+&lt;h2&gt;The Game-Changing Plugin&lt;/h2&gt;
+&lt;p&gt;Turns out a wonderful developer already solved this problem for me.
+Assuming you use &lt;a class="reference external" href="https://github.com/junegunn/vim-plug"&gt;junegunn/vim-plug&lt;/a&gt; to manage your plugins, place the
+following code in your .vimrc&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="lineno"&gt;1 &lt;/span&gt;&lt;span class="k"&gt;call&lt;/span&gt; plug#begin&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;~/.vim/plugged&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="lineno"&gt;2 &lt;/span&gt;&lt;span class="c"&gt;&amp;quot; Relative Numbering&lt;/span&gt;
+&lt;span class="lineno"&gt;3 &lt;/span&gt;Plug &lt;span class="s1"&gt;&amp;#39;myusuf3/numbers.vim&amp;#39;&lt;/span&gt;
+&lt;span class="lineno"&gt;4 &lt;/span&gt;&lt;span class="c"&gt;&amp;quot; Put the rest of your plugins below...&lt;/span&gt;
+&lt;span class="lineno"&gt;5 &lt;/span&gt;&lt;span class="k"&gt;call&lt;/span&gt; plug#&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="lineno"&gt;6 &lt;/span&gt;
+&lt;span class="lineno"&gt;7 &lt;/span&gt;&lt;span class="c"&gt;&amp;quot; Now, exclude the plugins you don&amp;#39;t want numbers to deal with&lt;/span&gt;
+&lt;span class="lineno"&gt;8 &lt;/span&gt;&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:numbers_exclude &lt;span class="p"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;&amp;#39;startify&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;gundo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;vimshell&amp;#39;&lt;/span&gt;]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will give you a great editing experience. See below for a screencast:&lt;/p&gt;
+&lt;img alt="numbers.vim screencast" class="align-center" src="https://pappasam.github.io/gif/numbers-vim.gif" /&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Numbers.vim provides a usable line-numbering solution with minimal required
+configuration. I regret nothing about my bespoke journey, but I'm glad that
+Numbers.vim is my destination.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Vim"></category><category term="Vim Plugins"></category></entry></feed>

@@ -5,56 +5,70 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://pappasam.github.io/</loc>
-<lastmod>2018-04-07T11:21:01-00:00</lastmod>
+<lastmod>2018-04-07T15:58:43-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
 <loc>https://pappasam.github.io/archives.html</loc>
-<lastmod>2018-04-07T11:21:01-00:00</lastmod>
+<lastmod>2018-04-07T15:58:43-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
 <loc>https://pappasam.github.io/tags.html</loc>
-<lastmod>2018-04-07T11:21:01-00:00</lastmod>
+<lastmod>2018-04-07T15:58:43-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
 <loc>https://pappasam.github.io/categories.html</loc>
-<lastmod>2018-04-07T11:21:01-00:00</lastmod>
+<lastmod>2018-04-07T15:58:43-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
 <loc>https://pappasam.github.io/pages/about.html</loc>
-<lastmod>2018-04-06T15:05:08-05:00</lastmod>
+<lastmod>2018-04-07T15:58:43-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://pappasam.github.io/cool-things-in-vim.html</loc>
-<lastmod>2018-04-06T15:06:25-05:00</lastmod>
+<loc>https://pappasam.github.io/vim-line-numbers.html</loc>
+<lastmod>2018-04-07T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
 <loc>https://pappasam.github.io/category/vim.html</loc>
-<lastmod>2018-04-06T15:06:25-05:00</lastmod>
+<lastmod>2018-04-07T00:00:00-05:00</lastmod>
+<changefreq>always</changefreq>
+<priority>1</priority>
+</url>
+
+<url>
+<loc>https://pappasam.github.io/tag/vim.html</loc>
+<lastmod>2018-04-07T00:00:00-05:00</lastmod>
+<changefreq>always</changefreq>
+<priority>1</priority>
+</url>
+
+<url>
+<loc>https://pappasam.github.io/tag/vim-plugins.html</loc>
+<lastmod>2018-04-07T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
 <loc>https://pappasam.github.io/author/samuel-roeca.html</loc>
-<lastmod>2018-04-06T15:06:25-05:00</lastmod>
+<lastmod>2018-04-07T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
