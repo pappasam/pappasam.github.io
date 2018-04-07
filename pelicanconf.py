@@ -46,6 +46,11 @@ STATIC_PATHS = [
     'theme/images'
 ]
 
+# Code blocks
+PYGMENTS_RST_OPTIONS = {
+    'linenos': 'inline',  # enable line numbers
+}
+
 #######################################################################
 # Flex theme-specific configurations
 #######################################################################
