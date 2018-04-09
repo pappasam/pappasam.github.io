@@ -77,6 +77,7 @@ SOCIAL = (
     ('linkedin-square', 'https://www.linkedin.com/in/samuel-roeca-23010735'),
     ('facebook','https://www.facebook.com/sam.roeca'),
     ('twitter', 'https://twitter.com/SamRoeca'),
+    ('youtube', 'https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA?view_as=subscriber'),
     ('envelope-o', 'mailto:samuel.roeca@gmail.com'),
 )
 
