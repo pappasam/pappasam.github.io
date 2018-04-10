@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://pappasam.github.io/" rel="alternate"></link><link href="https://pappasam.github.io/feeds/all.atom.xml" rel="self"></link><id>https://pappasam.github.io/</id><updated>2018-04-07T00:00:00-05:00</updated><entry><title>Vim Line Numbers</title><link href="https://pappasam.github.io/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:pappasam.github.io,2018-04-07:/vim-line-numbers.html</id><summary type="html">&lt;div class="section" id="tl-dr"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/all.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2018-04-07T00:00:00-05:00</updated><entry><title>Vim Line Numbers</title><link href="https://softwarejourneyman.com/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-04-07:/vim-line-numbers.html</id><summary type="html">&lt;div class="section" id="tl-dr"&gt;
 &lt;h2&gt;TL;DR&lt;/h2&gt;
 &lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
 correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
@@ -141,7 +141,7 @@ following code in your .vimrc&lt;/p&gt;
 &lt;span class="lineno"&gt;8 &lt;/span&gt;&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:numbers_exclude &lt;span class="p"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;&amp;#39;startify&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;gundo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;vimshell&amp;#39;&lt;/span&gt;]
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This will give you a great editing experience. See below for a screencast:&lt;/p&gt;
-&lt;img alt="numbers.vim screencast" class="align-center" src="https://pappasam.github.io/gif/numbers-vim.gif" /&gt;
+&lt;img alt="numbers.vim screencast" class="align-center" src="https://softwarejourneyman.com/gif/numbers-vim.gif" /&gt;
 &lt;/div&gt;
 &lt;div class="section" id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
