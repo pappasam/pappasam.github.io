@@ -10,7 +10,7 @@ About
     :alt: Sam Roeca Headshot
     :align: center
 
-    Headshot, Samuel Roeca. Photo credit: `Grant Germano`_.
+    Headshot, Sam Roeca. Photo credit: `Grant Germano`_.
 
 .. _`Grant Germano`: https://www.linkedin.com/in/grantgermano/
 
