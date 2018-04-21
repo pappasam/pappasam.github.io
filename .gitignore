@@ -3,3 +3,5 @@ __pycache__/
 pelican-plugins/
 pelican-themes/
 output/
+
+*.pid

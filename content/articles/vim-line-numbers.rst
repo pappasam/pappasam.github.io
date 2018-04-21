@@ -39,9 +39,11 @@ Wrapping my own solution
 
 The following code represents my original solution:
 
-.. code-include:: vim-line-numbers/example.vim
-    :lexer: vim
+.. include:: vim-line-numbers/example.vim
+    :code: vim
     :encoding: utf-8
+    :number-lines:
+    :class: highlight
 
 The good
 ~~~~~~~~
@@ -82,7 +84,7 @@ following code in your .vimrc
 
 .. _`junegunn/vim-plug`: https://github.com/junegunn/vim-plug
 
-.. code-block:: vim
+.. code:: vim
 
     call plug#begin('~/.vim/plugged')
     " Relative Numbering
