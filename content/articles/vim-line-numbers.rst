@@ -3,6 +3,7 @@ Vim Line Numbers
 ################
 
 :date: 2018-04-07
+:category: Vim
 :modified: 2018-04-07
 :tags: Vim, Vim Plugins
 
@@ -38,7 +39,7 @@ Wrapping my own solution
 
 The following code represents my original solution:
 
-.. code-include:: code/example.vim
+.. code-include:: vim-line-numbers/example.vim
     :lexer: vim
     :encoding: utf-8
 

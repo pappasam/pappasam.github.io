@@ -11,8 +11,6 @@ JINJA_ENVIRONMENT = {
     ],
 }
 
-USE_FOLDER_AS_CATEGORY = True
-
 PATH = 'content'
 
 TIMEZONE = 'EST'
