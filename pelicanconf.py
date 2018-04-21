@@ -39,15 +39,22 @@ FILENAME_METADATA = '(?P<slug>.*)'
 LOAD_CONTENT_CACHE = False
 
 # static pathes for publishing
+_CUSTOM_CSS = 'static/custom.css'
+EXTRA_PATH_METADATA = {
+    'extra/custom.css': {
+        'path': _CUSTOM_CSS,
+    },
+}
 STATIC_PATHS = [
     'images',
     'theme/images',
     'gif',
+    'extra',
 ]
 
 # Code blocks
 PYGMENTS_RST_OPTIONS = {
-    'linenos': 'inline',  # enable line numbers
+    # 'linenos': 'inline',  # enable line numbers
 }
 
 #######################################################################
@@ -69,6 +76,8 @@ MAIN_MENU = True
 LINKS = (
     # ('About', '/pages/about.html'),
 )
+
+CUSTOM_CSS = _CUSTOM_CSS
 
 SOCIAL = (
     ('github', 'https://github.com/pappasam'),
@@ -105,7 +114,6 @@ PLUGINS = [
     'tipue_search',        # this must be modified for now to work
     'neighbors',
     'assets',              # minifies css assets
-    'code_include',
 ]
 
 # tipue_search
