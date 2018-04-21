@@ -25,7 +25,8 @@ at runtime, structure your build as follows:
 If you follow these steps, you'll end up with the smallest-possible Python
 Docker container with minimal network requests.
 
-Note: this post references Docker 18.03, although earlier versions may work.
+Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that
+you are running cPython (the main Python distribution).
 
 The problem
 ===========
@@ -307,12 +308,11 @@ ONE easily-distributed archive file.
 Why we care about this?
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Not all Python packes are distributed as wheels. There are some packages,
-based mostly on C, that are closely-related to a specific which, for one reason
-or another, are hard to compile once and use in many places. I'd imaging that
-uWSGI is one of those packages. However, we'd like to benefit from not needing
-a C compiler in our docker container, so we needed to build and distribute our
-own wheel.
+Not all Python packes are distributed as wheels. There are some packages, based
+mostly on C that, for one reason or another, are hard to compile once and use
+in many places. uWSGI appears to be one of those packages. That said, we'd
+still like to avoid having a C compiler in our Docker container. Therefore, we
+need to build and distribute our own wheel.
 
 Conclusion
 ==========
