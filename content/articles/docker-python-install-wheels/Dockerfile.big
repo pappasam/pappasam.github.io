@@ -1,0 +1,5 @@
+FROM python:3.6-alpine as bigimage
+
+RUN apk add --no-cache linux-headers g++
+
+RUN pip install uwsgi
