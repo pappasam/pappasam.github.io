@@ -341,7 +341,7 @@ dependencies from our final Docker image through a combination of Docker
 multi-stage builds, pip wheel, and pip install.
 
 Special Thanks
-=============
+==============
 
 This post was heavily inspired by `this post`_ by Alejandro Guirao. I am
 indebted to Alejandro for publishing his creative use of docker multi-stage
