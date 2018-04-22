@@ -340,11 +340,11 @@ packages requiring build-time system dependencies AND remove these system
 dependencies from our final Docker image through a combination of Docker
 multi-stage builds, pip wheel, and pip install.
 
-Special Thanks
+Special thanks
 ==============
 
-This post was heavily inspired by `this post`_ by Alejandro Guirao. I am
-indebted to Alejandro for publishing his creative use of docker multi-stage
-builds in the context of Python systems.
+This post took inspiration from `this post`_ by Alejandro Guirao. I am indebted
+to Alejandro for publishing his creative use of docker multi-stage builds in
+the context of Python systems.
 
 .. _`this post`: https://lekum.org/post/multistage-dockerfile/
