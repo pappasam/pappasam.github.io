@@ -20,7 +20,7 @@ at runtime, structure your build as follows:
 .. _wheels: https://pythonwheels.com/
 
 If you follow these steps, you'll end up with the smallest-possible Python
-Docker container all your desired dependencies intact.
+Docker container with all your Python dependencies intact.
 
 .. PELICAN_END_SUMMARY
 
