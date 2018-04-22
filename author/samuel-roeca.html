@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/pygments/tango.min.css">
   <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/font-awesome/css/font-awesome.min.css">
 
+    <link href="https://softwarejourneyman.com/static/custom.css" rel="stylesheet">
 
     <link href="https://softwarejourneyman.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Software Journeyman Atom">
 
@@ -84,9 +85,40 @@
 
 <article>
   <header>
+    <h2><a href="https://softwarejourneyman.com/docker-python-install-wheels.html#docker-python-install-wheels">Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</a></h2>
+    <p>
+          Posted on Sat 21 April 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
+
+
+          &#8226;     Tagged with
+
+              <a href="https://softwarejourneyman.com/tag/docker.html">Docker</a>,              <a href="https://softwarejourneyman.com/tag/python.html">Python</a>,              <a href="https://softwarejourneyman.com/tag/pip.html">pip</a>
+    </p>
+  </header>
+  <div>
+      <p>If your Docker Python build requires system dependencies that are NOT required
+at runtime, structure your build as follows:</p>
+<ol class="arabic simple">
+<li>Use a <a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/">multistage build</a></li>
+<li>Stage 1 installs system dependencies and uses them to build local <a class="reference external" href="https://pythonwheels.com/">wheels</a></li>
+<li>Stage 2 begins from the same base as Stage 1, copies wheels from
+Stage 1, and installs the wheels</li>
+<li>The rest of your build will be based on Stage 2</li>
+</ol>
+<p>If you follow these steps, you'll end up with the smallest-possible Python
+Docker container all your desired dependencies intact.</p>
+
+      <br>
+      <a class="btn" href="https://softwarejourneyman.com/docker-python-install-wheels.html#docker-python-install-wheels">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
     <h2><a href="https://softwarejourneyman.com/vim-line-numbers.html#vim-line-numbers">Vim Line Numbers</a></h2>
     <p>
-          Posted on Sat 07 April 2018 in <a href="https://softwarejourneyman.com/category/vim.html">Vim</a>
+          Posted on Sat 07 April 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
 
 
           &#8226;     Tagged with
@@ -95,15 +127,9 @@
     </p>
   </header>
   <div>
-      <div class="section" id="tl-dr">
-<h2>TL;DR</h2>
-<p>If you want your Vim line numbers to be relative and/or not relative at the
+      <p>If you want your Vim line numbers to be relative and/or not relative at the
 correct times, I recommend installing the <a class="reference external" href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a> plugin.</p>
-</div>
-<div class="section" id="the-problem">
-<h2>The Problem</h2>
-<p>When editing text in a Vim window, I use relative numbers to help me use
-motions across text relative to …</p></div>
+
       <br>
       <a class="btn" href="https://softwarejourneyman.com/vim-line-numbers.html#vim-line-numbers">    Continue reading
 </a>

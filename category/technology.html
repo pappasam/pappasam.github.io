@@ -4,14 +4,13 @@
 <head>
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/stylesheet/style.min.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/pygments/tango.min.css">
-  <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/pygments/tango.min.css">
+  <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/font-awesome/css/font-awesome.min.css">
 
-    <link href="https://softwarejourneyman.com/static/custom.css" rel="stylesheet">
+    <link href="http://localhost:8000/static/custom.css" rel="stylesheet">
 
-    <link href="https://softwarejourneyman.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Software Journeyman Atom">
 
 
     <link rel="shortcut icon" href="/theme/images/favicon.ico" type="image/x-icon">
@@ -31,25 +30,25 @@
 <meta property="og:title" content="Software Journeyman"/>
 <meta property="og:description" content="Samuel Roeca's blog"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://softwarejourneyman.com"/>
+<meta property="og:url" content="http://localhost:8000"/>
 <meta property="og:image" content="/images/sam-headshot-kepler-300x300.jpg">
 
-  <title>Software Journeyman &ndash;     Tag Vim
+  <title>Software Journeyman &ndash;     Category Technology
 </title>
 
 </head>
 <body>
   <aside>
     <div>
-      <a href="https://softwarejourneyman.com">
+      <a href="http://localhost:8000">
         <img src="/images/sam-headshot-kepler-300x300.jpg" alt="" title="">
       </a>
-      <h1><a href="https://softwarejourneyman.com"></a></h1>
+      <h1><a href="http://localhost:8000"></a></h1>
 
 <p>Sam Roeca's Blog</p>
       <nav>
         <ul class="list">
-          <li><a href="https://softwarejourneyman.com/pages/about.html#about">About</a></li>
+          <li><a href="http://localhost:8000/pages/about.html#about">About</a></li>
 
         </ul>
       </nav>
@@ -69,15 +68,13 @@
   <main>
 
     <nav>
-      <a href="https://softwarejourneyman.com">    Home
+      <a href="http://localhost:8000">    Home
 </a>
 
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
       <a href="/tags.html">Tags</a>
 
-      <a href="https://softwarejourneyman.com/feeds/all.atom.xml">    Atom
-</a>
 
     </nav>
 
@@ -85,22 +82,31 @@
 
 <article>
   <header>
-    <h2><a href="https://softwarejourneyman.com/vim-line-numbers.html#vim-line-numbers">Vim Line Numbers</a></h2>
+    <h2><a href="http://localhost:8000/docker-python-install-wheels.html#docker-python-install-wheels">Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</a></h2>
     <p>
-          Posted on Sat 07 April 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
+          Posted on Sat 21 April 2018 in <a href="http://localhost:8000/category/technology.html">Technology</a>
 
 
           &#8226;     Tagged with
 
-              <a href="https://softwarejourneyman.com/tag/vim.html">Vim</a>,              <a href="https://softwarejourneyman.com/tag/vim-plugins.html">Vim Plugins</a>
+              <a href="http://localhost:8000/tag/docker.html">Docker</a>,              <a href="http://localhost:8000/tag/python.html">Python</a>,              <a href="http://localhost:8000/tag/pip.html">pip</a>
     </p>
   </header>
   <div>
-      <p>If you want your Vim line numbers to be relative and/or not relative at the
-correct times, I recommend installing the <a class="reference external" href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a> plugin.</p>
+      <p>If your Docker Python build requires system dependencies that are NOT required
+at runtime, structure your build as follows:</p>
+<ol class="arabic simple">
+<li>Use a <a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/">multistage build</a></li>
+<li>Stage 1 installs system dependencies and uses them to build local <a class="reference external" href="https://pythonwheels.com/">wheels</a></li>
+<li>Stage 2 begins from the same base as Stage 1, copies wheels from
+Stage 1, and installs the wheels</li>
+<li>The rest of your build will be based on Stage 2</li>
+</ol>
+<p>If you follow these steps, you'll end up with the smallest-possible Python
+Docker container all your desired dependencies intact.</p>
 
       <br>
-      <a class="btn" href="https://softwarejourneyman.com/vim-line-numbers.html#vim-line-numbers">    Continue reading
+      <a class="btn" href="http://localhost:8000/docker-python-install-wheels.html#docker-python-install-wheels">    Continue reading
 </a>
   </div>
 </article>
@@ -117,17 +123,7 @@ correct times, I recommend installing the <a class="reference external" href="ht
 </p>    </footer>
   </main>
 
-<!-- Google Analytics -->
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-117115805-1', 'auto');
-  ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
 
 
 
@@ -136,7 +132,7 @@ correct times, I recommend installing the <a class="reference external" href="ht
   "@context" : "http://schema.org",
   "@type" : "Blog",
   "name": " Software Journeyman ",
-  "url" : "https://softwarejourneyman.com",
+  "url" : "http://localhost:8000",
   "image": "/images/sam-headshot-kepler-300x300.jpg",
   "description": "Samuel Roeca's blog"
 }
