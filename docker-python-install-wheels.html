@@ -25,11 +25,11 @@
 
 
 <meta name="author" content="Samuel Roeca" />
-<meta name="description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multistage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you'll end up with the smallest-possible Python Docker container all your desired dependencies intact." />
+<meta name="description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multistage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact." />
 <meta name="keywords" content="Docker, Python, pip">
 <meta property="og:site_name" content="Software Journeyman"/>
 <meta property="og:title" content="Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels"/>
-<meta property="og:description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multistage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you'll end up with the smallest-possible Python Docker container all your desired dependencies intact."/>
+<meta property="og:description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multistage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://softwarejourneyman.com/docker-python-install-wheels.html"/>
 <meta property="og:type" content="article"/>
@@ -110,7 +110,7 @@ Stage 1, and installs the wheels</li>
 <li>The rest of your build will be based on Stage 2</li>
 </ol>
 <p>If you follow these steps, you'll end up with the smallest-possible Python
-Docker container all your desired dependencies intact.</p>
+Docker container with all your Python dependencies intact.</p>
 
 <p>Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that
 you are running <a class="reference external" href="https://github.com/python/cpython">CPython</a> (Python's reference implementation).</p>
