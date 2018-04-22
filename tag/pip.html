@@ -99,7 +99,7 @@
       <p>If your Docker Python build requires system dependencies that are NOT required
 at runtime, structure your build as follows:</p>
 <ol class="arabic simple">
-<li>Use a <a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/">multistage build</a></li>
+<li>Use a <a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/">multi-stage build</a></li>
 <li>Stage 1 installs system dependencies and uses them to build local <a class="reference external" href="https://pythonwheels.com/">wheels</a></li>
 <li>Stage 2 begins from the same base as Stage 1, copies wheels from
 Stage 1, and installs the wheels</li>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/all.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2018-04-21T00:00:00-05:00</updated><entry><title>Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</title><link href="https://softwarejourneyman.com/docker-python-install-wheels.html" rel="alternate"></link><published>2018-04-21T00:00:00-05:00</published><updated>2018-04-21T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-04-21:/docker-python-install-wheels.html</id><summary type="html">&lt;p&gt;If your Docker Python build requires system dependencies that are NOT required
 at runtime, structure your build as follows:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;Use a &lt;a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multistage build&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Use a &lt;a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage build&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Stage 1 installs system dependencies and uses them to build local &lt;a class="reference external" href="https://pythonwheels.com/"&gt;wheels&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Stage 2 begins from the same base as Stage 1, copies wheels from
 Stage 1, and installs the wheels&lt;/li&gt;
@@ -13,7 +13,7 @@ Docker container with all your Python dependencies intact.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;If your Docker Python build requires system dependencies that are NOT required
 at runtime, structure your build as follows:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;Use a &lt;a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multistage build&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Use a &lt;a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage build&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Stage 1 installs system dependencies and uses them to build local &lt;a class="reference external" href="https://pythonwheels.com/"&gt;wheels&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Stage 2 begins from the same base as Stage 1, copies wheels from
 Stage 1, and installs the wheels&lt;/li&gt;
@@ -308,6 +308,12 @@ a throw-away container to construct a wheel for uWSGI.&lt;/p&gt;
 packages requiring build-time system dependencies AND remove these system
 dependencies from our final Docker image through a combination of Docker
 multi-stage builds, pip wheel, and pip install.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="special-thanks"&gt;
+&lt;h2&gt;Special Thanks&lt;/h2&gt;
+&lt;p&gt;This post was heavily inspired by &lt;a class="reference external" href="https://lekum.org/post/multistage-dockerfile/"&gt;this post&lt;/a&gt; by Alejandro Guirao. I am
+indebted to Alejandro for publishing his creative use of docker multi-stage
+builds in the context of Python systems.&lt;/p&gt;
 &lt;/div&gt;
 </content><category term="Docker"></category><category term="Python"></category><category term="pip"></category></entry><entry><title>Vim Line Numbers</title><link href="https://softwarejourneyman.com/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-04-07:/vim-line-numbers.html</id><summary type="html">&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
 correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
