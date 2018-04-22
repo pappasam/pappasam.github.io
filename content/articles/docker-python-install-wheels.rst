@@ -10,13 +10,13 @@ Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels
 If your Docker Python build requires system dependencies that are NOT required
 at runtime, structure your build as follows:
 
-1. Use a `multistage build`_
+1. Use a `multi-stage build`_
 2. Stage 1 installs system dependencies and uses them to build local wheels_
 3. Stage 2 begins from the same base as Stage 1, copies wheels from
    Stage 1, and installs the wheels
 4. The rest of your build will be based on Stage 2
 
-.. _`multistage build`: https://docs.docker.com/develop/develop-images/multistage-build/
+.. _`multi-stage build`: https://docs.docker.com/develop/develop-images/multistage-build/
 .. _wheels: https://pythonwheels.com/
 
 If you follow these steps, you'll end up with the smallest-possible Python
@@ -339,3 +339,12 @@ When building a Docker container for a Python application, we can install
 packages requiring build-time system dependencies AND remove these system
 dependencies from our final Docker image through a combination of Docker
 multi-stage builds, pip wheel, and pip install.
+
+Special Thanks
+=============
+
+This post was heavily inspired by `this post`_ by Alejandro Guirao. I am
+indebted to Alejandro for publishing his creative use of docker multi-stage
+builds in the context of Python systems.
+
+.. _`this post`: https://lekum.org/post/multistage-dockerfile/
