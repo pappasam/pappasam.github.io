@@ -3,17 +3,16 @@ Vim Line Numbers
 ################
 
 :date: 2018-04-07
-:category: Vim
+:category: Software Development
 :modified: 2018-04-07
 :tags: Vim, Vim Plugins
-
-TL;DR
-=====
 
 If you want your Vim line numbers to be relative and/or not relative at the
 correct times, I recommend installing the `myusuf3/numbers.vim`_ plugin.
 
 .. _`myusuf3/numbers.vim`: https://github.com/myusuf3/numbers.vim
+
+.. PELICAN_END_SUMMARY
 
 The Problem
 ===========

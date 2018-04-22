@@ -114,6 +114,7 @@ PLUGINS = [
     'tipue_search',        # this must be modified for now to work
     'neighbors',
     'assets',              # minifies css assets
+    'summary',
 ]
 
 # tipue_search
