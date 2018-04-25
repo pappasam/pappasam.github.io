@@ -271,7 +271,7 @@ package's contents and use it as its author intended.&lt;/p&gt;
 instructions and places the package's content and dependencies wherever they
 need to go on an operating system. Once &amp;quot;pip install&amp;quot; runs on our machine, file
 placement throughout our file system can be pretty &lt;a class="reference external" href="http://stayhawaiian.blogspot.com/2010/05/hamajang.html"&gt;hamajang&lt;/a&gt;, depending on a
-package author's instructed in setup.py.&lt;/p&gt;
+package's setup.py instructions.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="id2"&gt;
 &lt;h4&gt;pip wheel&lt;/h4&gt;
