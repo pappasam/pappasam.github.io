@@ -292,7 +292,7 @@ A good mental model: "pip install" takes a consolidated bundle of code / build
 instructions and places the package's content and dependencies wherever they
 need to go on an operating system. Once "pip install" runs on our machine, file
 placement throughout our file system can be pretty hamajang_, depending on a
-package author's instructed in setup.py.
+package's setup.py instructions.
 
 .. _hamajang: http://stayhawaiian.blogspot.com/2010/05/hamajang.html
 
