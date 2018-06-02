@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/pygments/tango.min.css">
   <link rel="stylesheet" type="text/css" href="http://localhost:8000/theme/font-awesome/css/font-awesome.min.css">
 
+    <link href="http://localhost:8000/static/custom.css" rel="stylesheet">
 
 
 
@@ -22,22 +23,18 @@
   <meta name="robots" content="" />
 
 
-<meta name="author" content="Samuel Roeca" />
-<meta name="description" content="Vim is something that we can all agree is totally fun and useful. I'm of the mindset that we should probably keep everything da-kine and fo' da boys." />
-<meta name="keywords" content="">
+    <meta name="author" content="Samuel Roeca" />
+    <meta name="description" content="Samuel Roeca's blog" />
 <meta property="og:site_name" content="Software Journeyman"/>
-<meta property="og:title" content="Cool things in Vim"/>
-<meta property="og:description" content="Vim is something that we can all agree is totally fun and useful. I'm of the mindset that we should probably keep everything da-kine and fo' da boys."/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Software Journeyman"/>
+<meta property="og:description" content="Samuel Roeca's blog"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="http://localhost:8000/cool-things-in-vim.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-04-05 23:11:50-05:00"/>
-<meta property="article:modified_time" content="2018-04-06 15:06:25-05:00"/>
-<meta property="article:author" content="http://localhost:8000/author/samuel-roeca.html">
-<meta property="article:section" content="Vim"/>
+<meta property="og:url" content="http://localhost:8000"/>
 <meta property="og:image" content="/images/sam-headshot-kepler-300x300.jpg">
 
-  <title>Software Journeyman &ndash; Cool things in Vim</title>
+  <title>Software Journeyman &ndash;     Category Tech
+</title>
 
 </head>
 <body>
@@ -61,6 +58,7 @@
         <li><a class="sc-linkedin-square" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank"><i class="fa fa-linkedin-square"></i></a></li>
         <li><a class="sc-facebook" href="https://www.facebook.com/sam.roeca" target="_blank"><i class="fa fa-facebook"></i></a></li>
         <li><a class="sc-twitter" href="https://twitter.com/SamRoeca" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-youtube" href="https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA?view_as=subscriber" target="_blank"><i class="fa fa-youtube"></i></a></li>
         <li><a class="sc-envelope-o" href="mailto:samuel.roeca@gmail.com" target="_blank"><i class="fa fa-envelope-o"></i></a></li>
       </ul>
     </div>
@@ -80,31 +78,44 @@
 
     </nav>
 
-<article class="single">
+
+
+<article>
   <header>
-    <h1 id="cool-things-in-vim">Cool things in Vim</h1>
+    <h2><a href="http://localhost:8000/docker-python-install-wheels.html#docker-python-install-wheels">Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</a></h2>
     <p>
-          Posted on Thu 05 April 2018 in <a href="http://localhost:8000/category/vim.html">Vim</a>
+          Posted on Sat 21 April 2018 in <a href="http://localhost:8000/category/tech.html">Tech</a>
 
 
+          &#8226;     Tagged with
+
+              <a href="http://localhost:8000/tag/docker.html">Docker</a>,              <a href="http://localhost:8000/tag/python.html">Python</a>,              <a href="http://localhost:8000/tag/pip.html">pip</a>
     </p>
   </header>
-
-
   <div>
-    <p>Vim is something that we can all agree is totally fun and useful.  I'm of the
-mindset that we should probably keep everything da-kine and fo' da boys.</p>
+      <p>If your Docker Python build requires system dependencies that are NOT required
+at runtime, structure your build as follows:</p>
+<ol class="arabic simple">
+<li>Use a <a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/">multistage build</a></li>
+<li>Stage 1 installs system dependencies and uses them to build local <a class="reference external" href="https://pythonwheels.com/">wheels</a></li>
+<li>Stage 2 begins from the same base as Stage 1, copies wheels from
+Stage 1, and installs the wheels</li>
+<li>The rest of your build will be based on Stage 2</li>
+</ol>
+<p>If you follow these steps, you'll end up with the smallest-possible Python
+Docker container all your desired dependencies intact.</p>
 
+      <br>
+      <a class="btn" href="http://localhost:8000/docker-python-install-wheels.html#docker-python-install-wheels">    Continue reading
+</a>
   </div>
-  <div class="tag-cloud">
-    <p>
-    </p>
-  </div>
-
-
-
-
 </article>
+
+  <div class="pagination">
+  </div>
+
+
+
 
     <footer>
 <p>&copy; Samuel Roeca </p>
