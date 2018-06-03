@@ -440,7 +440,8 @@ C compiler. It relies heavily on multi-stage builds and on pip wheels.&lt;/p&gt;
 &lt;span class="c"&gt;# Throwaway image with C compiler installed&lt;/span&gt;
 &lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; python:3.6-alpine as bigimage&lt;/span&gt;
 
-
+&lt;span class="c"&gt;# install the C compiler&lt;/span&gt;
+&lt;span class="k"&gt;RUN&lt;/span&gt; apk add --no-cache linux-headers g++
 
 &lt;span class="c"&gt;# instead of installing, create a wheel&lt;/span&gt;
 &lt;span class="k"&gt;RUN&lt;/span&gt; pip wheel --wheel-dir&lt;span class="o"&gt;=&lt;/span&gt;/root/wheels uwsgi
