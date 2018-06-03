@@ -2,7 +2,8 @@
 # Throwaway image with C compiler installed
 FROM python:3.6-alpine as bigimage
 
-
+# install the C compiler
+RUN apk add --no-cache linux-headers g++
 
 # instead of installing, create a wheel
 RUN pip wheel --wheel-dir=/root/wheels uwsgi
