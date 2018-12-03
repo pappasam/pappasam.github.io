@@ -4,5 +4,6 @@ pelican-plugins/
 pelican-themes/
 output/
 .venv/
+.python-version
 
 *.pid
