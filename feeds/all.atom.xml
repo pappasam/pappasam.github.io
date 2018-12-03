@@ -1,5 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/all.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2018-06-02T00:00:00-05:00</updated><entry><title>Python Function Pipelines</title><link href="https://softwarejourneyman.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/all.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2018-12-02T00:00:00-05:00</updated><entry><title>Gitignore-A-Palooza: Two Tricks</title><link href="https://softwarejourneyman.com/ignore-git.html" rel="alternate"></link><published>2018-12-02T00:00:00-05:00</published><updated>2018-12-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-12-02:/ignore-git.html</id><summary type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
+&lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to
+ignore files from a Git-based version controlled project. The first technique
+enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself.
+The second technique enables a user to automatically ignore a file without
+adding it to a project's root gitignore.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
+&lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to
+ignore files from a Git-based version controlled project. The first technique
+enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself.
+The second technique enables a user to automatically ignore a file without
+adding it to a project's root gitignore.&lt;/p&gt;
+
+&lt;p&gt;Note: when discussing &amp;quot;&lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;&amp;quot; and &amp;quot;&lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt;&amp;quot;, I may sometimes add a
+&amp;quot;.&amp;quot; before the filename. Whether I &lt;a class="reference external" href="http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/"&gt;do or do not&lt;/a&gt;, I'm talking about the same
+file (eg, &amp;quot;.gitignore&amp;quot; == &amp;quot;gitignore&amp;quot;).&lt;/p&gt;
+&lt;div class="section" id="ignore-directory-contents-keep-directory"&gt;
+&lt;h2&gt;1: Ignore directory contents, keep directory&lt;/h2&gt;
+&lt;p&gt;It is often convenient to have a directory whose contents are not committed to
+version control. For example, this directory may contain large non-general data
+files (images, financial data, etc). Additionally, these could be small files
+with sensitive information specific to one person (passwords, ssh keys, etc).
+Either way, we do not want these files committed to our project's version
+control system. For the purposes of this conversation, we'll call this folder
+&amp;quot;instance&amp;quot; and place it at the root of our project.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+├── app
+│&amp;nbsp;&amp;nbsp; └── __init__.py
+├── .gitignore          &amp;lt;-- Project gitignore
+└── instance
+    ├── big-file.jpg
+    └── passwords.txt
+&lt;/pre&gt;
+&lt;p&gt;A naive approach suggests that we add the instance folder to our project's
+gitignore:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+*.pyc
+__pycache__/
+# other ignored lines
+instance/
+&lt;/pre&gt;
+&lt;p&gt;Unfortunately, this proves problematic. What happens if our system relies on a
+file being in the instance folder at runtime? A user of our system would need
+to know to create the instance folder AND place a file there, forcing them to
+perform two manual steps.&lt;/p&gt;
+&lt;p&gt;A preferable solution: place a gitignore in the &amp;quot;instance&amp;quot; folder with special
+contents.&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+├── app
+│&amp;nbsp;&amp;nbsp; └── __init__.py
+├── .gitignore          &amp;lt;-- Project gitignore
+└── instance
+    ├── big-file.jpg
+    ├── .gitignore      &amp;lt;-- Special gitignore
+    └── passwords.txt
+-----------------------------------
+special .gitignore contents:
+# Ignore all files in this directory
+# EXCEPT for this .gitignore file
+*
+!.gitignore
+&lt;/pre&gt;
+&lt;p&gt;I find myself using this trick so often that I've added the instance folder and
+its accompanying gitignore file into my project skeletons.&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c1"&gt;# ~/.bashrc (I actually use zsh + ~/.zshrc, but it's the same)
+&lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt; make_instance&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  mkdir instance
+  cat &amp;gt; instance/.gitignore &lt;span class="s"&gt;&amp;lt;&amp;lt;EOL
+# Ignore all files in this directory
+# EXCEPT for this .gitignore file
+*
+!.gitignore
+EOL&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Finally, you may note that this technique does commit one file (the &lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;)
+to version control. IMHO, this is a small price to pay for elegance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="ignore-my-weird-files-in-secret"&gt;
+&lt;h2&gt;2: Ignore my weird files (in secret)&lt;/h2&gt;
+&lt;p&gt;My &lt;a class="reference external" href="https://github.com/pappasam/dotfiles"&gt;development environment&lt;/a&gt; is highly customized. I'm an advanced user of
+&lt;a class="reference external" href="https://neovim.io/charter/"&gt;Neovim&lt;/a&gt;, &lt;a class="reference external" href="https://www.ocf.berkeley.edu/~ckuehl/tmux/"&gt;Tmux&lt;/a&gt;, &lt;a class="reference external" href="http://zsh.sourceforge.net/Intro/intro_1.html#SEC1"&gt;Zsh&lt;/a&gt;, and other &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Unix-like"&gt;Unix-like&lt;/a&gt; utilities, and have set up a
+cross-language, bespoke IDE with a configuration unto itself. Benefits include
+software development bliss. One downside: my environment may require files that
+I should not commit to another person's repository.&lt;/p&gt;
+&lt;p&gt;One example: when programming in Javascript, I rely on a &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; server for
+auto-completion in &lt;a class="reference external" href="https://neovim.io/charter/"&gt;Neovim&lt;/a&gt;. &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; is configurable with a &lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file
+which lets &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; know important things like the project's &lt;a class="reference external" href="https://en.wikipedia.org/wiki/ECMAScript"&gt;ECMAScript&lt;/a&gt; version,
+which &lt;a class="reference external" href="http://voidcanvas.com/node-vs-browsers/"&gt;runtime environment&lt;/a&gt; it's expecting, etc. These configurations differ
+by project, so it's often necessary for me to place a customized
+&lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file at the root of a Javascript project.&lt;/p&gt;
+&lt;p&gt;If I own a Javascript codebase and control its development, placing a
+&lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file at my project's root is a no-brainer. Not only can
+collaborators help me keep it up to date, but I can also influence more people
+to adopt &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt;! Unfortunately, if I don't own the codebase I'm working on,
+things become a bit trickier. I want to benefit from &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; but I don't want my
+first contributions on a project to include my custom
+&lt;a class="reference external" href="https://github.com/pappasam/dotfiles"&gt;development environment&lt;/a&gt; configuration. I'd simply add this file to the project's
+.gitignore file, but that would still be an me-specific contribution, so I'm
+left with two choices. Either I manually ignore &lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; every time I
+&amp;quot;git add/commit&amp;quot;, or I find a way to make Git do that work for me.&lt;/p&gt;
+&lt;p&gt;Luckily, Git has a built-in way for users to ignore their own weird files
+without needing to make any updates to a project's version-controlled files.
+This method is mentioned in &lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;'s documentation, but not many people are
+aware it exists.&lt;/p&gt;
+&lt;p&gt;Using your favorite editor, go to the root of any &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; repository, and open the
+text file &amp;quot;.git/info/exclude&amp;quot;. It should look like this:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c1"&gt;# Contents of PROJECT-ROOT/.git/info/exclude:
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Simply add your desired file patterns here and they will be ignored by you, and
+only you.&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+&lt;span class="c1"&gt;# Contents of PROJECT-ROOT/.git/info/exclude:
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+&lt;/span&gt;.tern-project
+&lt;/pre&gt;
+&lt;p&gt;Once you've done this, I recommend submitting one or two impressive pull
+requests. You should be invited as a repository &lt;a class="reference external" href="https://help.github.com/articles/github-glossary/#collaborator"&gt;collaborator&lt;/a&gt; (or its
+equivalent) in no time. With credentials in hand, you can then suggest the
+group adopt your awesome &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt;-based workflow (and your humble &lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt;
+file) into the project. At this point, you should remove the &amp;quot;.tern-project&amp;quot;
+line from .git/info/exclude.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Ignoring directory contents while retaining directories is easy. Privately
+ignoring the files only you care about (for now) is also easy. Hopefully you
+learned something from this post and happy hacking!&lt;/p&gt;
+&lt;!-- Begin: External hyperlinks --&gt;
+&lt;!-- End: External hyperlinks --&gt;
+&lt;/div&gt;
+</content><category term="version control"></category><category term="Git"></category></entry><entry><title>Python Function Pipelines</title><link href="https://softwarejourneyman.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
 function pipeline. This post presents a simple, strongly-typed function
 pipeline for your personal projects to make beautiful, explicit, Unix-like
 pipelines in Python.  Requires Python 3.6 or greater.&lt;/p&gt;
@@ -450,7 +594,7 @@ C compiler. It relies heavily on multi-stage builds and on pip wheels.&lt;/p&gt;
 &lt;span class="c"&gt;# Image WITHOUT C compiler but WITH uWSGI&lt;/span&gt;
 &lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; python:3.6-alpine as smallimage&lt;/span&gt;
 
-COPY --from&lt;span class="o"&gt;=&lt;/span&gt;bigimage /root/wheels /root/wheels
+&lt;span class="k"&gt;COPY&lt;/span&gt; --from&lt;span class="o"&gt;=&lt;/span&gt;bigimage /root/wheels /root/wheels
 
 &lt;span class="c"&gt;# Ignore the Python package index&lt;/span&gt;
 &lt;span class="c"&gt;# and look for archives in&lt;/span&gt;

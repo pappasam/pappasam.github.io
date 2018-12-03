@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/pygments/tango.min.css">
+  <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/font-awesome/css/font-awesome.min.css">
+
+    <link href="https://softwarejourneyman.com/static/custom.css" rel="stylesheet">
+
+    <link href="https://softwarejourneyman.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Software Journeyman Atom">
+
+
+    <link rel="shortcut icon" href="/theme/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-117115805-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Samuel Roeca" />
+<meta name="description" content="Most modern software developers are aware of Git and its accompanying gitignore file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory but the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project&#39;s root gitignore." />
+<meta name="keywords" content="version control, Git">
+
+<meta property="og:site_name" content="Software Journeyman"/>
+<meta property="og:title" content="Gitignore-A-Palooza: Two Tricks"/>
+<meta property="og:description" content="Most modern software developers are aware of Git and its accompanying gitignore file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory but the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project&#39;s root gitignore."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://softwarejourneyman.com/ignore-git.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-12-02 00:00:00-05:00"/>
+<meta property="article:modified_time" content="2018-12-02 00:00:00-05:00"/>
+<meta property="article:author" content="https://softwarejourneyman.com/author/samuel-roeca.html">
+<meta property="article:section" content="Software Development"/>
+<meta property="article:tag" content="version control"/>
+<meta property="article:tag" content="Git"/>
+<meta property="og:image" content="/images/sam-headshot-kepler-300x300.jpg">
+
+  <title>Software Journeyman &ndash; Gitignore-A-Palooza: Two Tricks</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://softwarejourneyman.com">
+        <img src="/images/sam-headshot-kepler-300x300.jpg" alt="" title="">
+      </a>
+      <h1><a href="https://softwarejourneyman.com"></a></h1>
+
+<p>Sam Roeca's Blog</p>
+      <nav>
+        <ul class="list">
+          <li><a href="https://softwarejourneyman.com/pages/about.html#about">About</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-github" href="https://github.com/pappasam" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-linkedin-square" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank"><i class="fa fa-linkedin-square"></i></a></li>
+        <li><a class="sc-facebook" href="https://www.facebook.com/sam.roeca" target="_blank"><i class="fa fa-facebook"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/SamRoeca" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-youtube" href="https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA?view_as=subscriber" target="_blank"><i class="fa fa-youtube"></i></a></li>
+        <li><a class="sc-envelope-o" href="mailto:samuel.roeca@gmail.com" target="_blank"><i class="fa fa-envelope-o"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="https://softwarejourneyman.com">Home</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://softwarejourneyman.com/feeds/all.atom.xml">Atom</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="ignore-git">Gitignore-A-Palooza: Two Tricks</h1>
+    <p>
+      Posted on Sun 02 December 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>Most modern software developers are aware of <a class="reference external" href="https://git-scm.com/">Git</a> and its accompanying
+<a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a> file. This post offers two lesser-known-yet-useful techniques to
+ignore files from a Git-based version controlled project. The first technique
+enables Git to ignore every file in a directory <strong>but</strong> the directory itself.
+The second technique enables a user to automatically ignore a file without
+adding it to a project's root gitignore.</p>
+
+<p>Note: when discussing &quot;<a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a>&quot; and &quot;<a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a>&quot;, I may sometimes add a
+&quot;.&quot; before the filename. Whether I <a class="reference external" href="http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/">do or do not</a>, I'm talking about the same
+file (eg, &quot;.gitignore&quot; == &quot;gitignore&quot;).</p>
+<div class="section" id="ignore-directory-contents-keep-directory">
+<h2>1: Ignore directory contents, keep directory</h2>
+<p>It is often convenient to have a directory whose contents are not committed to
+version control. For example, this directory may contain large non-general data
+files (images, financial data, etc). Additionally, these could be small files
+with sensitive information specific to one person (passwords, ssh keys, etc).
+Either way, we do not want these files committed to our project's version
+control system. For the purposes of this conversation, we'll call this folder
+&quot;instance&quot; and place it at the root of our project.</p>
+<pre class="literal-block">
+├── app
+│&nbsp;&nbsp; └── __init__.py
+├── .gitignore          &lt;-- Project gitignore
+└── instance
+    ├── big-file.jpg
+    └── passwords.txt
+</pre>
+<p>A naive approach suggests that we add the instance folder to our project's
+gitignore:</p>
+<pre class="literal-block">
+*.pyc
+__pycache__/
+# other ignored lines
+instance/
+</pre>
+<p>Unfortunately, this proves problematic. What happens if our system relies on a
+file being in the instance folder at runtime? A user of our system would need
+to know to create the instance folder AND place a file there, forcing them to
+perform two manual steps.</p>
+<p>A preferable solution: place a gitignore in the &quot;instance&quot; folder with special
+contents.</p>
+<pre class="literal-block">
+├── app
+│&nbsp;&nbsp; └── __init__.py
+├── .gitignore          &lt;-- Project gitignore
+└── instance
+    ├── big-file.jpg
+    ├── .gitignore      &lt;-- Special gitignore
+    └── passwords.txt
+-----------------------------------
+special .gitignore contents:
+# Ignore all files in this directory
+# EXCEPT for this .gitignore file
+*
+!.gitignore
+</pre>
+<p>I find myself using this trick so often that I've added the instance folder and
+its accompanying gitignore file into my project skeletons.</p>
+<pre class="code bash literal-block">
+<span class="c1"># ~/.bashrc (I actually use zsh + ~/.zshrc, but it's the same)
+</span><span class="k">function</span> make_instance<span class="o">()</span> <span class="o">{</span>
+  mkdir instance
+  cat &gt; instance/.gitignore <span class="s">&lt;&lt;EOL
+# Ignore all files in this directory
+# EXCEPT for this .gitignore file
+*
+!.gitignore
+EOL</span>
+<span class="o">}</span>
+</pre>
+<p>Finally, you may note that this technique does commit one file (the <a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a>)
+to version control. IMHO, this is a small price to pay for elegance.</p>
+</div>
+<div class="section" id="ignore-my-weird-files-in-secret">
+<h2>2: Ignore my weird files (in secret)</h2>
+<p>My <a class="reference external" href="https://github.com/pappasam/dotfiles">development environment</a> is highly customized. I'm an advanced user of
+<a class="reference external" href="https://neovim.io/charter/">Neovim</a>, <a class="reference external" href="https://www.ocf.berkeley.edu/~ckuehl/tmux/">Tmux</a>, <a class="reference external" href="http://zsh.sourceforge.net/Intro/intro_1.html#SEC1">Zsh</a>, and other <a class="reference external" href="https://en.wikipedia.org/wiki/Unix-like">Unix-like</a> utilities, and have set up a
+cross-language, bespoke IDE with a configuration unto itself. Benefits include
+software development bliss. One downside: my environment may require files that
+I should not commit to another person's repository.</p>
+<p>One example: when programming in Javascript, I rely on a <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> server for
+auto-completion in <a class="reference external" href="https://neovim.io/charter/">Neovim</a>. <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> is configurable with a <a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file
+which lets <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> know important things like the project's <a class="reference external" href="https://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a> version,
+which <a class="reference external" href="http://voidcanvas.com/node-vs-browsers/">runtime environment</a> it's expecting, etc. These configurations differ
+by project, so it's often necessary for me to place a customized
+<a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file at the root of a Javascript project.</p>
+<p>If I own a Javascript codebase and control its development, placing a
+<a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file at my project's root is a no-brainer. Not only can
+collaborators help me keep it up to date, but I can also influence more people
+to adopt <a class="reference external" href="https://github.com/ternjs/tern">Tern</a>! Unfortunately, if I don't own the codebase I'm working on,
+things become a bit trickier. I want to benefit from <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> but I don't want my
+first contributions on a project to include my custom
+<a class="reference external" href="https://github.com/pappasam/dotfiles">development environment</a> configuration. I'd simply add this file to the project's
+.gitignore file, but that would still be an me-specific contribution, so I'm
+left with two choices. Either I manually ignore <a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> every time I
+&quot;git add/commit&quot;, or I find a way to make Git do that work for me.</p>
+<p>Luckily, Git has a built-in way for users to ignore their own weird files
+without needing to make any updates to a project's version-controlled files.
+This method is mentioned in <a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a>'s documentation, but not many people are
+aware it exists.</p>
+<p>Using your favorite editor, go to the root of any <a class="reference external" href="https://git-scm.com/">Git</a> repository, and open the
+text file &quot;.git/info/exclude&quot;. It should look like this:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Contents of PROJECT-ROOT/.git/info/exclude:
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~</span>
+</pre>
+<p>Simply add your desired file patterns here and they will be ignored by you, and
+only you.</p>
+<pre class="code bash literal-block">
+<span class="c1"># Contents of PROJECT-ROOT/.git/info/exclude:
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+</span>.tern-project
+</pre>
+<p>Once you've done this, I recommend submitting one or two impressive pull
+requests. You should be invited as a repository <a class="reference external" href="https://help.github.com/articles/github-glossary/#collaborator">collaborator</a> (or its
+equivalent) in no time. With credentials in hand, you can then suggest the
+group adopt your awesome <a class="reference external" href="https://github.com/ternjs/tern">Tern</a>-based workflow (and your humble <a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a>
+file) into the project. At this point, you should remove the &quot;.tern-project&quot;
+line from .git/info/exclude.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>Ignoring directory contents while retaining directories is easy. Privately
+ignoring the files only you care about (for now) is also easy. Hopefully you
+learned something from this post and happy hacking!</p>
+<!-- Begin: External hyperlinks -->
+<!-- End: External hyperlinks -->
+</div>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://softwarejourneyman.com/tag/version-control.html">version control</a>
+      <a href="https://softwarejourneyman.com/tag/git.html">Git</a>
+    </p>
+  </div>
+
+
+  <div class="neighbors">
+    <a class="btn float-left" href="https://softwarejourneyman.com/python-function-pipelines.html" title="Python Function Pipelines">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+  </div>
+
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'pappasam-github-io';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Software Journeyman ",
+  "url" : "https://softwarejourneyman.com",
+  "image": "/images/sam-headshot-kepler-300x300.jpg",
+  "description": "Samuel Roeca's blog"
+}
+</script>
+
+</body>
+</html>
