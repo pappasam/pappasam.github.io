@@ -66,7 +66,7 @@ THEME = 'pelican-themes/Flex'
 FAVICON = '/theme/images/favicon.ico'
 PYGMENTS_STYLE = 'tango'
 
-SITESUBTITLE = "Sam Roeca's Blog"
+SITESUBTITLE = "da kine ramblings"
 SITEDESCRIPTION = "Samuel Roeca's blog"
 SITEURL = 'http://localhost:8000'
 SITELOGO = '/images/sam-headshot-kepler-300x300.jpg'
