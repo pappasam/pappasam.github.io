@@ -1,9 +1,10 @@
-venv/
-__pycache__/
-pelican-plugins/
-pelican-themes/
-output/
-.venv/
+# Files
+*.pid
 .python-version
 
-*.pid
+# Directories
+.venv/
+__pycache__/
+output/
+pelican-plugins/
+pelican-themes/
