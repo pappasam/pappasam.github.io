@@ -1,11 +1,7 @@
-PELICANOPTS=
-
-BASEDIR=$(CURDIR)
-INPUTDIR=$(BASEDIR)/content
-OUTPUTDIR=$(BASEDIR)/output
-CONFFILE=$(BASEDIR)/pelicanconf.py
-PUBLISHCONF=$(BASEDIR)/publishconf.py
-
+INPUTDIR=$(CURDIR)/content
+OUTPUTDIR=$(CURDIR)/output
+CONFFILE=$(CURDIR)/pelicanconf.py
+PUBLISHCONF=$(CURDIR)/publishconf.py
 GITHUB_PAGES_BRANCH=master
 
 .PHONY: build
@@ -13,7 +9,7 @@ build: html
 
 .PHONY: html
 html:
-	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
+	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE)
 
 .PHONY: clean
 clean:
@@ -25,7 +21,7 @@ serve:
 
 .PHONY: publish
 publish:
-	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
+	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF)
 
 .PHONY: github
 github: publish
