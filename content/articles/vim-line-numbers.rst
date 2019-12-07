@@ -96,7 +96,7 @@ following code in your .vimrc
 
 This will give you a great editing experience. See below for a screencast:
 
-.. image:: {filename}/gif/numbers-vim.gif
+.. image:: {static}/gif/numbers-vim.gif
     :alt: numbers.vim screencast
     :align: center
 
