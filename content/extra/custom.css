@@ -3,7 +3,22 @@
 }
 
 body {
-  font-family: 'Lora', 'Times New Roman', 'serif';
-  font-size: 18px;
-  line-height: 1.42857143;
+  font-family: 'Georgia', 'Lora', 'Times New Roman', 'serif';
+  font-size: 1.2rem;
+  line-height: 1.7rem;
+  text-align: justify center;
+}
+
+article {
+  max-width: 900px;
+}
+
+article p {
+  text-align: justify center;
+}
+
+main article {
+  margin: auto;
+  padding-right: 20px;
+  padding-left: 20px;
 }
