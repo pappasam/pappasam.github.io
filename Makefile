@@ -18,7 +18,7 @@ clean:  ## Remove the output directory
 	[ ! -d $(OUTPUTDIR) ] || rm -rf $(OUTPUTDIR)
 
 .PHONY: serve
-serve:  ## Run a local development server
+serve:  build-dev  ## Run a local development server
 	pelican --listen --relative-urls
 
 .PHONY: publish
