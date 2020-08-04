@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman - Software Development</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/software-development.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2018-12-02T00:00:00-05:00</updated><entry><title>Gitignore-A-Palooza: Two Tricks</title><link href="https://softwarejourneyman.com/ignore-git.html" rel="alternate"></link><published>2018-12-02T00:00:00-05:00</published><updated>2018-12-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-12-02:/ignore-git.html</id><summary type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman - Software Development</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/software-development.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2018-12-02T00:00:00-05:00</updated><subtitle>da kine ramblings</subtitle><entry><title>Gitignore-A-Palooza: Two Tricks</title><link href="https://softwarejourneyman.com/ignore-git.html" rel="alternate"></link><published>2018-12-02T00:00:00-05:00</published><updated>2018-12-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-12-02:/ignore-git.html</id><summary type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
 &lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to
 ignore files from a Git-based version controlled project. The first technique
 enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself.
@@ -143,7 +143,7 @@ learned something from this post and happy hacking!&lt;/p&gt;
 &lt;!-- Begin: External hyperlinks --&gt;
 &lt;!-- End: External hyperlinks --&gt;
 &lt;/div&gt;
-</content><category term="version control"></category><category term="Git"></category></entry><entry><title>Python Function Pipelines</title><link href="https://softwarejourneyman.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
+</content><category term="Software Development"></category><category term="version control"></category><category term="Git"></category></entry><entry><title>Python Function Pipelines</title><link href="https://softwarejourneyman.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
 function pipeline. This post presents a simple, strongly-typed function
 pipeline for your personal projects to make beautiful, explicit, Unix-like
 pipelines in Python.  Requires Python 3.6 or greater.&lt;/p&gt;
@@ -235,7 +235,7 @@ name for each step in the process.&lt;/p&gt;
 &lt;span class="n"&gt;x_6&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_6&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_7&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'x={x}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'x=&lt;/span&gt;&lt;span class="si"&gt;{x}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;Besides being pretty ugly / hard to read, this creates some useless names in
 our module's scope. Do we really need to give each step its own name? We don't
@@ -247,8 +247,8 @@ Fortunately, the entire pipeline can be expressed with one name thanks to the
 &lt;div class="section" id="solution-2-use-the-reduce-function"&gt;
 &lt;h3&gt;Solution 2: use the &amp;quot;reduce&amp;quot; function&lt;/h3&gt;
 &lt;pre class="code python highlight literal-block"&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nb"&gt;reduce&lt;/span&gt;
-&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="p"&gt;(&lt;/span&gt;
         &lt;span class="n"&gt;add_5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -258,7 +258,7 @@ Fortunately, the entire pipeline can be expressed with one name thanks to the
     &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'y={y}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'y=&lt;/span&gt;&lt;span class="si"&gt;{y}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;This example uses the standard library &amp;quot;reduce&amp;quot; function. Originally, &amp;quot;reduce&amp;quot;
 was intended to take a list of values and collapse them into one value. This
@@ -292,7 +292,7 @@ function to make this clearer to ourselves and to those who read our code.&lt;/p
     :param function_pipeline: an ordered list of functions that
         comprise your pipeline
     '''&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -303,7 +303,7 @@ function to make this clearer to ourselves and to those who read our code.&lt;/p
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'z={z}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'z=&lt;/span&gt;&lt;span class="si"&gt;{z}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;
 &lt;p&gt;This solution is elegant and explicit. It is generic and works with mypy. As
 long as our function pipeline contains only functions that take our value's
@@ -335,12 +335,12 @@ type-safe way.&lt;/p&gt;
 &lt;span class="n"&gt;x_6&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_6&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_7&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'x={x}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'x=&lt;/span&gt;&lt;span class="si"&gt;{x}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# reassignment: end&lt;/span&gt;
 
 &lt;span class="c1"&gt;# simple reduce: begin&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nb"&gt;reduce&lt;/span&gt;
-&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="p"&gt;(&lt;/span&gt;
         &lt;span class="n"&gt;add_5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -350,7 +350,7 @@ type-safe way.&lt;/p&gt;
     &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'y={y}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'y=&lt;/span&gt;&lt;span class="si"&gt;{y}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# simple reduce: end&lt;/span&gt;
 
 &lt;span class="c1"&gt;# pipeline: begin&lt;/span&gt;
@@ -368,7 +368,7 @@ type-safe way.&lt;/p&gt;
     :param function_pipeline: an ordered list of functions that
         comprise your pipeline
     '''&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -379,7 +379,7 @@ type-safe way.&lt;/p&gt;
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'z={z}'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'z=&lt;/span&gt;&lt;span class="si"&gt;{z}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# pipeline: end&lt;/span&gt;
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -389,7 +389,7 @@ type-safe way.&lt;/p&gt;
 itself. There is a better way and it's pretty much built into Python.  You'll
 just need to care enough to use it.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="Python"></category><category term="Unix"></category><category term="pipeline"></category><category term="functional programming"></category></entry><entry><title>Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</title><link href="https://softwarejourneyman.com/docker-python-install-wheels.html" rel="alternate"></link><published>2018-04-21T00:00:00-05:00</published><updated>2018-04-21T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-04-21:/docker-python-install-wheels.html</id><summary type="html">&lt;p&gt;If your Docker Python build requires system dependencies that are NOT required
+</content><category term="Software Development"></category><category term="Python"></category><category term="Unix"></category><category term="pipeline"></category><category term="functional programming"></category></entry><entry><title>Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</title><link href="https://softwarejourneyman.com/docker-python-install-wheels.html" rel="alternate"></link><published>2018-04-21T00:00:00-05:00</published><updated>2018-04-21T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-04-21:/docker-python-install-wheels.html</id><summary type="html">&lt;p&gt;If your Docker Python build requires system dependencies that are NOT required
 at runtime, structure your build as follows:&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;Use a &lt;a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage build&lt;/a&gt;&lt;/li&gt;
@@ -463,7 +463,7 @@ assuming that you're using a &lt;a class="reference external" href="https://en.w
 Python development headers&amp;quot;.&lt;/p&gt;
 &lt;p&gt;Copy the following code into a file called &amp;quot;Dockerfile.break&amp;quot;:&lt;/p&gt;
 &lt;pre class="code docker highlight literal-block"&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; python:3.6-alpine as breakimage&lt;/span&gt;
+&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;breakimage&lt;/span&gt;
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; pip install uwsgi
 &lt;/pre&gt;
@@ -502,7 +502,7 @@ compiler to build uWSGI&amp;quot;. We'll do that in example 2.&lt;/p&gt;
 built.&lt;/p&gt;
 &lt;p&gt;Copy the following code into a file called &amp;quot;Dockerfile.big&amp;quot;:&lt;/p&gt;
 &lt;pre class="code docker highlight literal-block"&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; python:3.6-alpine as bigimage&lt;/span&gt;
+&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage&lt;/span&gt;
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; apk add --no-cache linux-headers g++
 
@@ -550,7 +550,7 @@ time, Docker caches anything you install in an image, so uninstalling a
 dependency does NOT reduce the image size.&lt;/p&gt;
 &lt;p&gt;Copy the following code into a file called &amp;quot;Dockerfile.uninstall&amp;quot;:&lt;/p&gt;
 &lt;pre class="code docker highlight literal-block"&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; python:3.6-alpine as bigimage-uninstalled&lt;/span&gt;
+&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage-uninstalled&lt;/span&gt;
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; apk add --no-cache linux-headers g++
 
@@ -582,7 +582,7 @@ C compiler. It relies heavily on multi-stage builds and on pip wheels.&lt;/p&gt;
 &lt;pre class="code docker highlight literal-block"&gt;
 &lt;span class="c"&gt;###########################################&lt;/span&gt;
 &lt;span class="c"&gt;# Throwaway image with C compiler installed&lt;/span&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; python:3.6-alpine as bigimage&lt;/span&gt;
+&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage&lt;/span&gt;
 
 &lt;span class="c"&gt;# install the C compiler&lt;/span&gt;
 &lt;span class="k"&gt;RUN&lt;/span&gt; apk add --no-cache linux-headers g++
@@ -592,7 +592,7 @@ C compiler. It relies heavily on multi-stage builds and on pip wheels.&lt;/p&gt;
 
 &lt;span class="c"&gt;###########################################&lt;/span&gt;
 &lt;span class="c"&gt;# Image WITHOUT C compiler but WITH uWSGI&lt;/span&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; python:3.6-alpine as smallimage&lt;/span&gt;
+&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;smallimage&lt;/span&gt;
 
 &lt;span class="k"&gt;COPY&lt;/span&gt; --from&lt;span class="o"&gt;=&lt;/span&gt;bigimage /root/wheels /root/wheels
 
@@ -706,7 +706,7 @@ multi-stage builds, pip wheel, and pip install.&lt;/p&gt;
 to Alejandro for publishing his creative use of docker multi-stage builds in
 the context of Python systems.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="Docker"></category><category term="Python"></category><category term="pip"></category></entry><entry><title>Vim Line Numbers</title><link href="https://softwarejourneyman.com/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-04-07:/vim-line-numbers.html</id><summary type="html">&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
+</content><category term="Software Development"></category><category term="Docker"></category><category term="Python"></category><category term="pip"></category></entry><entry><title>Vim Line Numbers</title><link href="https://softwarejourneyman.com/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-04-07:/vim-line-numbers.html</id><summary type="html">&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
 correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
 correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
@@ -850,4 +850,4 @@ Plug &lt;span class="s1"&gt;'myusuf3/numbers.vim'&lt;/span&gt;
 configuration. I regret nothing about my bespoke journey, but I'm glad that
 Numbers.vim is my destination.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="Vim"></category><category term="Vim Plugins"></category></entry></feed>
+</content><category term="Software Development"></category><category term="Vim"></category><category term="Vim Plugins"></category></entry></feed>

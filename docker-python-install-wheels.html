@@ -2,7 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/stylesheet/style.min.css">
 
@@ -17,19 +23,25 @@
     <link rel="shortcut icon" href="/theme/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/theme/images/favicon.ico" type="image/x-icon">
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="" />
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-117115805-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 <meta name="author" content="Samuel Roeca" />
-<meta name="description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multi-stage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact." />
+<meta name="description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multi-stage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you&#39;ll end up with the smallest-possible Python Docker container with all your Python dependencies intact." />
 <meta name="keywords" content="Docker, Python, pip">
+
 <meta property="og:site_name" content="Software Journeyman"/>
 <meta property="og:title" content="Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels"/>
-<meta property="og:description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multi-stage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact."/>
+<meta property="og:description" content="If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows: Use a multi-stage build Stage 1 installs system dependencies and uses them to build local wheels Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels The rest of your build will be based on Stage 2 If you follow these steps, you&#39;ll end up with the smallest-possible Python Docker container with all your Python dependencies intact."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://softwarejourneyman.com/docker-python-install-wheels.html"/>
 <meta property="og:type" content="article"/>
@@ -76,24 +88,22 @@
   <main>
 
     <nav>
-      <a href="https://softwarejourneyman.com">    Home
-</a>
+      <a href="https://softwarejourneyman.com">Home</a>
 
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
       <a href="/tags.html">Tags</a>
 
-      <a href="https://softwarejourneyman.com/feeds/all.atom.xml">    Atom
-</a>
+      <a href="https://softwarejourneyman.com/feeds/all.atom.xml">Atom</a>
 
     </nav>
 
 <article class="single">
   <header>
+      
     <h1 id="docker-python-install-wheels">Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</h1>
     <p>
-          Posted on Sat 21 April 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
-
+      Posted on Sat 21 April 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
 
     </p>
   </header>
@@ -163,7 +173,7 @@ assuming that you're using a <a class="reference external" href="https://en.wiki
 Python development headers&quot;.</p>
 <p>Copy the following code into a file called &quot;Dockerfile.break&quot;:</p>
 <pre class="code docker highlight literal-block">
-<span class="k">FROM</span><span class="s"> python:3.6-alpine as breakimage</span>
+<span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">breakimage</span>
 
 <span class="k">RUN</span> pip install uwsgi
 </pre>
@@ -202,7 +212,7 @@ compiler to build uWSGI&quot;. We'll do that in example 2.</p>
 built.</p>
 <p>Copy the following code into a file called &quot;Dockerfile.big&quot;:</p>
 <pre class="code docker highlight literal-block">
-<span class="k">FROM</span><span class="s"> python:3.6-alpine as bigimage</span>
+<span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage</span>
 
 <span class="k">RUN</span> apk add --no-cache linux-headers g++
 
@@ -250,7 +260,7 @@ time, Docker caches anything you install in an image, so uninstalling a
 dependency does NOT reduce the image size.</p>
 <p>Copy the following code into a file called &quot;Dockerfile.uninstall&quot;:</p>
 <pre class="code docker highlight literal-block">
-<span class="k">FROM</span><span class="s"> python:3.6-alpine as bigimage-uninstalled</span>
+<span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage-uninstalled</span>
 
 <span class="k">RUN</span> apk add --no-cache linux-headers g++
 
@@ -282,7 +292,7 @@ C compiler. It relies heavily on multi-stage builds and on pip wheels.</p>
 <pre class="code docker highlight literal-block">
 <span class="c">###########################################</span>
 <span class="c"># Throwaway image with C compiler installed</span>
-<span class="k">FROM</span><span class="s"> python:3.6-alpine as bigimage</span>
+<span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage</span>
 
 <span class="c"># install the C compiler</span>
 <span class="k">RUN</span> apk add --no-cache linux-headers g++
@@ -292,7 +302,7 @@ C compiler. It relies heavily on multi-stage builds and on pip wheels.</p>
 
 <span class="c">###########################################</span>
 <span class="c"># Image WITHOUT C compiler but WITH uWSGI</span>
-<span class="k">FROM</span><span class="s"> python:3.6-alpine as smallimage</span>
+<span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">smallimage</span>
 
 <span class="k">COPY</span> --from<span class="o">=</span>bigimage /root/wheels /root/wheels
 
@@ -417,8 +427,18 @@ the context of Python systems.</p>
   </div>
 
 
+  <div class="neighbors">
+    <a class="btn float-left" href="https://softwarejourneyman.com/vim-line-numbers.html" title="Vim Line Numbers">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="https://softwarejourneyman.com/python-function-pipelines.html" title="Python Function Pipelines">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
 
 
+
+<!-- Disqus -->
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'pappasam-github-io';
@@ -429,28 +449,16 @@ the context of Python systems.</p>
     })();
 </script>
 <noscript>
-        Please enable JavaScript to view comments.
-
+    Please enable JavaScript to view comments.
 </noscript>
+<!-- End Disqus -->
 </article>
 
     <footer>
-<p>&copy; Samuel Roeca </p>
-<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
-</p>    </footer>
+<p>&copy;  </p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 
-<!-- Google Analytics -->
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-117115805-1', 'auto');
-  ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
 
 
 
@@ -464,5 +472,6 @@ the context of Python systems.</p>
   "description": "Samuel Roeca's blog"
 }
 </script>
+
 </body>
 </html>

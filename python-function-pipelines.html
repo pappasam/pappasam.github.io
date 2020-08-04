@@ -2,7 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://softwarejourneyman.com/theme/stylesheet/style.min.css">
 
@@ -17,16 +23,22 @@
     <link rel="shortcut icon" href="/theme/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/theme/images/favicon.ico" type="image/x-icon">
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="" />
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-117115805-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 <meta name="author" content="Samuel Roeca" />
 <meta name="description" content="If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python. Requires Python 3.6 or greater." />
 <meta name="keywords" content="Python, Unix, pipeline, functional programming">
+
 <meta property="og:site_name" content="Software Journeyman"/>
 <meta property="og:title" content="Python Function Pipelines"/>
 <meta property="og:description" content="If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python. Requires Python 3.6 or greater."/>
@@ -77,24 +89,22 @@
   <main>
 
     <nav>
-      <a href="https://softwarejourneyman.com">    Home
-</a>
+      <a href="https://softwarejourneyman.com">Home</a>
 
       <a href="/archives.html">Archives</a>
       <a href="/categories.html">Categories</a>
       <a href="/tags.html">Tags</a>
 
-      <a href="https://softwarejourneyman.com/feeds/all.atom.xml">    Atom
-</a>
+      <a href="https://softwarejourneyman.com/feeds/all.atom.xml">Atom</a>
 
     </nav>
 
 <article class="single">
   <header>
+      
     <h1 id="python-function-pipelines">Python Function Pipelines</h1>
     <p>
-          Posted on Sat 02 June 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
-
+      Posted on Sat 02 June 2018 in <a href="https://softwarejourneyman.com/category/software-development.html">Software Development</a>
 
     </p>
   </header>
@@ -189,7 +199,7 @@ name for each step in the process.</p>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'x={x}'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{x}</span><span class="s1">'</span><span class="p">)</span>
 </pre>
 <p>Besides being pretty ugly / hard to read, this creates some useless names in
 our module's scope. Do we really need to give each step its own name? We don't
@@ -201,8 +211,8 @@ Fortunately, the entire pipeline can be expressed with one name thanks to the
 <div class="section" id="solution-2-use-the-reduce-function">
 <h3>Solution 2: use the &quot;reduce&quot; function</h3>
 <pre class="code python highlight literal-block">
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-<span class="n">y</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">value</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
     <span class="p">(</span>
         <span class="n">add_5</span><span class="p">,</span>
@@ -212,7 +222,7 @@ Fortunately, the entire pipeline can be expressed with one name thanks to the
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'y={y}'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{y}</span><span class="s1">'</span><span class="p">)</span>
 </pre>
 <p>This example uses the standard library &quot;reduce&quot; function. Originally, &quot;reduce&quot;
 was intended to take a list of values and collapse them into one value. This
@@ -246,7 +256,7 @@ function to make this clearer to ourselves and to those who read our code.</p>
     :param function_pipeline: an ordered list of functions that
         comprise your pipeline
     '''</span>
-    <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
     <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -257,7 +267,7 @@ function to make this clearer to ourselves and to those who read our code.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'z={z}'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{z}</span><span class="s1">'</span><span class="p">)</span>
 </pre>
 <p>This solution is elegant and explicit. It is generic and works with mypy. As
 long as our function pipeline contains only functions that take our value's
@@ -289,12 +299,12 @@ type-safe way.</p>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'x={x}'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{x}</span><span class="s1">'</span><span class="p">)</span>
 <span class="c1"># reassignment: end</span>
 
 <span class="c1"># simple reduce: begin</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-<span class="n">y</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">value</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
     <span class="p">(</span>
         <span class="n">add_5</span><span class="p">,</span>
@@ -304,7 +314,7 @@ type-safe way.</p>
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'y={y}'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{y}</span><span class="s1">'</span><span class="p">)</span>
 <span class="c1"># simple reduce: end</span>
 
 <span class="c1"># pipeline: begin</span>
@@ -322,7 +332,7 @@ type-safe way.</p>
     :param function_pipeline: an ordered list of functions that
         comprise your pipeline
     '''</span>
-    <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
     <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -333,7 +343,7 @@ type-safe way.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'z={z}'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{z}</span><span class="s1">'</span><span class="p">)</span>
 <span class="c1"># pipeline: end</span>
 </pre>
 </div>
@@ -355,8 +365,18 @@ just need to care enough to use it.</p>
   </div>
 
 
+  <div class="neighbors">
+    <a class="btn float-left" href="https://softwarejourneyman.com/docker-python-install-wheels.html" title="Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="https://softwarejourneyman.com/ignore-git.html" title="Gitignore-A-Palooza: Two Tricks">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
 
 
+
+<!-- Disqus -->
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'pappasam-github-io';
@@ -367,28 +387,16 @@ just need to care enough to use it.</p>
     })();
 </script>
 <noscript>
-        Please enable JavaScript to view comments.
-
+    Please enable JavaScript to view comments.
 </noscript>
+<!-- End Disqus -->
 </article>
 
     <footer>
-<p>&copy; Samuel Roeca </p>
-<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
-</p>    </footer>
+<p>&copy;  </p>
+<p>Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a></p>    </footer>
   </main>
 
-<!-- Google Analytics -->
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-117115805-1', 'auto');
-  ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
 
 
 
@@ -402,5 +410,6 @@ just need to care enough to use it.</p>
   "description": "Samuel Roeca's blog"
 }
 </script>
+
 </body>
 </html>
