@@ -5,13 +5,17 @@ slug: portfolio
 
 ## Software projects
 
-| Name                                                                     | Description                                             |
-|--------------------------------------------------------------------------|---------------------------------------------------------|
-| [jedi-language-server](https://github.com/pappasam/jedi-language-server) | a language server for the latest version(s) of Jedi     |
-| [coc-jedi](https://github.com/pappasam/coc-jedi)                         | coc.nvim wrapper for jedi-language-server               |
-| [serdataclasses](https://github.com/pappasam/serdataclasses)             | deserialize and serialize (ish) Python objects          |
-| [toml-sort](https://github.com/pappasam/toml-sort)                       | command line utility to sort and format your toml files |
-| [latexbuild](https://github.com/pappasam/latexbuild)                     | light Latex build wrapper for Python with Jinja2        |
+| Name                                                                           | Description                                               |
+|--------------------------------------------------------------------------------|-----------------------------------------------------------|
+| [jedi-language-server](https://github.com/pappasam/jedi-language-server)       | a language server for the latest version(s) of Jedi       |
+| [serdataclasses](https://github.com/pappasam/serdataclasses)                   | deserialize and serialize (ish) Python objects            |
+| [toml-sort](https://github.com/pappasam/toml-sort)                             | command line utility to sort and format your toml files   |
+| [latexbuild](https://github.com/pappasam/latexbuild)                           | light Latex build wrapper for Python with Jinja2          |
+| [cookiecutter-hovercraft](https://github.com/pappasam/cookiecutter-hovercraft) | a cookiecutter template for use with Hovercraft           |
+| [coc-jedi](https://github.com/pappasam/coc-jedi)                               | coc.nvim wrapper for jedi-language-server                 |
+| [vim-filetype-formatter](https://github.com/pappasam/vim-filetype-formatter)   | cross language Vim code formatter plugin                  |
+| [vim-keywordprg-commands](https://github.com/pappasam/vim-keywordprg-commands) | Neovim/Vim "keywordprg command" authoring utility         |
+| [nvim-repl](https://github.com/pappasam/nvim-repl)                             | create, use, and remove an interactive repl within Neovim |
 
 ## Poetry: "dependency management and packaging made easy"
 
