@@ -66,16 +66,12 @@ THEME = 'pelican-themes/Flex'
 FAVICON = '/theme/images/favicon.ico'
 PYGMENTS_STYLE = 'tango'
 
-SITESUBTITLE = "da kine ramblings"
+SITESUBTITLE = "Sam's blog"
 SITEDESCRIPTION = "Samuel Roeca's blog"
 SITEURL = 'http://localhost:8000'
 SITELOGO = '/images/sam-headshot-kepler-300x300.jpg'
 
 MAIN_MENU = True
-
-LINKS = (
-    # ('About', '/pages/about.html'),
-)
 
 CUSTOM_CSS = _CUSTOM_CSS
 
@@ -111,15 +107,10 @@ PLUGINS = [
     'i18n_subsites',
     'sitemap',
     'extract_toc',
-    'tipue_search',        # this must be modified for now to work
     'neighbors',
     'assets',              # minifies css assets
     'summary',
 ]
-
-# tipue_search
-#   see http://archerimagine.com/articles/pelican/integration-problem-with-elegant-theme.html#missing-icons-for-social-links
-#   manually modify
 
 # sitemap
 SITEMAP = {

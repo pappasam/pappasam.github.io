@@ -1,10 +1,10 @@
-#############
-About dis guy
-#############
+########
+About me
+########
 
 :slug: about
 
-Samuel Roeca, your humble author, is the Head of Engineering at `Kepler Group LLC`_. He also organizes `The New York City Vim Meetup`_. Sam grew up on Oahu but now lives in New York City. His interests include:
+I'm currently the Head of Engineering at `Kepler Group LLC`_. I also organize `The New York City Vim Meetup`_. I grew up on Oahu and am currently looking for a good place to settle down. My interests include:
 
 * Playing squash_
 * Tweaking his dotfiles_
