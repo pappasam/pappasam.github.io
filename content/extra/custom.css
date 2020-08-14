@@ -27,3 +27,8 @@ main article {
   font-size: 14px;
   line-height: 1rem;
 }
+
+/* Line numbers aren't selected by user */
+.ln {
+  user-select: none;
+}
