@@ -3,12 +3,10 @@ title: How to write a coc.nvim extension
 date: 2020-08-14
 category: Software Development
 modified: 2020-08-14
-tags: Vim, Vim Plugins
+tags: Vim, Vim Plugins, LSP
 ---
 
-**draft: subject to change, thoughts welcome**
-
-In this post, I build a "coc.nvim" extension that wraps an executable language server. By the end of this article, you should understand what makes coc amazing be able to write your own coc extension to wrap any executable language server.
+In this post, I build a "coc.nvim" extension that wraps an executable language server. By the end of this article, you should both understand what makes coc an amazing LSP client and be able to write your own coc extension.
 
 <!-- PELICAN_END_SUMMARY -->
 
@@ -24,7 +22,7 @@ For the interactive parts of this post, you'll need the following:
 - [coc.nvim==0.0.78](https://github.com/neoclide/coc.nvim) (might work on newer versions, but no promises)
 - Some knowledge of TypeScript might be helpful
 
-Finally, please disable any Python-specific coc plugins that you currently have installed (eg, [coc-jedi](https://github.com/pappasam/coc-jedi), etc).
+Finally, please disable any Python-specific coc extensions that you currently have installed ([coc-jedi](https://github.com/pappasam/coc-jedi), etc).
 
 ## Background
 
@@ -43,7 +41,7 @@ Popular editors (and platforms) tend to have more software developed for them. F
 
 This sad historical reality kept language tooling development isolated to editors that were popular within a language: PyCharm/Vim for Python, [Eclipse](https://www.eclipse.org/eclipseide/) for Java, etc. This, in turn, would force developers into mind-bending context switches when changing languages. Not only would we need to learn a new language, we'd also need to learn a whole new text editor and tooling ecosystem! Since software tooling is somewhat of a religion, there was no way you could get some developers (eg, me) to even consider touching Java if I had to sacrifice my beliefs (Vim/development tooling I'd grown accustomed to).
 
-In 2015/2016, when things seemed most dire and intractible, the developers behind VSCode had a big idea: why don't we abstract all this divergent, isolated tooling into a [protocol](https://en.wikipedia.org/wiki/Communication_protocol) that generalizes the problem of language tooling. Thus, the language server protocol was born.
+In 2015/2016, when things seemed most dire and intractable, the developers behind VSCode had a big idea: why don't we abstract all this divergent, isolated tooling into a [protocol](https://en.wikipedia.org/wiki/Communication_protocol) that generalizes the problem of language tooling. Thus, the language server protocol was born.
 
 ### Language Server Protocol
 
@@ -86,7 +84,7 @@ The rest of this article assumes that your development tool is Vim/Neovim, your 
 ## Vim / coc terminology
 
 - Vim: Vim or Neovim
-- vimrc:  `~/.config/nvim/init.vim` for Neovim or `~/.vimrc` for Vim
+- vimrc: `~/.config/nvim/init.vim` for Neovim or `~/.vimrc` for Vim
 - coc-settings.json: `~/.config/nvim/.coc-settings.json` by default
 
 ## Coc as simple LSP wrapper
@@ -105,7 +103,7 @@ Now run jedi-language-server:
 jedi-language-server
 ```
 
-Notice that the process just hangs; it's waiting to receive standard input and will respond with standard output. This server can be configured to run inside of Vim by placing the following code in the "languageserver" section of your coc-settings.json:
+Notice that the process just hangs; it's waiting to receive standard input and will respond with standard output. This server can be configured to run inside of Vim by placing the following code in the `languageserver` section of your coc-settings.json:
 
 ```json
 {
@@ -132,10 +130,12 @@ This is where coc extensions come into play: they avoid the above problems with 
 
 ## Writing a simple coc extension
 
-**Requirements**
+To keep things simple, let's restrict ourselves to 2 requirements:
 
-- Prevent the user from needing to write manual configuration for jedi-language-server in coc-settings.json
-- Allow the user to configure the server as "disabled" if needed
+1. Prevent the user from needing to write manual configuration for jedi-language-server in coc-settings.json
+2. Allow the user to configure the server as "disabled" if needed
+
+Additional features are left as exercises for the reader.
 
 ### Project skaffolding
 
@@ -177,16 +177,11 @@ Delete the files in `src`; we'll be writing these from scratch.
 To get a simple wrapper around an existing jedi-language-server executable, place the following code in `src/index.ts`:
 
 ```typescript
-import {
-  ExtensionContext,
-  services,
-  workspace,
-  LanguageClient,
-} from 'coc.nvim'
+import { ExtensionContext, services, workspace, LanguageClient } from 'coc.nvim'
 
 export async function activate(context: ExtensionContext): Promise<void> {
   const serverOptions = {
-    command: "jedi-language-server", // run jedi-language-server
+    command: 'jedi-language-server', // run jedi-language-server
   }
   const clientOptions = {
     documentSelector: ['python'], // only use jedi-language-server on Python files
@@ -214,7 +209,7 @@ Open an empty file (test.py works) with Vim and run the following command:
 :set runtimepath^=~/src/sandbox/coc-jls
 ```
 
-This command will help coc discover your extension. Depending on your coc configuration, you should see diagnostics, have autocompletion, etc. In the long term, you may want to manage your coc extension as a plugin or a vim [package](https://shapeshed.com/vim-packages), but we'll keep things local and simple for now.
+This command will help coc discover your extension. Depending on your coc configuration, you should see diagnostics, have autocompletion, etc. In the long term, you may want to manage your coc extension as a plugin or a Vim [package](https://shapeshed.com/vim-packages), but we'll keep things local and simple for now.
 
 ### User configuration
 
@@ -238,7 +233,7 @@ We've successfully wrapped jedi-language-server with a coc extension and now it'
 }
 ```
 
-This says that the coc-jls extension contributes a configuration key `coc-jls.enabled` whose default value is `true`. If a user wants to disable `coc-jls`, they'll need to add the following line to the top level of their coc-settiongs.json:
+This says that the coc-jls extension contributes a configuration key `coc-jls.enabled` whose default value is `true`. If a user wants to disable `coc-jls`, they'll need to add the following line to the top level of their coc-settings.json:
 
 ```json
 {
@@ -249,12 +244,7 @@ This says that the coc-jls extension contributes a configuration key `coc-jls.en
 Now we must add some logic to our typescript code to read the user configuration and disable the server if the user has chosen not to have it enabled:
 
 ```typescript
-import {
-  ExtensionContext,
-  services,
-  workspace,
-  LanguageClient,
-} from 'coc.nvim'
+import { ExtensionContext, services, workspace, LanguageClient } from 'coc.nvim'
 
 export async function activate(context: ExtensionContext): Promise<void> {
   // BEGIN NEW CODE
@@ -265,7 +255,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
   // END NEW CODE
   const serverOptions = {
-    command: "jedi-language-server", // run jedi-language-server
+    command: 'jedi-language-server', // run jedi-language-server
   }
   const clientOptions = {
     documentSelector: ['python'], // only use jedi-language-server on Python files
@@ -280,7 +270,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 }
 ```
 
-Now run `yarn` and voila: users can now disable coc-jls without needing to uninstall the extension. Success!
+Now run `yarn` and voilà: users can now disable coc-jls without needing to uninstall the extension. Success!
 
 ### Deployment
 
@@ -296,14 +286,14 @@ And run:
 :PlugInstall
 ```
 
-This will download your Git repo, install all necessary dependencies, build your project, and make sure it's automatically added to Vim's runtime path for coc can discover the extension.
+This will download your Git repository, install all necessary dependencies, build your project, and make sure it's automatically added to Vim's runtime path for coc can discover the extension.
 
 Alternatively, you can do all this manually if you know what you're doing.
 
-Finally, coc plugins can be deployed to npm. This option is outside the scope of this post, but it's not terribly difficult.
+Finally, coc extensions can be deployed to [npm](https://www.npmjs.com). This method is out of scope for this post, but you should be able to figure it out by referencing the [coc-jedi](https://github.com/pappasam/coc-jedi) codebase.
 
 ## Wrapping up
 
-At this point, you should have a working coc extension that wraps an executable language server (jedi-language-server, in this case). You may be wondering how you can add more features, automatically download and manage the executable for your users, and make your coc extension the most user friendly interface since the ipod wheel. The good news is that many of these features have already been implemented in [coc-jedi](https://github.com/pappasam/coc-jedi); please refer to that codebase and ask any further questions you may have in the comments below. Now go be a coc jedi!
+At this point, you should have a working coc extension that wraps an executable language server. You may be wondering how you can add more features, automatically download and manage the executable for your users, and make your coc extension the most user friendly interface since the [iPod click wheel](https://en.wikipedia.org/wiki/IPod_click_wheel). The good news is that many of these features have already been implemented in [coc-jedi](https://github.com/pappasam/coc-jedi); please refer to that codebase and ask any further questions you may have in the comments below. And don't feel obligated to only wrap jedi-language-server: you should now be able to wrap **any** executable language server in a coc extension! Please use your powers for good.
 
 ![jedi programmer](https://www.kumulos.com/wp-content/uploads/2012/09/Computer-programming-jedi.jpg)
