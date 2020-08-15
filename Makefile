@@ -26,7 +26,7 @@ publish: build-publish  ## Publish the website to Github Pages
 	ghp-import \
 		--message="Generate Pelican site" \
 		--branch=$(GITHUB_PAGES_BRANCH) \
-		--cname="softwarejourneyman.com" \
+		--cname="samroeca.com" \
 		$(OUTPUTDIR)
 	git push origin $(GITHUB_PAGES_BRANCH)
 
