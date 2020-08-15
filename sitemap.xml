@@ -4,175 +4,175 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>https://softwarejourneyman.com/</loc>
-<lastmod>2020-08-15T00:07:04-00:00</lastmod>
+<loc>https://samroeca.com/</loc>
+<lastmod>2020-08-15T13:54:24-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/categories.html</loc>
-<lastmod>2020-08-15T00:07:04-00:00</lastmod>
+<loc>https://samroeca.com/categories.html</loc>
+<lastmod>2020-08-15T13:54:24-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/authors.html</loc>
-<lastmod>2020-08-15T00:07:04-00:00</lastmod>
+<loc>https://samroeca.com/authors.html</loc>
+<lastmod>2020-08-15T13:54:24-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/archives.html</loc>
-<lastmod>2020-08-15T00:07:04-00:00</lastmod>
+<loc>https://samroeca.com/archives.html</loc>
+<lastmod>2020-08-15T13:54:24-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tags.html</loc>
-<lastmod>2020-08-15T00:07:04-00:00</lastmod>
+<loc>https://samroeca.com/tags.html</loc>
+<lastmod>2020-08-15T13:54:24-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/pages/about.html</loc>
-<lastmod>2020-08-15T00:07:04-00:00</lastmod>
+<loc>https://samroeca.com/pages/about.html</loc>
+<lastmod>2020-08-15T13:54:24-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/pages/portfolio.html</loc>
-<lastmod>2020-08-15T00:07:04-00:00</lastmod>
+<loc>https://samroeca.com/pages/portfolio.html</loc>
+<lastmod>2020-08-15T13:54:24-00:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/coc-plugin.html</loc>
+<loc>https://samroeca.com/coc-plugin.html</loc>
 <lastmod>2020-08-14T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/ignore-git.html</loc>
+<loc>https://samroeca.com/ignore-git.html</loc>
 <lastmod>2018-12-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/python-function-pipelines.html</loc>
+<loc>https://samroeca.com/python-function-pipelines.html</loc>
 <lastmod>2018-06-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/docker-python-install-wheels.html</loc>
+<loc>https://samroeca.com/docker-python-install-wheels.html</loc>
 <lastmod>2018-04-21T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/vim-line-numbers.html</loc>
+<loc>https://samroeca.com/vim-line-numbers.html</loc>
 <lastmod>2018-04-07T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/category/software-development.html</loc>
+<loc>https://samroeca.com/category/software-development.html</loc>
 <lastmod>2020-08-14T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/vim.html</loc>
+<loc>https://samroeca.com/tag/vim.html</loc>
 <lastmod>2020-08-14T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/vim-plugins.html</loc>
+<loc>https://samroeca.com/tag/vim-plugins.html</loc>
 <lastmod>2020-08-14T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/lsp.html</loc>
+<loc>https://samroeca.com/tag/lsp.html</loc>
 <lastmod>2020-08-14T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/version-control.html</loc>
+<loc>https://samroeca.com/tag/version-control.html</loc>
 <lastmod>2018-12-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/git.html</loc>
+<loc>https://samroeca.com/tag/git.html</loc>
 <lastmod>2018-12-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/python.html</loc>
+<loc>https://samroeca.com/tag/python.html</loc>
 <lastmod>2018-06-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/unix.html</loc>
+<loc>https://samroeca.com/tag/unix.html</loc>
 <lastmod>2018-06-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/pipeline.html</loc>
+<loc>https://samroeca.com/tag/pipeline.html</loc>
 <lastmod>2018-06-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/functional-programming.html</loc>
+<loc>https://samroeca.com/tag/functional-programming.html</loc>
 <lastmod>2018-06-02T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/docker.html</loc>
+<loc>https://samroeca.com/tag/docker.html</loc>
 <lastmod>2018-04-21T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/tag/pip.html</loc>
+<loc>https://samroeca.com/tag/pip.html</loc>
 <lastmod>2018-04-21T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>https://softwarejourneyman.com/author/samuel-roeca.html</loc>
+<loc>https://samroeca.com/author/samuel-roeca.html</loc>
 <lastmod>2020-08-14T00:00:00-05:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
