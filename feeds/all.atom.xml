@@ -1,5 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/all.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2018-12-02T00:00:00-05:00</updated><subtitle>Sam's blog</subtitle><entry><title>Gitignore-A-Palooza: Two Tricks</title><link href="https://softwarejourneyman.com/ignore-git.html" rel="alternate"></link><published>2018-12-02T00:00:00-05:00</published><updated>2018-12-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-12-02:/ignore-git.html</id><summary type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Journeyman</title><link href="https://softwarejourneyman.com/" rel="alternate"></link><link href="https://softwarejourneyman.com/feeds/all.atom.xml" rel="self"></link><id>https://softwarejourneyman.com/</id><updated>2020-08-14T00:00:00-05:00</updated><subtitle>Sam's blog</subtitle><entry><title>How to write a coc.nvim extension</title><link href="https://softwarejourneyman.com/coc-plugin.html" rel="alternate"></link><published>2020-08-14T00:00:00-05:00</published><updated>2020-08-14T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2020-08-14:/coc-plugin.html</id><summary type="html">&lt;p&gt;In this post, I build a "coc.nvim" extension that wraps an executable language server. By the end of this article, you should both understand what makes coc an amazing LSP client and be able to write your own coc extension.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;In this post, I build a "coc.nvim" extension that wraps an executable language server. By the end of this article, you should both understand what makes coc an amazing LSP client and be able to write your own coc extension.&lt;/p&gt;
+
+
+&lt;h2&gt;Requirements&lt;/h2&gt;
+&lt;p&gt;For the interactive parts of this post, you'll need the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A POSIX-compliant terminal (bash, zsh, etc), or the ability to translate&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://git-scm.com/"&gt;git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://nodejs.org/en/"&gt;Node.js&amp;gt;=8.10.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/yarnpkg/yarn"&gt;yarn&amp;gt;=1.22.4&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vim/vim"&gt;Vim 8+&lt;/a&gt; or &lt;a href="https://github.com/neovim/neovim"&gt;Neovim 0.4.4+&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/neoclide/coc.nvim"&gt;coc.nvim==0.0.78&lt;/a&gt; (might work on newer versions, but no promises)&lt;/li&gt;
+&lt;li&gt;Some knowledge of TypeScript might be helpful&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally, please disable any Python-specific coc extensions that you currently have installed (&lt;a href="https://github.com/pappasam/coc-jedi"&gt;coc-jedi&lt;/a&gt;, etc).&lt;/p&gt;
+&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/neoclide/coc.nvim"&gt;coc.nvim&lt;/a&gt;, short for "conquer of completion", is an &lt;a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/"&gt;lsp&lt;/a&gt; client that targets &lt;a href="https://www.vim.org/"&gt;Vim&lt;/a&gt;. Vim (in my case, technically &lt;a href="https://neovim.io"&gt;NeoVim&lt;/a&gt;) is my favorite text editor / IDE. I like its extensibility, flexibility, and in-terminal slickness. Over the years, plenty of tools/plugins have been built for Vim that make it easy to program in multiple languages. Here are some examples:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JavaScript intellisense: &lt;a href="https://github.com/ternjs/tern_for_vim"&gt;tern_for_vim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Ruby on rails intellisense: &lt;a href="https://github.com/tpope/vim-rails"&gt;vim-rails&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;General linting: &lt;a href="https://github.com/vim-syntastic/syntastic"&gt;syntastic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Python intellisense: &lt;a href="https://github.com/davidhalter/jedi-vim"&gt;jedi-vim&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Vim's diverse plugins and community-supported tooling are what first drew me to the editor, and they're what still keep me here. Sadly for me, not all software developers use Vim. See its share of developers from the &lt;a href="https://insights.stackoverflow.com/survey/2019#technology-_-most-popular-development-environments"&gt;2019 StackOverflow developer survey&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="stack overflow survey" src="./images/coc-plugin/so-2019-dev-env.png"&gt;&lt;/p&gt;
+&lt;p&gt;Popular editors (and platforms) tend to have more software developed for them. For example, many developers have historically targeted Windows &lt;strong&gt;for its users&lt;/strong&gt;, not because they &lt;a href="https://www.quora.com/Why-do-computer-programmers-love-Linux-and-hate-Windows"&gt;like writing code on Windows&lt;/a&gt;. Mo' people, mo' software. To further complicate things, different programming languages tended to be popular with different editors: Vim's Java development environment was historically abysmal enough to generate some &lt;a href="https://news.ycombinator.com/item?id=9713478"&gt;heated conversations&lt;/a&gt; concluding that only the most obstinate, impractical developers would even consider it for Java development.&lt;/p&gt;
+&lt;p&gt;This sad historical reality kept language tooling development isolated to editors that were popular within a language: PyCharm/Vim for Python, &lt;a href="https://www.eclipse.org/eclipseide/"&gt;Eclipse&lt;/a&gt; for Java, etc. This, in turn, would force developers into mind-bending context switches when changing languages. Not only would we need to learn a new language, we'd also need to learn a whole new text editor and tooling ecosystem! Since software tooling is somewhat of a religion, there was no way you could get some developers (eg, me) to even consider touching Java if I had to sacrifice my beliefs (Vim/development tooling I'd grown accustomed to).&lt;/p&gt;
+&lt;p&gt;In 2015/2016, when things seemed most dire and intractable, the developers behind VSCode had a big idea: why don't we abstract all this divergent, isolated tooling into a &lt;a href="https://en.wikipedia.org/wiki/Communication_protocol"&gt;protocol&lt;/a&gt; that generalizes the problem of language tooling. Thus, the language server protocol was born.&lt;/p&gt;
+&lt;h3&gt;Language Server Protocol&lt;/h3&gt;
+&lt;p&gt;The "Language Server Protocol" (LSP) is a specification that describes communication between a "language client" and a "language server". The following definitions are appropriated from the &lt;a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/"&gt;lsp spec overview&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Language server:&lt;/strong&gt; a program that contains language-specific "smarts" that can communicate with development tooling through the LSP&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Language client:&lt;/strong&gt; a program, developed in the environment of a "development tool", that can send, receive, and act on LSP messages with a "language server"&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Development tool:&lt;/strong&gt; Vim, Neovim, VS Code, Eclipse, etc. Basically, a text editor or IDE that software developers use to develop software&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Language Server Protocol" src="https://microsoft.github.io/language-server-protocol/overviews/lsp/img/language-server-sequence.png"&gt;&lt;/p&gt;
+&lt;p&gt;Above, the language client is sitting in the development tool and sending &lt;a href="https://en.wikipedia.org/wiki/JSON-RPC"&gt;JSON-RPC&lt;/a&gt; requests to a language server. All this basically means that your text editor is asking questions to an entity that knows way more about your programming language and responding to its suggested actions. These actions may range from "you should autocomplete some text" to "this symbol's definition can be found by opening this file and navigating to this precise position). In short, the orchestrated communication outlined above realizes the following dream:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Language tooling developers write 1 program (the language server) to target every development tool (Vim, VS Code, etc)&lt;/li&gt;
+&lt;li&gt;Development tool developers write 1 program (the language client) that knows how to communicate with all language servers&lt;/li&gt;
+&lt;li&gt;Software developers have first-class language support for all languages in their favorite editor; no more text-editor context switching!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The above dream seemed like it would herald a new dawn for developers: we can all happily use our favorite tools and have similar language support! Unfortunately, VSCode's popularity has made things a bit more complicated in 2020...&lt;/p&gt;
+&lt;h3&gt;VSCode: client power&lt;/h3&gt;
+&lt;p&gt;The LSP dream described in the previous section was similar to &lt;a href="https://en.wikipedia.org/wiki/Tim_Berners-Lee"&gt;Tim Berners-Lee&lt;/a&gt;'s dream for a world wide web: web clients, supporting web protocols, could enable communication between web servers and a user environment (the operating system). This dream sparked development of all sorts of web clients (browsers) and culminated in the &lt;a href="https://en.wikipedia.org/wiki/Browser_wars"&gt;first browser war&lt;/a&gt;. According to Wikipedia, during this time, Netscape Navigator and Internet Explorer implemented proprietary html tags like &lt;code&gt;&amp;lt;blink&amp;gt;&lt;/code&gt; for Navigator and &lt;code&gt;&amp;lt;marquee&amp;gt;&lt;/code&gt; for Internet Explorer. They also rapidly developed their own features and began diverging from &lt;a href="https://en.wikipedia.org/wiki/World_Wide_Web_Consortium"&gt;W3C&lt;/a&gt;'s recommended spec. This resulted in efficient Internet Explorer HTML being less efficient or broken on Navigator (and vise versa). This forced users to pick browsers based on custom compatibility with their favorite sites and ultimately resulted in &lt;a href="https://en.wikipedia.org/wiki/United_States_v._Microsoft_Corp."&gt;United States v. Microsoft Corp&lt;/a&gt;. Basically, things got ugly.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Browser wars" src="https://joaopsilva.github.io/talks/End-to-End-JavaScript-with-the-MEAN-Stack/img/ie-vs-netscape.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Although what is happening today in the text editing community is tamer, it resembles the first browser war in that VSCode has become the de-facto standard for Language Clients. Authors of Language Servers may target VSCode without fully supporting the current LSP spec or by inadvertently support VSCode features that are not in the spec. This means that &lt;a href="https://atom.io/"&gt;Atom&lt;/a&gt; users might be using a correctly-implemented language client that does not work with certain language servers. Additionally, there may be no way to easily configure certain language servers without VSCode's configuration options. This means that if you want to get the best language support possible across all language servers, as of August 2020, you pretty much need to use something that resembles VSCode.&lt;/p&gt;
+&lt;p&gt;Luckily, &lt;a href="https://github.com/neoclide"&gt;Qiming zhao&lt;/a&gt; and &lt;a href="https://github.com/fannheyward"&gt;Heyward Fann&lt;/a&gt; realized that this problem could be solved for Vim by basically implementing a VSCode bridge for Neovim. They named this LSP bridge:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="coc" src="https://user-images.githubusercontent.com/251450/55009068-f4ed2780-501c-11e9-9a3b-cf3aa6ab9272.png"&gt;&lt;/p&gt;
+&lt;h3&gt;coc.nvim&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/neoclide/coc.nvim"&gt;coc.nvim&lt;/a&gt; is a language client for Vim that can be configured similarly to VSCode's language client. Vim is configured with &lt;a href="https://en.wikipedia.org/wiki/Vim_%28text_editor%29#Vim_script"&gt;Vim script&lt;/a&gt;, &lt;a href="https://en.wikipedia.org/wiki/C_%28programming_language%29"&gt;C&lt;/a&gt;, &lt;a href="https://en.wikipedia.org/wiki/Lua_%28programming_language%29"&gt;lua&lt;/a&gt; (if using Neovim), and any other language if you're feeling fancy enough these days. VSCode is configured with &lt;a href="https://en.wikipedia.org/wiki/JSON"&gt;json&lt;/a&gt; and &lt;a href="https://en.wikipedia.org/wiki/TypeScript"&gt;TypeScript&lt;/a&gt;. "coc.nvim" makes it so we can configure "coc.nvim"-managed features using &lt;code&gt;json&lt;/code&gt; and &lt;code&gt;typescript&lt;/code&gt; while still being able to use Vim's configuration for everything else. Basically, it's this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="have your cake and eat it too" src="https://teflgeek.files.wordpress.com/2012/05/cake-and-eating-it-too.jpeg"&gt;&lt;/p&gt;
+&lt;p&gt;The rest of this article assumes that your development tool is Vim/Neovim, your language client is "coc.nvim" (which we will call coc from now on), and that you are developing in a POSIX-compliant environment (Linux, Mac, Windows 10 Ubuntu, etc).&lt;/p&gt;
+&lt;h2&gt;Vim / coc terminology&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Vim: Vim or Neovim&lt;/li&gt;
+&lt;li&gt;vimrc: &lt;code&gt;~/.config/nvim/init.vim&lt;/code&gt; for Neovim or &lt;code&gt;~/.vimrc&lt;/code&gt; for Vim&lt;/li&gt;
+&lt;li&gt;coc-settings.json: &lt;code&gt;~/.config/nvim/.coc-settings.json&lt;/code&gt; by default&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Coc as simple LSP wrapper&lt;/h2&gt;
+&lt;p&gt;Without an extension, coc behaves like a simple language client. For simplicity's sake, let's assume we're all Python developers and that we'd like to use a language server named &lt;a href="https://github.com/pappasam/jedi-language-server"&gt;jedi-language-server&lt;/a&gt; with Vim.&lt;/p&gt;
+&lt;p&gt;Within your current Python environment, install jedi-language-server:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install jedi-language-server
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now run jedi-language-server:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;jedi-language-server
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice that the process just hangs; it's waiting to receive standard input and will respond with standard output. This server can be configured to run inside of Vim by placing the following code in the &lt;code&gt;languageserver&lt;/code&gt; section of your coc-settings.json:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;languageserver&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;command&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;jedi-language-server&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;filetypes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;python&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you're properly configured coc.nvim to work with your environment and you've installed jedi-language-server in the same Python environment that Vim has access to, Vim and jedi-language-server should communicate in a way that gives you autocomletion, goto definition, etc. Hooray!&lt;/p&gt;
+&lt;h3&gt;Problems with manual configuration&lt;/h3&gt;
+&lt;p&gt;It turns out there are some practical problems with expecting users to configure jedi-language-server manually:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Remembering to manually install a language server can annoy people; shouldn't the editor remember to do that?&lt;/li&gt;
+&lt;li&gt;We'd like to configure the language server; can't that configuration have pretty autocompletion and look like the configuration I can use with all the other VSCode-like configuration options?&lt;/li&gt;
+&lt;li&gt;Expecting users to configure the server correctly means they'll naturally blame me if something breaks. There's a lot less back-and-forth if I provide correct default configurations for users that can be overridden instead of relying on the user to write correct configuration from scratch.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is where coc extensions come into play: they avoid the above problems with default configuration so users can get up and running with a language server with minimal friction!&lt;/p&gt;
+&lt;h2&gt;Writing a simple coc extension&lt;/h2&gt;
+&lt;p&gt;To keep things simple, let's restrict ourselves to 2 requirements:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Prevent the user from needing to write manual configuration for jedi-language-server in coc-settings.json&lt;/li&gt;
+&lt;li&gt;Allow the user to configure the server as "disabled" if needed&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Additional features are left as exercises for the reader.&lt;/p&gt;
+&lt;h3&gt;Project skaffolding&lt;/h3&gt;
+&lt;p&gt;In &lt;code&gt;~/src&lt;/code&gt;, use &lt;a href="https://github.com/fannheyward/create-coc-extension"&gt;create-coc-extension&lt;/a&gt; to create a project skeleton:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt; yarn create coc-extension coc-jls
+&lt;span class="go"&gt;...&lt;/span&gt;
+&lt;span class="go"&gt;? Project title: coc-jls&lt;/span&gt;
+&lt;span class="go"&gt;? Project description: A great project&lt;/span&gt;
+&lt;span class="go"&gt;? Author full name: Your name&lt;/span&gt;
+&lt;span class="go"&gt;? Author email address: your.name@domain.com&lt;/span&gt;
+&lt;span class="go"&gt;? Initialize a git repository? Yes&lt;/span&gt;
+&lt;span class="go"&gt;? Install node dependencies? Yes&lt;/span&gt;
+&lt;span class="go"&gt;  installing node dependencies...&lt;/span&gt;
+&lt;span class="go"&gt;Done...&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; coc-jls
+&lt;span class="gp"&gt;$&lt;/span&gt; yarn
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You should have the following version-controlled files in coc-jls:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;LICENSE
+README.md
+package.json
+src/
+  index.ts
+  lists.ts
+tsconfig.json
+webpack.config.js
+yarn.lock
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Delete the files in &lt;code&gt;src&lt;/code&gt;; we'll be writing these from scratch.&lt;/p&gt;
+&lt;h3&gt;First file&lt;/h3&gt;
+&lt;p&gt;To get a simple wrapper around an existing jedi-language-server executable, place the following code in &lt;code&gt;src/index.ts&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;coc.nvim&amp;#39;&lt;/span&gt;
+
+&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;activate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;context&lt;/span&gt;: &lt;span class="kt"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;Promise&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;serverOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;command&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;jedi-language-server&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// run jedi-language-server&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;clientOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;documentSelector&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;// only use jedi-language-server on Python files&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;coc-jls&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the id&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;coc-jls&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the name of the language server&lt;/span&gt;
+    &lt;span class="nx"&gt;serverOptions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nx"&gt;clientOptions&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nx"&gt;context&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;subscriptions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;registLanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;client&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This code tells coc to register a new language server named &lt;code&gt;coc-jls&lt;/code&gt; that executes the command &lt;code&gt;jedi-language-server&lt;/code&gt; when Vim edits Python file(s). Now build the project with the following command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;yarn
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Open an empty file (test.py works) with Vim and run the following command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;runtimepath&lt;/span&gt;^&lt;span class="p"&gt;=~&lt;/span&gt;&lt;span class="sr"&gt;/src/&lt;/span&gt;&lt;span class="k"&gt;sandbox&lt;/span&gt;/coc&lt;span class="p"&gt;-&lt;/span&gt;jls
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This command will help coc discover your extension. Depending on your coc configuration, you should see diagnostics, have autocompletion, etc. In the long term, you may want to manage your coc extension as a plugin or a Vim &lt;a href="https://shapeshed.com/vim-packages"&gt;package&lt;/a&gt;, but we'll keep things local and simple for now.&lt;/p&gt;
+&lt;h3&gt;User configuration&lt;/h3&gt;
+&lt;p&gt;We've successfully wrapped jedi-language-server with a coc extension and now it's time to add some user configuration! Luckily, coc provides a simple mechanism to help users communicate their configuration values in the same way as VSCode: through the package.json. Make sure the following lines are in your package.json:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;contributes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;configuration&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;object&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;coc-jls configuration&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="nt"&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;quot;coc-jls.enabled&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;boolean&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;default&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="nt"&gt;&amp;quot;description&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Enable coc-jls extension&amp;quot;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This says that the coc-jls extension contributes a configuration key &lt;code&gt;coc-jls.enabled&lt;/code&gt; whose default value is &lt;code&gt;true&lt;/code&gt;. If a user wants to disable &lt;code&gt;coc-jls&lt;/code&gt;, they'll need to add the following line to the top level of their coc-settings.json:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;quot;coc-jls.enabled&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we must add some logic to our typescript code to read the user configuration and disable the server if the user has chosen not to have it enabled:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;coc.nvim&amp;#39;&lt;/span&gt;
+
+&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;activate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;context&lt;/span&gt;: &lt;span class="kt"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;Promise&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// BEGIN NEW CODE&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getConfiguration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;coc-jls&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;isEnable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kr"&gt;boolean&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;enable&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;isEnable&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="c1"&gt;// END NEW CODE&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;serverOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;command&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;jedi-language-server&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// run jedi-language-server&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;clientOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;documentSelector&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;// only use jedi-language-server on Python files&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;coc-jls&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the id&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;coc-jls&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the name of the language server&lt;/span&gt;
+    &lt;span class="nx"&gt;serverOptions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nx"&gt;clientOptions&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="nx"&gt;context&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;subscriptions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;registLanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;client&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now run &lt;code&gt;yarn&lt;/code&gt; and voilà: users can now disable coc-jls without needing to uninstall the extension. Success!&lt;/p&gt;
+&lt;h3&gt;Deployment&lt;/h3&gt;
+&lt;p&gt;To "deploy" this extension, one approach is to upload your project GitHub, add it to your Package or Plugin manager configuration, and install. If you're using &lt;a href="https://github.com/junegunn/vim-plug"&gt;Vim-Plug&lt;/a&gt;, put the following in your vimrc:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Plug &lt;span class="s1"&gt;&amp;#39;your-username/coc-jls&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; {&lt;span class="s1"&gt;&amp;#39;do&amp;#39;&lt;/span&gt;: &lt;span class="s1"&gt;&amp;#39;yarn install --frozen-lockfile &amp;amp;&amp;amp; yarn build&amp;#39;&lt;/span&gt;}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;PlugInstall
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This will download your Git repository, install all necessary dependencies, build your project, and make sure it's automatically added to Vim's runtime path for coc can discover the extension.&lt;/p&gt;
+&lt;p&gt;Alternatively, you can do all this manually if you know what you're doing.&lt;/p&gt;
+&lt;p&gt;Finally, coc extensions can be deployed to &lt;a href="https://www.npmjs.com"&gt;npm&lt;/a&gt;. This method is out of scope for this post, but you should be able to figure it out by referencing the &lt;a href="https://github.com/pappasam/coc-jedi"&gt;coc-jedi&lt;/a&gt; codebase.&lt;/p&gt;
+&lt;h2&gt;Wrapping up&lt;/h2&gt;
+&lt;p&gt;At this point, you should have a working coc extension that wraps an executable language server. You may be wondering how you can add more features, automatically download and manage the executable for your users, and make your coc extension the most user friendly interface since the &lt;a href="https://en.wikipedia.org/wiki/IPod_click_wheel"&gt;iPod click wheel&lt;/a&gt;. The good news is that many of these features have already been implemented in &lt;a href="https://github.com/pappasam/coc-jedi"&gt;coc-jedi&lt;/a&gt;; please refer to that codebase and ask any further questions you may have in the comments below. And don't feel obligated to only wrap jedi-language-server: you should now be able to wrap &lt;strong&gt;any&lt;/strong&gt; executable language server in a coc extension! Please use your powers for good.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="jedi programmer" src="https://www.kumulos.com/wp-content/uploads/2012/09/Computer-programming-jedi.jpg"&gt;&lt;/p&gt;</content><category term="Software Development"></category><category term="Vim"></category><category term="Vim Plugins"></category><category term="LSP"></category></entry><entry><title>Gitignore-A-Palooza: Two Tricks</title><link href="https://softwarejourneyman.com/ignore-git.html" rel="alternate"></link><published>2018-12-02T00:00:00-05:00</published><updated>2018-12-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:softwarejourneyman.com,2018-12-02:/ignore-git.html</id><summary type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
 &lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to
 ignore files from a Git-based version controlled project. The first technique
 enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself.

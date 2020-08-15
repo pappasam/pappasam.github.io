@@ -2,6 +2,11 @@
   background-color: #f8f8f8;
 }
 
+.literal-block, .highlight {
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
 body {
   font-family: 'Georgia', 'Lora', 'Times New Roman', 'serif';
   font-size: 1.2rem;
@@ -23,7 +28,7 @@ main article {
   padding-left: 20px;
 }
 
-.literal-block {
-  font-size: 14px;
-  line-height: 1rem;
+/* Line numbers aren't selected by user */
+.ln {
+  user-select: none;
 }
