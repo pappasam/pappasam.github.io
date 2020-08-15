@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Samuel Roeca'
-SITENAME = 'Software Journeyman'
+SITENAME = "Sam Roeca's Blog"
 
 JINJA_ENVIRONMENT = {
     'extensions': [
