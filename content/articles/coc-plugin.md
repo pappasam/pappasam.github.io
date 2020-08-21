@@ -10,8 +10,6 @@ In this post, I build a "coc.nvim" extension that wraps an executable language s
 
 <!-- PELICAN_END_SUMMARY -->
 
-## Requirements
-
 For the interactive parts of this post, you'll need the following:
 
 - A POSIX-compliant terminal (bash, zsh, etc), or the ability to translate
@@ -22,9 +20,7 @@ For the interactive parts of this post, you'll need the following:
 - [coc.nvim==0.0.78](https://github.com/neoclide/coc.nvim) (might work on newer versions, but no promises)
 - Some knowledge of TypeScript might be helpful
 
-Please disable Python-specific coc extensions ([coc-jedi](https://github.com/pappasam/coc-jedi), etc).
-
-## Terminology
+Please disable Python-specific coc extensions ([coc-jedi](https://github.com/pappasam/coc-jedi), etc). Some terminology used throughout the post:
 
 - Vim: Vim or Neovim
 - vimrc: `~/.config/nvim/init.vim` for Neovim or `~/.vimrc` for Vim
