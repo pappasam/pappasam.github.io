@@ -191,10 +191,10 @@ import { ExtensionContext, services, workspace, LanguageClient } from 'coc.nvim'
 
 export async function activate(context: ExtensionContext): Promise<void> {
   const serverOptions = {
-    command: 'jedi-language-server', // run jedi-language-server
+    command: 'jedi-language-server', // run jls
   }
   const clientOptions = {
-    documentSelector: ['python'], // only use jedi-language-server on Python files
+    documentSelector: ['python'], // run jls on py files
   }
   const client = new LanguageClient(
     'coc-jls', // the id
