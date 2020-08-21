@@ -49,7 +49,7 @@ The rise of [full stack development](https://www.w3schools.com/whatis/whatis_ful
 
 ![broken bridge](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bridging_the_gap_%2825429796194%29.jpg/640px-Bridging_the_gap_%2825429796194%29.jpg)
 
-When society was on the brink, the developers behind VSCode had a big idea: if separate the tools that understand languages from the tools that edit text, and then give these separate tools a [communication protocol](https://en.wikipedia.org/wiki/Communication_protocol), this could enable Vim users to use the same language tools that power Eclipse and VSCode (and vise versa). They called this communication mechanism the "language server protocol".
+When society was on the brink, the developers behind VSCode had a big idea: if we separate the tools that understand languages from the tools that edit text, and then give these separate tools a [communication protocol](https://en.wikipedia.org/wiki/Communication_protocol), this could enable Vim users to use the same language tools that power Eclipse and VSCode (and vise versa). They called this communication mechanism the "language server protocol".
 
 ![fixed bridge](https://s0.geograph.org.uk/geophotos/04/26/78/4267872_c1052b8a.jpg)
 
