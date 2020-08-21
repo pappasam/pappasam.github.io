@@ -122,7 +122,7 @@ Notice that the process hangs; it's waiting to receive standard input and will r
 }
 ```
 
-If you're configured coc.nvim and installed jedi-language-server in an accessible location, Vim and jedi-language-server will provide you autocomletion, goto definition, etc. Hooray!
+If you've configured coc.nvim and installed jedi-language-server in an accessible location, Vim and jedi-language-server will communicate to provide you autocomletion, goto definition, etc. Hooray!
 
 ![message teamwork](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/A_message_written_on_rice_paper_is_put_into_a_container_and_attached_to_a_carrier_pigeon_by_members_of_61st_Division_Signals_at_Ballymena%2C_Northern_Ireland%2C_3_July_1941._H11281.jpg/612px-thumbnail.jpg)
 
