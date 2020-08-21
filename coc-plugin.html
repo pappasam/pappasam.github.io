@@ -252,10 +252,10 @@ yarn.lock
 
 <span class="kr">export</span> <span class="nx">async</span> <span class="kd">function</span> <span class="nx">activate</span><span class="p">(</span><span class="nx">context</span>: <span class="kt">ExtensionContext</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">serverOptions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">command</span><span class="o">:</span> <span class="s1">&#39;jedi-language-server&#39;</span><span class="p">,</span> <span class="c1">// run jedi-language-server</span>
+    <span class="nx">command</span><span class="o">:</span> <span class="s1">&#39;jedi-language-server&#39;</span><span class="p">,</span> <span class="c1">// run jls</span>
   <span class="p">}</span>
   <span class="kr">const</span> <span class="nx">clientOptions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">documentSelector</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">],</span> <span class="c1">// only use jedi-language-server on Python files</span>
+    <span class="nx">documentSelector</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">],</span> <span class="c1">// run jls on py files</span>
   <span class="p">}</span>
   <span class="kr">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LanguageClient</span><span class="p">(</span>
     <span class="s1">&#39;coc-jls&#39;</span><span class="p">,</span> <span class="c1">// the id</span>
