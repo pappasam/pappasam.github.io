@@ -49,7 +49,7 @@ The Java pattern mentioned in the previous paragraph happens, to some extent, in
 
 ![Vi versus emacs cartoon](https://itsfoss.com/wp-content/uploads/2016/07/vi-emacs.png)
 
-The rise of [full stack development](https://www.w3schools.com/whatis/whatis_fullstack.asp) and our general expectation that developers be comfortable writing code in more than one language exacerbated developer discomfort culminated in 2015/2016, we seemed doomed to a life of eternal context switching.
+The rise of [full stack development](https://www.w3schools.com/whatis/whatis_fullstack.asp) and our general expectation that developers be comfortable writing code in more than one language made it so that by mid 2015, we seemed all-but doomed to a life of eternal context switching.
 
 ![broken bridge](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bridging_the_gap_%2825429796194%29.jpg/640px-Bridging_the_gap_%2825429796194%29.jpg)
 
