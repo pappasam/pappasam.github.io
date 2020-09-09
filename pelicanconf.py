@@ -110,6 +110,9 @@ MARKDOWN = {
         "markdown.extensions.meta": {},
         "markdown.extensions.toc": {
             "permalink": True,
+            "title": "Table of Contents",
+            "marker": "[TOC]",
+            "toc_depth": 3,
         },
     },
     "output_format": "html5",
@@ -123,7 +126,6 @@ PLUGIN_PATHS = ["pelican-plugins"]
 PLUGINS = [
     "i18n_subsites",
     "sitemap",
-    "extract_toc",
     "neighbors",
     "assets",  # minifies css assets
     "summary",
