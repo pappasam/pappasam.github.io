@@ -2,7 +2,14 @@
   background-color: #f8f8f8;
 }
 
-.literal-block, .highlight {
+.headerlink {
+  padding-left: 1rem;
+  color: #242121;
+  /* font-size: 1.5rem; */
+}
+
+.literal-block,
+.highlight {
   font-size: 1rem;
   line-height: 1rem;
 }
@@ -31,4 +38,29 @@ main article {
 /* Line numbers aren't selected by user */
 .ln {
   user-select: none;
+}
+
+/* Table of contents */
+.toc {
+  font-size: small;
+  display: table;
+  width: auto;
+}
+
+/* TOC heading in bold */
+.toc .toctitle {
+  font-weight: bold;
+}
+
+/* No bullets for toc list, indentation of nested lists 1em */
+.toc ul {
+  list-style-type: none;
+  padding-left: 1rem;
+}
+
+/* Top level list has no indentation */
+.toc > ul {
+  /* no indentation */
+  padding-left: 0;
+  margin-top: 0;
 }

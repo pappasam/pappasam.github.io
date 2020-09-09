@@ -200,7 +200,7 @@ name for each step in the process.</p>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{x}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre>
 <p>Besides being pretty ugly / hard to read, this creates some useless names in
 our module's scope. Do we really need to give each step its own name? We don't
@@ -223,7 +223,7 @@ Fortunately, the entire pipeline can be expressed with one name thanks to the
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{y}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre>
 <p>This example uses the standard library &quot;reduce&quot; function. Originally, &quot;reduce&quot;
 was intended to take a list of values and collapse them into one value. This
@@ -268,7 +268,7 @@ function to make this clearer to ourselves and to those who read our code.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{z}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre>
 <p>This solution is elegant and explicit. It is generic and works with mypy. As
 long as our function pipeline contains only functions that take our value's
@@ -300,7 +300,7 @@ type-safe way.</p>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{x}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="c1"># reassignment: end</span>
 
 <span class="c1"># simple reduce: begin</span>
@@ -315,7 +315,7 @@ type-safe way.</p>
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{y}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="c1"># simple reduce: end</span>
 
 <span class="c1"># pipeline: begin</span>
@@ -344,7 +344,7 @@ type-safe way.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{z}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="c1"># pipeline: end</span>
 </pre>
 </div>
