@@ -110,149 +110,131 @@
 
 
   <div>
-    <p>If you want your Vim line numbers to be relative and/or not relative at the
-correct times, I recommend installing the <a class="reference external" href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a> plugin.</p>
+    <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#the-problem">The Problem</a></li>
+<li><a href="#wrapping-my-own-solution">Wrapping my own solution</a><ul>
+<li><a href="#the-good">The good</a></li>
+<li><a href="#the-bad">The bad</a></li>
+<li><a href="#the-back-breaking-straw">The back-breaking straw</a></li>
+</ul>
+</li>
+<li><a href="#the-game-changing-plugin">The Game-Changing Plugin</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
 
-<div class="section" id="the-problem">
-<h2>The Problem</h2>
-<p>When editing text in a Vim window, I use relative numbers to help me use
-motions across text relative to my cursor. However, when I have multiple
-windows open, relative numbers look pretty weird in windows that I am not
-currently editing.  It would be nice for Vim to intelligently alternate between
-relativenumber and norelativenumber based on my Vim cursor location. Base Vim
-does not have this capability, so we have three options:</p>
-<ol class="arabic simple">
+
+<p>If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the <a href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a> plugin.</p>
+
+
+<h2 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
+<p>When editing text in a Vim window, I use relative numbers to help me use motions across text relative to my cursor. However, when I have multiple windows open, relative numbers look pretty weird in windows that I am not currently editing. It would be nice for Vim to intelligently alternate between relativenumber and norelativenumber based on my Vim cursor location. Base Vim does not have this capability, so we have three options:</p>
+<ol>
 <li>Accept a suboptimal workflow</li>
 <li>Wrap our own solution in our .vimrc</li>
 <li>Find a Plugin</li>
 </ol>
-<p>I lived with option 1 for a while, but eventually grew too annoyed.  I then
-tried researching plugins, but thought I understood the problem well-enough to
-write my own solution. So I went straight to option 2 and tried wrapping my own
-solution.</p>
-</div>
-<div class="section" id="wrapping-my-own-solution">
-<h2>Wrapping my own solution</h2>
+<p>I lived with option 1 for a while, but eventually grew too annoyed. I then tried researching plugins, but thought I understood the problem well-enough to write my own solution. So I went straight to option 2 and tried wrapping my own solution.</p>
+<h2 id="wrapping-my-own-solution">Wrapping my own solution<a class="headerlink" href="#wrapping-my-own-solution" title="Permanent link">&para;</a></h2>
 <p>The following code represents my original solution:</p>
-<pre class="code vim highlight literal-block">
-<span class="ln"> 1 </span><span class="k">function</span><span class="p">!</span> ToggleRelativeNumber<span class="p">()</span>
-<span class="ln"> 2 </span>  <span class="k">if</span> &amp;<span class="nb">rnu</span>
-<span class="ln"> 3 </span>    <span class="k">set</span> <span class="nb">norelativenumber</span>
-<span class="ln"> 4 </span>  <span class="k">else</span>
-<span class="ln"> 5 </span>    <span class="k">set</span> <span class="nb">relativenumber</span>
-<span class="ln"> 6 </span>  <span class="k">endif</span>
-<span class="ln"> 7 </span><span class="k">endfunction</span>
-<span class="ln"> 8 </span>
-<span class="ln"> 9 </span><span class="k">function</span><span class="p">!</span> RNUInsertEnter<span class="p">()</span>
-<span class="ln">10 </span>  <span class="k">if</span> &amp;<span class="nb">rnu</span>
-<span class="ln">11 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'rnu'</span>
-<span class="ln">12 </span>    <span class="k">set</span> <span class="nb">norelativenumber</span>
-<span class="ln">13 </span>  <span class="k">else</span>
-<span class="ln">14 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'nornu'</span>
-<span class="ln">15 </span>  <span class="k">endif</span>
-<span class="ln">16 </span><span class="k">endfunction</span>
-<span class="ln">17 </span>
-<span class="ln">18 </span><span class="k">function</span><span class="p">!</span> RNUInsertLeave<span class="p">()</span>
-<span class="ln">19 </span>  <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">'rnu'</span>
-<span class="ln">20 </span>    <span class="k">set</span> <span class="nb">relativenumber</span>
-<span class="ln">21 </span>  <span class="k">else</span>
-<span class="ln">22 </span>    <span class="k">set</span> <span class="nb">norelativenumber</span>
-<span class="ln">23 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'nornu'</span>
-<span class="ln">24 </span>  <span class="k">endif</span>
-<span class="ln">25 </span><span class="k">endfunction</span>
-<span class="ln">26 </span>
-<span class="ln">27 </span><span class="k">function</span><span class="p">!</span> RNUWinEnter<span class="p">()</span>
-<span class="ln">28 </span>  <span class="k">if</span> exists<span class="p">(</span><span class="s1">'w:line_number_state'</span><span class="p">)</span>
-<span class="ln">29 </span>    <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">'rnu'</span>
-<span class="ln">30 </span>      <span class="k">set</span> <span class="nb">relativenumber</span>
-<span class="ln">31 </span>    <span class="k">else</span>
-<span class="ln">32 </span>      <span class="k">set</span> <span class="nb">norelativenumber</span>
-<span class="ln">33 </span>    <span class="k">endif</span>
-<span class="ln">34 </span>  <span class="k">else</span>
-<span class="ln">35 </span>    <span class="k">set</span> <span class="nb">relativenumber</span>
-<span class="ln">36 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'rnu'</span>
-<span class="ln">37 </span>  <span class="k">endif</span>
-<span class="ln">38 </span><span class="k">endfunction</span>
-<span class="ln">39 </span>
-<span class="ln">40 </span><span class="k">function</span><span class="p">!</span> RNUWinLeave<span class="p">()</span>
-<span class="ln">41 </span>  <span class="k">if</span> &amp;<span class="nb">rnu</span>
-<span class="ln">42 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'rnu'</span>
-<span class="ln">43 </span>  <span class="k">else</span>
-<span class="ln">44 </span>    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'nornu'</span>
-<span class="ln">45 </span>  <span class="k">endif</span>
-<span class="ln">46 </span>  <span class="k">set</span> <span class="nb">norelativenumber</span>
-<span class="ln">47 </span><span class="k">endfunction</span>
-<span class="ln">48 </span><span class="c">
-</span><span class="ln">49 </span><span class="c">&quot; autocmd that will set up the w:created variable</span>
-<span class="ln">50 </span>autocmd <span class="nb">VimEnter</span> * autocmd <span class="nb">WinEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
-<span class="ln">51 </span>autocmd <span class="nb">VimEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
-<span class="ln">52 </span><span class="k">set</span> <span class="k">number</span> <span class="nb">relativenumber</span>
-<span class="ln">53 </span>augroup rnu_nu
-<span class="ln">54 </span>  autocmd<span class="p">!</span>
-<span class="ln">55 </span><span class="c">  &quot;Initial window settings</span>
-<span class="ln">56 </span>  autocmd <span class="nb">WinEnter</span> * <span class="k">if</span> <span class="p">!</span>exists<span class="p">(</span><span class="s1">'w:created'</span><span class="p">)</span> <span class="p">|</span>
-<span class="ln">57 </span>        \<span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span> <span class="p">|</span>
-<span class="ln">58 </span>        \<span class="k">endif</span>
-<span class="ln">59 </span>  autocmd <span class="nb">User</span> Startified <span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span>
-<span class="ln">60 </span><span class="c">  &quot; Don't have relative numbers during insert mode</span>
-<span class="ln">61 </span>  autocmd <span class="nb">InsertEnter</span> * :<span class="k">call</span> RNUInsertEnter<span class="p">()</span>
-<span class="ln">62 </span>  autocmd <span class="nb">InsertLeave</span> * :<span class="k">call</span> RNUInsertLeave<span class="p">()</span>
-<span class="ln">63 </span><span class="c">  &quot; Set and unset relative numbers when buffer is active</span>
-<span class="ln">64 </span>  autocmd <span class="nb">WinEnter</span> * :<span class="k">call</span> RNUWinEnter<span class="p">()</span>
-<span class="ln">65 </span>  autocmd <span class="nb">WinLeave</span> * :<span class="k">call</span> RNUWinLeave<span class="p">()</span>
-<span class="ln">66 </span>augroup <span class="k">end</span>
-</pre>
-<div class="section" id="the-good">
-<h3>The good</h3>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="p">!</span> ToggleRelativeNumber<span class="p">()</span>
+  <span class="k">if</span> &amp;<span class="nb">rnu</span>
+    <span class="k">set</span> <span class="nb">norelativenumber</span>
+  <span class="k">else</span>
+    <span class="k">set</span> <span class="nb">relativenumber</span>
+  <span class="k">endif</span>
+<span class="k">endfunction</span>
+
+<span class="k">function</span><span class="p">!</span> RNUInsertEnter<span class="p">()</span>
+  <span class="k">if</span> &amp;<span class="nb">rnu</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
+    <span class="k">set</span> <span class="nb">norelativenumber</span>
+  <span class="k">else</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
+  <span class="k">endif</span>
+<span class="k">endfunction</span>
+
+<span class="k">function</span><span class="p">!</span> RNUInsertLeave<span class="p">()</span>
+  <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">&#39;rnu&#39;</span>
+    <span class="k">set</span> <span class="nb">relativenumber</span>
+  <span class="k">else</span>
+    <span class="k">set</span> <span class="nb">norelativenumber</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
+  <span class="k">endif</span>
+<span class="k">endfunction</span>
+
+<span class="k">function</span><span class="p">!</span> RNUWinEnter<span class="p">()</span>
+  <span class="k">if</span> exists<span class="p">(</span><span class="s1">&#39;w:line_number_state&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">&#39;rnu&#39;</span>
+      <span class="k">set</span> <span class="nb">relativenumber</span>
+    <span class="k">else</span>
+      <span class="k">set</span> <span class="nb">norelativenumber</span>
+    <span class="k">endif</span>
+  <span class="k">else</span>
+    <span class="k">set</span> <span class="nb">relativenumber</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
+  <span class="k">endif</span>
+<span class="k">endfunction</span>
+
+<span class="k">function</span><span class="p">!</span> RNUWinLeave<span class="p">()</span>
+  <span class="k">if</span> &amp;<span class="nb">rnu</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
+  <span class="k">else</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
+  <span class="k">endif</span>
+  <span class="k">set</span> <span class="nb">norelativenumber</span>
+<span class="k">endfunction</span>
+
+<span class="c">&quot; autocmd that will set up the w:created variable</span>
+autocmd <span class="nb">VimEnter</span> * autocmd <span class="nb">WinEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
+autocmd <span class="nb">VimEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
+<span class="k">set</span> <span class="k">number</span> <span class="nb">relativenumber</span>
+augroup rnu_nu
+  autocmd<span class="p">!</span>
+<span class="c">  &quot;Initial window settings</span>
+  autocmd <span class="nb">WinEnter</span> * <span class="k">if</span> <span class="p">!</span>exists<span class="p">(</span><span class="s1">&#39;w:created&#39;</span><span class="p">)</span> <span class="p">|</span>
+        \<span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span> <span class="p">|</span>
+        \<span class="k">endif</span>
+  autocmd <span class="nb">User</span> Startified <span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span>
+<span class="c">  &quot; Don&#39;t have relative numbers during insert mode</span>
+  autocmd <span class="nb">InsertEnter</span> * :<span class="k">call</span> RNUInsertEnter<span class="p">()</span>
+  autocmd <span class="nb">InsertLeave</span> * :<span class="k">call</span> RNUInsertLeave<span class="p">()</span>
+<span class="c">  &quot; Set and unset relative numbers when buffer is active</span>
+  autocmd <span class="nb">WinEnter</span> * :<span class="k">call</span> RNUWinEnter<span class="p">()</span>
+  autocmd <span class="nb">WinLeave</span> * :<span class="k">call</span> RNUWinLeave<span class="p">()</span>
+augroup <span class="k">end</span>
+</code></pre></div>
+
+
+<h3 id="the-good">The good<a class="headerlink" href="#the-good" title="Permanent link">&para;</a></h3>
 <p>The solution worked for most windows and tabs, most of the time.</p>
-</div>
-<div class="section" id="the-bad">
-<h3>The bad</h3>
+<h3 id="the-bad">The bad<a class="headerlink" href="#the-bad" title="Permanent link">&para;</a></h3>
 <p>The code is a bit involved and it takes a little time to explain to others.</p>
-<ol class="arabic simple">
-<li>It relies on window-local variables (w:line_number_state, etc).
-These exacerbate Vim's already-difficult state-management woes.</li>
+<ol>
+<li>It relies on window-local variables (w:line_number_state, etc). These exacerbate Vim's already-difficult state-management woes.</li>
 <li>Several global functions are defined</li>
-<li>There are some quirks I don't fully understand around the creation of
-variables during Vim startup (hence lines 50 and 51).</li>
+<li>There are some quirks I don't fully understand around the creation of variables during Vim startup (hence lines 50 and 51).</li>
 </ol>
-<p>Despite these mild downsides, I was pretty proud that the solution mostly
-worked. That is, until I wasn't.</p>
-</div>
-<div class="section" id="the-back-breaking-straw">
-<h3>The back-breaking straw</h3>
-<p>My custom solution did not work appropriately with some of my plugins. Namely,
-it didn't play well with <a class="reference external" href="https://github.com/majutsushi/tagbar">majutsushi/tagbar</a>, which I use frequently enough
-for this feature-dearth to become royally annoying. Therefore, after learning
-the ins-and-outs of window-specific variables and every Vim autocmd, I went
-back to the Plugin ecosystem to see if I'd missed anything...</p>
-</div>
-</div>
-<div class="section" id="the-game-changing-plugin">
-<h2>The Game-Changing Plugin</h2>
-<p>Turns out a wonderful developer already solved this problem for me.
-Assuming you use <a class="reference external" href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a> to manage your plugins, place the
-following code in your .vimrc</p>
-<pre class="code vim literal-block">
-<span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">'~/.vim/plugged'</span><span class="p">)</span>
+<p>Despite these mild downsides, I was pretty proud that the solution mostly worked. That is, until I wasn't.</p>
+<h3 id="the-back-breaking-straw">The back-breaking straw<a class="headerlink" href="#the-back-breaking-straw" title="Permanent link">&para;</a></h3>
+<p>My custom solution did not work appropriately with some of my plugins. Namely, it didn't play well with <a href="https://github.com/majutsushi/tagbar">majutsushi/tagbar</a>, which I use frequently enough for this feature-dearth to become royally annoying. Therefore, after learning the ins-and-outs of window-specific variables and every Vim autocmd, I went back to the Plugin ecosystem to see if I'd missed anything...</p>
+<h2 id="the-game-changing-plugin">The Game-Changing Plugin<a class="headerlink" href="#the-game-changing-plugin" title="Permanent link">&para;</a></h2>
+<p>Turns out a wonderful developer already solved this problem for me. Assuming you use <a href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a> to manage your plugins, place the following code in your .vimrc</p>
+<div class="highlight"><pre><span></span><code><span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">&#39;~/.vim/plugged&#39;</span><span class="p">)</span>
 <span class="c">&quot; Relative Numbering</span>
-Plug <span class="s1">'myusuf3/numbers.vim'</span>
+Plug <span class="s1">&#39;myusuf3/numbers.vim&#39;</span>
 <span class="c">&quot; Put the rest of your plugins below...</span>
 <span class="k">call</span> plug#<span class="k">end</span><span class="p">()</span>
-<span class="c">
-&quot; Now, exclude the plugins you don't want numbers to deal with</span>
-<span class="k">let</span> <span class="k">g</span>:numbers_exclude <span class="p">=</span> [<span class="s1">'startify'</span><span class="p">,</span> <span class="s1">'gundo'</span><span class="p">,</span> <span class="s1">'vimshell'</span>]
-</pre>
-<p>This will give you a great editing experience. See below for a screencast:</p>
-<img alt="numbers.vim screencast" class="align-center" src="https://samroeca.com/gif/numbers-vim.gif" />
-</div>
-<div class="section" id="conclusion">
-<h2>Conclusion</h2>
-<p>Numbers.vim provides a usable line-numbering solution with minimal required
-configuration. I regret nothing about my bespoke journey, but I'm glad that
-Numbers.vim is my destination.</p>
-</div>
 
+<span class="c">&quot; Now, exclude the plugins you don&#39;t want numbers to deal with</span>
+<span class="k">let</span> <span class="k">g</span>:numbers_exclude <span class="p">=</span> [<span class="s1">&#39;startify&#39;</span><span class="p">,</span> <span class="s1">&#39;gundo&#39;</span><span class="p">,</span> <span class="s1">&#39;vimshell&#39;</span>]
+</code></pre></div>
+
+
+<p>This will give you a great editing experience. See below for a screencast:</p>
+<p><img alt="numbers.vim screencast" class="align-center" src="https://samroeca.com/gif/numbers-vim.gif"></p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>Numbers.vim provides a usable line-numbering solution with minimal required configuration. I regret nothing about my bespoke journey, but I'm glad that Numbers.vim is my destination.</p>
   </div>
   <div class="tag-cloud">
     <p>

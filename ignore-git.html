@@ -110,50 +110,41 @@
 
 
   <div>
-    <p>Most modern software developers are aware of <a class="reference external" href="https://git-scm.com/">Git</a> and its accompanying
-<a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a> file. This post offers two lesser-known-yet-useful techniques to
-ignore files from a Git-based version controlled project. The first technique
-enables Git to ignore every file in a directory <strong>but</strong> the directory itself.
-The second technique enables a user to automatically ignore a file without
-adding it to a project's root gitignore.</p>
+    <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#ignore-directory-contents-keep-directory">Ignore directory contents, keep directory</a></li>
+<li><a href="#ignore-my-weird-files-in-secret">Ignore my weird files (in secret)</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
 
-<p>Note: when discussing &quot;<a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a>&quot; and &quot;<a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a>&quot;, I may sometimes add a
-&quot;.&quot; before the filename. Whether I <a class="reference external" href="http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/">do or do not</a>, I'm talking about the same
-file (eg, &quot;.gitignore&quot; == &quot;gitignore&quot;).</p>
-<div class="section" id="ignore-directory-contents-keep-directory">
-<h2>1: Ignore directory contents, keep directory</h2>
-<p>It is often convenient to have a directory whose contents are not committed to
-version control. For example, this directory may contain large non-general data
-files (images, financial data, etc). Additionally, these could be small files
-with sensitive information specific to one person (passwords, ssh keys, etc).
-Either way, we do not want these files committed to our project's version
-control system. For the purposes of this conversation, we'll call this folder
-&quot;instance&quot; and place it at the root of our project.</p>
-<pre class="literal-block">
-├── app
-│&nbsp;&nbsp; └── __init__.py
+
+<p>Most modern software developers are aware of <a href="https://git-scm.com/">Git</a> and its accompanying <a href="https://git-scm.com/docs/gitignore">gitignore</a> file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory <strong>but</strong> the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project's root gitignore.</p>
+
+
+<p>Note: when discussing "<a href="https://git-scm.com/docs/gitignore">gitignore</a>" and "<a href="http://ternjs.net/doc/manual.html#configuration">tern-project</a>", I may sometimes add a "." before the filename. Whether I <a href="http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/">do or do not</a>, I'm talking about the same file (eg, ".gitignore" == "gitignore").</p>
+<h2 id="ignore-directory-contents-keep-directory">Ignore directory contents, keep directory<a class="headerlink" href="#ignore-directory-contents-keep-directory" title="Permanent link">&para;</a></h2>
+<p>It is often convenient to have a directory whose contents are not committed to version control. For example, this directory may contain large non-general data files (images, financial data, etc). Additionally, these could be small files with sensitive information specific to one person (passwords, ssh keys, etc). Either way, we do not want these files committed to our project's version control system. For the purposes of this conversation, we'll call this folder "instance" and place it at the root of our project.</p>
+<div class="highlight"><pre><span></span><code>├── app
+│   └── __init__.py
 ├── .gitignore          &lt;-- Project gitignore
 └── instance
     ├── big-file.jpg
     └── passwords.txt
-</pre>
-<p>A naive approach suggests that we add the instance folder to our project's
-gitignore:</p>
-<pre class="literal-block">
-*.pyc
+</code></pre></div>
+
+
+<p>A naive approach suggests that we add the instance folder to our project's gitignore:</p>
+<div class="highlight"><pre><span></span><code>*.pyc
 __pycache__/
 # other ignored lines
 instance/
-</pre>
-<p>Unfortunately, this proves problematic. What happens if our system relies on a
-file being in the instance folder at runtime? A user of our system would need
-to know to create the instance folder AND place a file there, forcing them to
-perform two manual steps.</p>
-<p>A preferable solution: place a gitignore in the &quot;instance&quot; folder with special
-contents.</p>
-<pre class="literal-block">
-├── app
-│&nbsp;&nbsp; └── __init__.py
+</code></pre></div>
+
+
+<p>Unfortunately, this proves problematic. What happens if our system relies on a file being in the instance folder at runtime? A user of our system would need to know to create the instance folder AND place a file there, forcing them to perform two manual steps.</p>
+<p>A preferable solution: place a gitignore in the "instance" folder with special contents.</p>
+<div class="highlight"><pre><span></span><code>├── app
+│   └── __init__.py
 ├── .gitignore          &lt;-- Project gitignore
 └── instance
     ├── big-file.jpg
@@ -165,90 +156,55 @@ special .gitignore contents:
 # EXCEPT for this .gitignore file
 *
 !.gitignore
-</pre>
-<p>I find myself using this trick so often that I've added the instance folder and
-its accompanying gitignore file into my project skeletons.</p>
-<pre class="code bash literal-block">
-<span class="c1"># ~/.bashrc (I actually use zsh + ~/.zshrc, but it's the same)
-</span><span class="k">function</span> make_instance<span class="o">()</span> <span class="o">{</span>
-  mkdir instance
-  cat &gt; instance/.gitignore <span class="s">&lt;&lt;EOL
-# Ignore all files in this directory
-# EXCEPT for this .gitignore file
-*
-!.gitignore
-EOL</span>
-<span class="o">}</span>
-</pre>
-<p>Finally, you may note that this technique does commit one file (the <a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a>)
-to version control. IMHO, this is a small price to pay for elegance.</p>
-</div>
-<div class="section" id="ignore-my-weird-files-in-secret">
-<h2>2: Ignore my weird files (in secret)</h2>
-<p>My <a class="reference external" href="https://github.com/pappasam/dotfiles">development environment</a> is highly customized. I'm an advanced user of
-<a class="reference external" href="https://neovim.io/charter/">Neovim</a>, <a class="reference external" href="https://www.ocf.berkeley.edu/~ckuehl/tmux/">Tmux</a>, <a class="reference external" href="http://zsh.sourceforge.net/Intro/intro_1.html#SEC1">Zsh</a>, and other <a class="reference external" href="https://en.wikipedia.org/wiki/Unix-like">Unix-like</a> utilities, and have set up a
-cross-language, bespoke IDE with a configuration unto itself. Benefits include
-software development bliss. One downside: my environment may require files that
-I should not commit to another person's repository.</p>
-<p>One example: when programming in Javascript, I rely on a <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> server for
-auto-completion in <a class="reference external" href="https://neovim.io/charter/">Neovim</a>. <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> is configurable with a <a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file
-which lets <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> know important things like the project's <a class="reference external" href="https://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a> version,
-which <a class="reference external" href="http://voidcanvas.com/node-vs-browsers/">runtime environment</a> it's expecting, etc. These configurations differ
-by project, so it's often necessary for me to place a customized
-<a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file at the root of a Javascript project.</p>
-<p>If I own a Javascript codebase and control its development, placing a
-<a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file at my project's root is a no-brainer. Not only can
-collaborators help me keep it up to date, but I can also influence more people
-to adopt <a class="reference external" href="https://github.com/ternjs/tern">Tern</a>! Unfortunately, if I don't own the codebase I'm working on,
-things become a bit trickier. I want to benefit from <a class="reference external" href="https://github.com/ternjs/tern">Tern</a> but I don't want my
-first contributions on a project to include my custom
-<a class="reference external" href="https://github.com/pappasam/dotfiles">development environment</a> configuration. I'd simply add this file to the project's
-.gitignore file, but that would still be an me-specific contribution, so I'm
-left with two choices. Either I manually ignore <a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> every time I
-&quot;git add/commit&quot;, or I find a way to make Git do that work for me.</p>
-<p>Luckily, Git has a built-in way for users to ignore their own weird files
-without needing to make any updates to a project's version-controlled files.
-This method is mentioned in <a class="reference external" href="https://git-scm.com/docs/gitignore">gitignore</a>'s documentation, but not many people are
-aware it exists.</p>
-<p>Using your favorite editor, go to the root of any <a class="reference external" href="https://git-scm.com/">Git</a> repository, and open the
-text file &quot;.git/info/exclude&quot;. It should look like this:</p>
-<pre class="code bash literal-block">
-<span class="c1"># Contents of PROJECT-ROOT/.git/info/exclude:
-# git ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~</span>
-</pre>
-<p>Simply add your desired file patterns here and they will be ignored by you, and
-only you.</p>
-<pre class="code bash literal-block">
-<span class="c1"># Contents of PROJECT-ROOT/.git/info/exclude:
-# git ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~
-</span>.tern-project
-</pre>
-<p>Once you've done this, I recommend submitting one or two impressive pull
-requests. You should be invited as a repository <a class="reference external" href="https://help.github.com/articles/github-glossary/#collaborator">collaborator</a> (or its
-equivalent) in no time. With credentials in hand, you can then suggest the
-group adopt your awesome <a class="reference external" href="https://github.com/ternjs/tern">Tern</a>-based workflow (and your humble <a class="reference external" href="http://ternjs.net/doc/manual.html#configuration">tern-project</a>
-file) into the project. At this point, you should remove the &quot;.tern-project&quot;
-line from .git/info/exclude.</p>
-</div>
-<div class="section" id="conclusion">
-<h2>Conclusion</h2>
-<p>Ignoring directory contents while retaining directories is easy. Privately
-ignoring the files only you care about (for now) is also easy. Hopefully you
-learned something from this post and happy hacking!</p>
-<!-- Begin: External hyperlinks -->
-<!-- End: External hyperlinks -->
-</div>
+</code></pre></div>
 
+
+<p>I find myself using this trick so often that I've added the instance folder and its accompanying gitignore file into my project skeletons.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ~/.bashrc (I actually use zsh + ~/.zshrc, but it&#39;s the same)</span>
+<span class="k">function</span> make_instance<span class="o">()</span> <span class="o">{</span>
+  mkdir instance
+  cat &gt; instance/.gitignore <span class="s">&lt;&lt;EOL</span>
+<span class="s"># Ignore all files in this directory</span>
+<span class="s"># EXCEPT for this .gitignore file</span>
+<span class="s">*</span>
+<span class="s">!.gitignore</span>
+<span class="s">EOL</span>
+<span class="o">}</span>
+</code></pre></div>
+
+
+<p>Finally, you may note that this technique does commit one file (the <a href="https://git-scm.com/docs/gitignore">gitignore</a>) to version control. IMHO, this is a small price to pay for elegance.</p>
+<h2 id="ignore-my-weird-files-in-secret">Ignore my weird files (in secret)<a class="headerlink" href="#ignore-my-weird-files-in-secret" title="Permanent link">&para;</a></h2>
+<p>My <a href="https://github.com/pappasam/dotfiles">development environment</a> is highly customized. I'm an advanced user of <a href="https://neovim.io/charter/">Neovim</a>, <a href="https://www.ocf.berkeley.edu/~ckuehl/tmux/">Tmux</a>, <a href="http://zsh.sourceforge.net/Intro/intro_1.html#SEC1">Zsh</a>, and other <a href="https://en.wikipedia.org/wiki/Unix-like">Unix-like</a> utilities, and have set up a cross-language, bespoke IDE with a configuration unto itself. Benefits include software development bliss. One downside: my environment may require files that I should not commit to another person's repository.</p>
+<p>One example: when programming in Javascript, I rely on a <a href="https://github.com/ternjs/tern">Tern</a> server for auto-completion in <a href="https://neovim.io/charter/">Neovim</a>. <a href="https://github.com/ternjs/tern">Tern</a> is configurable with a <a href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file which lets <a href="https://github.com/ternjs/tern">Tern</a> know important things like the project's <a href="https://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a> version, which <a href="http://voidcanvas.com/node-vs-browsers/">runtime environment</a> it's expecting, etc. These configurations differ by project, so it's often necessary for me to place a customized <a href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file at the root of a Javascript project.</p>
+<p>If I own a Javascript codebase and control its development, placing a <a href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file at my project's root is a no-brainer. Not only can collaborators help me keep it up to date, but I can also influence more people to adopt <a href="https://github.com/ternjs/tern">Tern</a>! Unfortunately, if I don't own the codebase I'm working on, things become a bit trickier. I want to benefit from <a href="https://github.com/ternjs/tern">Tern</a> but I don't want my first contributions on a project to include my custom <a href="https://github.com/pappasam/dotfiles">development environment</a> configuration. I'd simply add this file to the project's .gitignore file, but that would still be an me-specific contribution, so I'm left with two choices. Either I manually ignore <a href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> every time I "git add/commit", or I find a way to make Git do that work for me.</p>
+<p>Luckily, Git has a built-in way for users to ignore their own weird files without needing to make any updates to a project's version-controlled files. This method is mentioned in <a href="https://git-scm.com/docs/gitignore">gitignore</a>'s documentation, but not many people are aware it exists.</p>
+<p>Using your favorite editor, go to the root of any <a href="https://git-scm.com/">Git</a> repository, and open the text file ".git/info/exclude". It should look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Contents of PROJECT-ROOT/.git/info/exclude:</span>
+<span class="c1"># git ls-files --others --exclude-from=.git/info/exclude</span>
+<span class="c1"># Lines that start with &#39;#&#39; are comments.</span>
+<span class="c1"># For a project mostly in C, the following would be a good set of</span>
+<span class="c1"># exclude patterns (uncomment them if you want to use them):</span>
+<span class="c1"># *.[oa]</span>
+<span class="c1"># *~</span>
+</code></pre></div>
+
+
+<p>Simply add your desired file patterns here and they will be ignored by you, and only you.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Contents of PROJECT-ROOT/.git/info/exclude:</span>
+<span class="c1"># git ls-files --others --exclude-from=.git/info/exclude</span>
+<span class="c1"># Lines that start with &#39;#&#39; are comments.</span>
+<span class="c1"># For a project mostly in C, the following would be a good set of</span>
+<span class="c1"># exclude patterns (uncomment them if you want to use them):</span>
+<span class="c1"># *.[oa]</span>
+<span class="c1"># *~</span>
+.tern-project
+</code></pre></div>
+
+
+<p>Once you've done this, I recommend submitting one or two impressive pull requests. You should be invited as a repository <a href="https://help.github.com/articles/github-glossary/#collaborator">collaborator</a> (or its equivalent) in no time. With credentials in hand, you can then suggest the group adopt your awesome <a href="https://github.com/ternjs/tern">Tern</a>-based workflow (and your humble <a href="http://ternjs.net/doc/manual.html#configuration">tern-project</a> file) into the project. At this point, you should remove the ".tern-project" line from .git/info/exclude.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>Ignoring directory contents while retaining directories is easy. Privately ignoring the files only you care about (for now) is also easy. Hopefully you learned something from this post and happy hacking!</p>
   </div>
   <div class="tag-cloud">
     <p>

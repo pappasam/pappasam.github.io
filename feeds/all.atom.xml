@@ -258,56 +258,43 @@ yarn.lock
 &lt;p&gt;Coc extensions can also be deployed to &lt;a href="https://www.npmjs.com"&gt;npm&lt;/a&gt;. This method is out of scope for this post, but you should be able to figure it out by referencing the &lt;a href="https://github.com/pappasam/coc-jedi"&gt;coc-jedi&lt;/a&gt; codebase.&lt;/p&gt;
 &lt;h2 id="wrapping-up"&gt;Wrapping up&lt;a class="headerlink" href="#wrapping-up" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;At this point, you should have a working coc extension that wraps an executable language server. You may be wondering how you can add more features, automatically download and manage the executable for your users, and make your coc extension the most user friendly interface since the &lt;a href="https://en.wikipedia.org/wiki/IPod_click_wheel"&gt;iPod click wheel&lt;/a&gt;. Worry not: these features are implemented in &lt;a href="https://github.com/pappasam/coc-jedi"&gt;coc-jedi&lt;/a&gt;. Please refer to that codebase and ask any further questions in the comments below. And don't feel obligated to restrict your wanderings to jedi-language-server: you can wrap &lt;strong&gt;any&lt;/strong&gt; executable language server in a coc extension! Please use your powers for good.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="jedi programmer" src="https://www.kumulos.com/wp-content/uploads/2012/09/Computer-programming-jedi.jpg"&gt;&lt;/p&gt;</content><category term="Software Development"></category><category term="Vim"></category><category term="Vim Plugins"></category><category term="LSP"></category></entry><entry><title>Gitignore-A-Palooza: Two Tricks</title><link href="https://samroeca.com/ignore-git.html" rel="alternate"></link><published>2018-12-02T00:00:00-05:00</published><updated>2018-12-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-12-02:/ignore-git.html</id><summary type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
-&lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to
-ignore files from a Git-based version controlled project. The first technique
-enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself.
-The second technique enables a user to automatically ignore a file without
-adding it to a project's root gitignore.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;Most modern software developers are aware of &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying
-&lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to
-ignore files from a Git-based version controlled project. The first technique
-enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself.
-The second technique enables a user to automatically ignore a file without
-adding it to a project's root gitignore.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="jedi programmer" src="https://www.kumulos.com/wp-content/uploads/2012/09/Computer-programming-jedi.jpg"&gt;&lt;/p&gt;</content><category term="Software Development"></category><category term="Vim"></category><category term="Vim Plugins"></category><category term="LSP"></category></entry><entry><title>Gitignore-A-Palooza: Two Tricks</title><link href="https://samroeca.com/ignore-git.html" rel="alternate"></link><published>2018-12-02T00:00:00-05:00</published><updated>2018-12-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-12-02:/ignore-git.html</id><summary type="html">
+&lt;p&gt;Most modern software developers are aware of &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying &lt;a href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project's root gitignore.&lt;/p&gt;
+</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table of Contents&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#ignore-directory-contents-keep-directory"&gt;Ignore directory contents, keep directory&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#ignore-my-weird-files-in-secret"&gt;Ignore my weird files (in secret)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 
-&lt;p&gt;Note: when discussing &amp;quot;&lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;&amp;quot; and &amp;quot;&lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt;&amp;quot;, I may sometimes add a
-&amp;quot;.&amp;quot; before the filename. Whether I &lt;a class="reference external" href="http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/"&gt;do or do not&lt;/a&gt;, I'm talking about the same
-file (eg, &amp;quot;.gitignore&amp;quot; == &amp;quot;gitignore&amp;quot;).&lt;/p&gt;
-&lt;div class="section" id="ignore-directory-contents-keep-directory"&gt;
-&lt;h2&gt;1: Ignore directory contents, keep directory&lt;/h2&gt;
-&lt;p&gt;It is often convenient to have a directory whose contents are not committed to
-version control. For example, this directory may contain large non-general data
-files (images, financial data, etc). Additionally, these could be small files
-with sensitive information specific to one person (passwords, ssh keys, etc).
-Either way, we do not want these files committed to our project's version
-control system. For the purposes of this conversation, we'll call this folder
-&amp;quot;instance&amp;quot; and place it at the root of our project.&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-├── app
-│&amp;nbsp;&amp;nbsp; └── __init__.py
+
+&lt;p&gt;Most modern software developers are aware of &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; and its accompanying &lt;a href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt; file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory &lt;strong&gt;but&lt;/strong&gt; the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project's root gitignore.&lt;/p&gt;
+
+
+&lt;p&gt;Note: when discussing "&lt;a href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;" and "&lt;a href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt;", I may sometimes add a "." before the filename. Whether I &lt;a href="http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/"&gt;do or do not&lt;/a&gt;, I'm talking about the same file (eg, ".gitignore" == "gitignore").&lt;/p&gt;
+&lt;h2 id="ignore-directory-contents-keep-directory"&gt;Ignore directory contents, keep directory&lt;a class="headerlink" href="#ignore-directory-contents-keep-directory" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;It is often convenient to have a directory whose contents are not committed to version control. For example, this directory may contain large non-general data files (images, financial data, etc). Additionally, these could be small files with sensitive information specific to one person (passwords, ssh keys, etc). Either way, we do not want these files committed to our project's version control system. For the purposes of this conversation, we'll call this folder "instance" and place it at the root of our project.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;├── app
+│   └── __init__.py
 ├── .gitignore          &amp;lt;-- Project gitignore
 └── instance
     ├── big-file.jpg
     └── passwords.txt
-&lt;/pre&gt;
-&lt;p&gt;A naive approach suggests that we add the instance folder to our project's
-gitignore:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-*.pyc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A naive approach suggests that we add the instance folder to our project's gitignore:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;*.pyc
 __pycache__/
 # other ignored lines
 instance/
-&lt;/pre&gt;
-&lt;p&gt;Unfortunately, this proves problematic. What happens if our system relies on a
-file being in the instance folder at runtime? A user of our system would need
-to know to create the instance folder AND place a file there, forcing them to
-perform two manual steps.&lt;/p&gt;
-&lt;p&gt;A preferable solution: place a gitignore in the &amp;quot;instance&amp;quot; folder with special
-contents.&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-├── app
-│&amp;nbsp;&amp;nbsp; └── __init__.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Unfortunately, this proves problematic. What happens if our system relies on a file being in the instance folder at runtime? A user of our system would need to know to create the instance folder AND place a file there, forcing them to perform two manual steps.&lt;/p&gt;
+&lt;p&gt;A preferable solution: place a gitignore in the "instance" folder with special contents.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;├── app
+│   └── __init__.py
 ├── .gitignore          &amp;lt;-- Project gitignore
 └── instance
     ├── big-file.jpg
@@ -319,90 +306,55 @@ special .gitignore contents:
 # EXCEPT for this .gitignore file
 *
 !.gitignore
-&lt;/pre&gt;
-&lt;p&gt;I find myself using this trick so often that I've added the instance folder and
-its accompanying gitignore file into my project skeletons.&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-&lt;span class="c1"&gt;# ~/.bashrc (I actually use zsh + ~/.zshrc, but it's the same)
-&lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt; make_instance&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I find myself using this trick so often that I've added the instance folder and its accompanying gitignore file into my project skeletons.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# ~/.bashrc (I actually use zsh + ~/.zshrc, but it&amp;#39;s the same)&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; make_instance&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
   mkdir instance
-  cat &amp;gt; instance/.gitignore &lt;span class="s"&gt;&amp;lt;&amp;lt;EOL
-# Ignore all files in this directory
-# EXCEPT for this .gitignore file
-*
-!.gitignore
-EOL&lt;/span&gt;
+  cat &amp;gt; instance/.gitignore &lt;span class="s"&gt;&amp;lt;&amp;lt;EOL&lt;/span&gt;
+&lt;span class="s"&gt;# Ignore all files in this directory&lt;/span&gt;
+&lt;span class="s"&gt;# EXCEPT for this .gitignore file&lt;/span&gt;
+&lt;span class="s"&gt;*&lt;/span&gt;
+&lt;span class="s"&gt;!.gitignore&lt;/span&gt;
+&lt;span class="s"&gt;EOL&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;Finally, you may note that this technique does commit one file (the &lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;)
-to version control. IMHO, this is a small price to pay for elegance.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="ignore-my-weird-files-in-secret"&gt;
-&lt;h2&gt;2: Ignore my weird files (in secret)&lt;/h2&gt;
-&lt;p&gt;My &lt;a class="reference external" href="https://github.com/pappasam/dotfiles"&gt;development environment&lt;/a&gt; is highly customized. I'm an advanced user of
-&lt;a class="reference external" href="https://neovim.io/charter/"&gt;Neovim&lt;/a&gt;, &lt;a class="reference external" href="https://www.ocf.berkeley.edu/~ckuehl/tmux/"&gt;Tmux&lt;/a&gt;, &lt;a class="reference external" href="http://zsh.sourceforge.net/Intro/intro_1.html#SEC1"&gt;Zsh&lt;/a&gt;, and other &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Unix-like"&gt;Unix-like&lt;/a&gt; utilities, and have set up a
-cross-language, bespoke IDE with a configuration unto itself. Benefits include
-software development bliss. One downside: my environment may require files that
-I should not commit to another person's repository.&lt;/p&gt;
-&lt;p&gt;One example: when programming in Javascript, I rely on a &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; server for
-auto-completion in &lt;a class="reference external" href="https://neovim.io/charter/"&gt;Neovim&lt;/a&gt;. &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; is configurable with a &lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file
-which lets &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; know important things like the project's &lt;a class="reference external" href="https://en.wikipedia.org/wiki/ECMAScript"&gt;ECMAScript&lt;/a&gt; version,
-which &lt;a class="reference external" href="http://voidcanvas.com/node-vs-browsers/"&gt;runtime environment&lt;/a&gt; it's expecting, etc. These configurations differ
-by project, so it's often necessary for me to place a customized
-&lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file at the root of a Javascript project.&lt;/p&gt;
-&lt;p&gt;If I own a Javascript codebase and control its development, placing a
-&lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file at my project's root is a no-brainer. Not only can
-collaborators help me keep it up to date, but I can also influence more people
-to adopt &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt;! Unfortunately, if I don't own the codebase I'm working on,
-things become a bit trickier. I want to benefit from &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; but I don't want my
-first contributions on a project to include my custom
-&lt;a class="reference external" href="https://github.com/pappasam/dotfiles"&gt;development environment&lt;/a&gt; configuration. I'd simply add this file to the project's
-.gitignore file, but that would still be an me-specific contribution, so I'm
-left with two choices. Either I manually ignore &lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; every time I
-&amp;quot;git add/commit&amp;quot;, or I find a way to make Git do that work for me.&lt;/p&gt;
-&lt;p&gt;Luckily, Git has a built-in way for users to ignore their own weird files
-without needing to make any updates to a project's version-controlled files.
-This method is mentioned in &lt;a class="reference external" href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;'s documentation, but not many people are
-aware it exists.&lt;/p&gt;
-&lt;p&gt;Using your favorite editor, go to the root of any &lt;a class="reference external" href="https://git-scm.com/"&gt;Git&lt;/a&gt; repository, and open the
-text file &amp;quot;.git/info/exclude&amp;quot;. It should look like this:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-&lt;span class="c1"&gt;# Contents of PROJECT-ROOT/.git/info/exclude:
-# git ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;Simply add your desired file patterns here and they will be ignored by you, and
-only you.&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-&lt;span class="c1"&gt;# Contents of PROJECT-ROOT/.git/info/exclude:
-# git ls-files --others --exclude-from=.git/info/exclude
-# Lines that start with '#' are comments.
-# For a project mostly in C, the following would be a good set of
-# exclude patterns (uncomment them if you want to use them):
-# *.[oa]
-# *~
-&lt;/span&gt;.tern-project
-&lt;/pre&gt;
-&lt;p&gt;Once you've done this, I recommend submitting one or two impressive pull
-requests. You should be invited as a repository &lt;a class="reference external" href="https://help.github.com/articles/github-glossary/#collaborator"&gt;collaborator&lt;/a&gt; (or its
-equivalent) in no time. With credentials in hand, you can then suggest the
-group adopt your awesome &lt;a class="reference external" href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt;-based workflow (and your humble &lt;a class="reference external" href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt;
-file) into the project. At this point, you should remove the &amp;quot;.tern-project&amp;quot;
-line from .git/info/exclude.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="conclusion"&gt;
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Ignoring directory contents while retaining directories is easy. Privately
-ignoring the files only you care about (for now) is also easy. Hopefully you
-learned something from this post and happy hacking!&lt;/p&gt;
-&lt;!-- Begin: External hyperlinks --&gt;
-&lt;!-- End: External hyperlinks --&gt;
-&lt;/div&gt;
-</content><category term="Software Development"></category><category term="version control"></category><category term="Git"></category></entry><entry><title>Python Function Pipelines</title><link href="https://samroeca.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, you may note that this technique does commit one file (the &lt;a href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;) to version control. IMHO, this is a small price to pay for elegance.&lt;/p&gt;
+&lt;h2 id="ignore-my-weird-files-in-secret"&gt;Ignore my weird files (in secret)&lt;a class="headerlink" href="#ignore-my-weird-files-in-secret" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;My &lt;a href="https://github.com/pappasam/dotfiles"&gt;development environment&lt;/a&gt; is highly customized. I'm an advanced user of &lt;a href="https://neovim.io/charter/"&gt;Neovim&lt;/a&gt;, &lt;a href="https://www.ocf.berkeley.edu/~ckuehl/tmux/"&gt;Tmux&lt;/a&gt;, &lt;a href="http://zsh.sourceforge.net/Intro/intro_1.html#SEC1"&gt;Zsh&lt;/a&gt;, and other &lt;a href="https://en.wikipedia.org/wiki/Unix-like"&gt;Unix-like&lt;/a&gt; utilities, and have set up a cross-language, bespoke IDE with a configuration unto itself. Benefits include software development bliss. One downside: my environment may require files that I should not commit to another person's repository.&lt;/p&gt;
+&lt;p&gt;One example: when programming in Javascript, I rely on a &lt;a href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; server for auto-completion in &lt;a href="https://neovim.io/charter/"&gt;Neovim&lt;/a&gt;. &lt;a href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; is configurable with a &lt;a href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file which lets &lt;a href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; know important things like the project's &lt;a href="https://en.wikipedia.org/wiki/ECMAScript"&gt;ECMAScript&lt;/a&gt; version, which &lt;a href="http://voidcanvas.com/node-vs-browsers/"&gt;runtime environment&lt;/a&gt; it's expecting, etc. These configurations differ by project, so it's often necessary for me to place a customized &lt;a href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file at the root of a Javascript project.&lt;/p&gt;
+&lt;p&gt;If I own a Javascript codebase and control its development, placing a &lt;a href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file at my project's root is a no-brainer. Not only can collaborators help me keep it up to date, but I can also influence more people to adopt &lt;a href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt;! Unfortunately, if I don't own the codebase I'm working on, things become a bit trickier. I want to benefit from &lt;a href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt; but I don't want my first contributions on a project to include my custom &lt;a href="https://github.com/pappasam/dotfiles"&gt;development environment&lt;/a&gt; configuration. I'd simply add this file to the project's .gitignore file, but that would still be an me-specific contribution, so I'm left with two choices. Either I manually ignore &lt;a href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; every time I "git add/commit", or I find a way to make Git do that work for me.&lt;/p&gt;
+&lt;p&gt;Luckily, Git has a built-in way for users to ignore their own weird files without needing to make any updates to a project's version-controlled files. This method is mentioned in &lt;a href="https://git-scm.com/docs/gitignore"&gt;gitignore&lt;/a&gt;'s documentation, but not many people are aware it exists.&lt;/p&gt;
+&lt;p&gt;Using your favorite editor, go to the root of any &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; repository, and open the text file ".git/info/exclude". It should look like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Contents of PROJECT-ROOT/.git/info/exclude:&lt;/span&gt;
+&lt;span class="c1"&gt;# git ls-files --others --exclude-from=.git/info/exclude&lt;/span&gt;
+&lt;span class="c1"&gt;# Lines that start with &amp;#39;#&amp;#39; are comments.&lt;/span&gt;
+&lt;span class="c1"&gt;# For a project mostly in C, the following would be a good set of&lt;/span&gt;
+&lt;span class="c1"&gt;# exclude patterns (uncomment them if you want to use them):&lt;/span&gt;
+&lt;span class="c1"&gt;# *.[oa]&lt;/span&gt;
+&lt;span class="c1"&gt;# *~&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Simply add your desired file patterns here and they will be ignored by you, and only you.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Contents of PROJECT-ROOT/.git/info/exclude:&lt;/span&gt;
+&lt;span class="c1"&gt;# git ls-files --others --exclude-from=.git/info/exclude&lt;/span&gt;
+&lt;span class="c1"&gt;# Lines that start with &amp;#39;#&amp;#39; are comments.&lt;/span&gt;
+&lt;span class="c1"&gt;# For a project mostly in C, the following would be a good set of&lt;/span&gt;
+&lt;span class="c1"&gt;# exclude patterns (uncomment them if you want to use them):&lt;/span&gt;
+&lt;span class="c1"&gt;# *.[oa]&lt;/span&gt;
+&lt;span class="c1"&gt;# *~&lt;/span&gt;
+.tern-project
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once you've done this, I recommend submitting one or two impressive pull requests. You should be invited as a repository &lt;a href="https://help.github.com/articles/github-glossary/#collaborator"&gt;collaborator&lt;/a&gt; (or its equivalent) in no time. With credentials in hand, you can then suggest the group adopt your awesome &lt;a href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt;-based workflow (and your humble &lt;a href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file) into the project. At this point, you should remove the ".tern-project" line from .git/info/exclude.&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Ignoring directory contents while retaining directories is easy. Privately ignoring the files only you care about (for now) is also easy. Hopefully you learned something from this post and happy hacking!&lt;/p&gt;</content><category term="Software Development"></category><category term="version control"></category><category term="Git"></category></entry><entry><title>Python Function Pipelines</title><link href="https://samroeca.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
 function pipeline. This post presents a simple, strongly-typed function
 pipeline for your personal projects to make beautiful, explicit, Unix-like
 pipelines in Python.  Requires Python 3.6 or greater.&lt;/p&gt;
@@ -648,198 +600,163 @@ type-safe way.&lt;/p&gt;
 itself. There is a better way and it's pretty much built into Python.  You'll
 just need to care enough to use it.&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="Software Development"></category><category term="Python"></category><category term="Unix"></category><category term="pipeline"></category><category term="functional programming"></category></entry><entry><title>Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</title><link href="https://samroeca.com/docker-python-install-wheels.html" rel="alternate"></link><published>2018-04-21T00:00:00-05:00</published><updated>2018-04-21T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-04-21:/docker-python-install-wheels.html</id><summary type="html">&lt;p&gt;If your Docker Python build requires system dependencies that are NOT required
-at runtime, structure your build as follows:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;Use a &lt;a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage build&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Stage 1 installs system dependencies and uses them to build local &lt;a class="reference external" href="https://pythonwheels.com/"&gt;wheels&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Stage 2 begins from the same base as Stage 1, copies wheels from
-Stage 1, and installs the wheels&lt;/li&gt;
-&lt;li&gt;The rest of your build will be based on Stage 2&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;If you follow these steps, you'll end up with the smallest-possible Python
-Docker container with all your Python dependencies intact.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;If your Docker Python build requires system dependencies that are NOT required
-at runtime, structure your build as follows:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;Use a &lt;a class="reference external" href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage build&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Stage 1 installs system dependencies and uses them to build local &lt;a class="reference external" href="https://pythonwheels.com/"&gt;wheels&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Stage 2 begins from the same base as Stage 1, copies wheels from
-Stage 1, and installs the wheels&lt;/li&gt;
-&lt;li&gt;The rest of your build will be based on Stage 2&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;If you follow these steps, you'll end up with the smallest-possible Python
-Docker container with all your Python dependencies intact.&lt;/p&gt;
-
-&lt;p&gt;Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that
-you are running &lt;a class="reference external" href="https://github.com/python/cpython"&gt;CPython&lt;/a&gt; (Python's reference implementation).&lt;/p&gt;
-&lt;div class="section" id="the-problem"&gt;
-&lt;h2&gt;The problem&lt;/h2&gt;
-&lt;p&gt;We want to do a Python system build using Docker. Python system builds often
-require installing third-party code. This third-party code may contain code or
-resources that must be compiled during their installation. For simplicity's
-sake, assume we are talking about source code in the C programming language.
-Since a Docker container will be our &amp;quot;target machine&amp;quot;, we'll need a C compiler
-in our Docker container. Unfortunately, C compilers are large programs. Since
-we plan to scale our number of containers up and down based on the demand for
-its provided service, the image should ideally be as small as possible.&lt;/p&gt;
-&lt;p&gt;Basically, we want to build C code with a C compiler and then throw away the C
-compiler to save space in our deployment image.&lt;/p&gt;
+</content><category term="Software Development"></category><category term="Python"></category><category term="Unix"></category><category term="pipeline"></category><category term="functional programming"></category></entry><entry><title>Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</title><link href="https://samroeca.com/docker-python-install-wheels.html" rel="alternate"></link><published>2018-04-21T00:00:00-05:00</published><updated>2018-04-21T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-04-21:/docker-python-install-wheels.html</id><summary type="html">
+&lt;p&gt;If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact.&lt;/p&gt;
+</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table of Contents&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#the-problem"&gt;The problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#examples"&gt;Examples&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#setup"&gt;Setup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#example-1-broken-build-requiring-a-c-compiler"&gt;Example 1: broken build requiring a C compiler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#example-2-large-build-with-c-compiler-installed"&gt;Example 2: large build with C compiler installed&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler"&gt;Example 3: failed attempt at simply "uninstalling" C compiler&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#example-4-small-final-build-without-c-compiler"&gt;Example 4: small final build without C compiler&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#explanation"&gt;Explanation&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#copying-betwen-docker-build-stages-in-multi-stage-build"&gt;Copying betwen Docker build stages in multi-stage build&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#difference-between-pip-install-and-pip-wheel"&gt;Difference between "pip install" and "pip wheel"&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#special-thanks"&gt;Special thanks&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="examples"&gt;
-&lt;h2&gt;Examples&lt;/h2&gt;
-&lt;p&gt;The following examples should clarify the problem and its resolution. Note: I'm
-assuming that you're using a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/POSIX"&gt;POSIX&lt;/a&gt;-inspired system.&lt;/p&gt;
-&lt;div class="section" id="setup"&gt;
-&lt;h3&gt;Setup&lt;/h3&gt;
+&lt;p&gt;If your Docker Python build requires system dependencies that are NOT
+required at runtime, structure your build as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use a &lt;a href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage build&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Stage 1 installs system dependencies and uses them to build local &lt;a href="https://pythonwheels.com/"&gt;wheels&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels&lt;/li&gt;
+&lt;li&gt;The rest of your build will be based on Stage 2&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact.&lt;/p&gt;
+
+
+&lt;p&gt;Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that you are running &lt;a href="https://github.com/python/cpython"&gt;CPython&lt;/a&gt; (Python's reference implementation).&lt;/p&gt;
+&lt;h2 id="the-problem"&gt;The problem&lt;a class="headerlink" href="#the-problem" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We want to do a Python system build using Docker. Python system builds often require installing third-party code. This third-party code may contain code or resources that must be compiled during their installation. For simplicity's sake, assume we are talking about source code in the C programming language. Since a Docker container will be our "target machine", we'll need a C compiler in our Docker container. Unfortunately, C compilers are large programs. Since we plan to scale our number of containers up and down based on the demand for its provided service, the image should ideally be as small as possible.&lt;/p&gt;
+&lt;p&gt;Basically, we want to build C code with a C compiler and then throw away
+the C compiler to save space in our deployment image.&lt;/p&gt;
+&lt;h2 id="examples"&gt;Examples&lt;a class="headerlink" href="#examples" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The following examples should clarify the problem and its resolution.
+Note: I'm assuming that you're using a
+&lt;a href="https://en.wikipedia.org/wiki/POSIX"&gt;POSIX&lt;/a&gt;-inspired system.&lt;/p&gt;
+&lt;h3 id="setup"&gt;Setup&lt;a class="headerlink" href="#setup" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Copy the following Makefile into your current working directory.&lt;/p&gt;
-&lt;pre class="code make highlight literal-block"&gt;
-&lt;span class="nf"&gt;.PHONY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;-&lt;span class="n"&gt;break&lt;/span&gt;
-&lt;span class="nf"&gt;build-break&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-        docker build -t blog-python:break -f ./Dockerfile.break .
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;.PHONY: build-break
+build-break:
+    docker build -t blog-python:break -f ./Dockerfile.break .
 
-&lt;span class="nf"&gt;.PHONY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;-&lt;span class="n"&gt;big&lt;/span&gt;
-&lt;span class="nf"&gt;build-big&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-        docker build -t blog-python:big -f ./Dockerfile.big .
-        docker images
+.PHONY: build-big
+build-big:
+    docker build -t blog-python:big -f ./Dockerfile.big .
+    docker images
 
-&lt;span class="nf"&gt;.PHONY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;-&lt;span class="n"&gt;uninstall&lt;/span&gt;-&lt;span class="n"&gt;big&lt;/span&gt;
-&lt;span class="nf"&gt;build-uninstall-big&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-        docker build -t blog-python:big-uninstall -f ./Dockerfile.uninstall .
-        docker images
+.PHONY: build-uninstall-big
+build-uninstall-big:
+    docker build -t blog-python:big-uninstall -f ./Dockerfile.uninstall .
+    docker images
 
-&lt;span class="nf"&gt;.PHONY&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;build&lt;/span&gt;-&lt;span class="n"&gt;small&lt;/span&gt;
-&lt;span class="nf"&gt;build-small&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-        docker build -t blog-python:small -f ./Dockerfile.small .
-        docker images
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="example-1-broken-build-requiring-a-c-compiler"&gt;
-&lt;h3&gt;Example 1: broken build requiring a C compiler&lt;/h3&gt;
-&lt;p&gt;We have a simple, &lt;a class="reference external" href="https://docs.docker.com/engine/reference/builder/#entrypoint"&gt;entrypoint&lt;/a&gt;-less Docker container in which we must install
-&lt;a class="reference external" href="https://uwsgi-docs.readthedocs.io/en/latest/"&gt;uWSGI&lt;/a&gt;. In the uWSGI &lt;a class="reference external" href="https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html"&gt;quickstart&lt;/a&gt; guide, its developers clarify that it &amp;quot;is a
-(big) C application, so you need a C compiler (like gcc or clang) and the
-Python development headers&amp;quot;.&lt;/p&gt;
-&lt;p&gt;Copy the following code into a file called &amp;quot;Dockerfile.break&amp;quot;:&lt;/p&gt;
-&lt;pre class="code docker highlight literal-block"&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;breakimage&lt;/span&gt;
+.PHONY: build-small
+build-small:
+    docker build -t blog-python:small -f ./Dockerfile.small .
+    docker images
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note: you might need to convert spaces to tabs.&lt;/p&gt;
+&lt;h3 id="example-1-broken-build-requiring-a-c-compiler"&gt;Example 1: broken build requiring a C compiler&lt;a class="headerlink" href="#example-1-broken-build-requiring-a-c-compiler" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;We have a simple, &lt;a href="https://docs.docker.com/engine/reference/builder/#entrypoint"&gt;entrypoint&lt;/a&gt;-less Docker container in which we must install &lt;a href="https://uwsgi-docs.readthedocs.io/en/latest/"&gt;uWSGI&lt;/a&gt;. In the uWSGI &lt;a href="https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html"&gt;quickstart&lt;/a&gt; guide, its developers clarify that it "is a (big) C application, so you need a C compiler (like gcc or clang) and the Python development headers".&lt;/p&gt;
+&lt;p&gt;Copy the following code into a file called "Dockerfile.break":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;breakimage&lt;/span&gt;
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; pip install uwsgi
-&lt;/pre&gt;
-&lt;p&gt;Now run the following shell command in the same directory as your
-Dockerfile.break.&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-make build-break
-&lt;/pre&gt;
-&lt;p&gt;At the end of our failed build, we see this Traceback (in addition to other
-helpful messages):&lt;/p&gt;
-&lt;pre class="code py3tb literal-block"&gt;
-&lt;span class="gt"&gt;Traceback (most recent call last):
-&lt;/span&gt;  File &lt;span class="nb"&gt;&amp;quot;&amp;lt;string&amp;gt;&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;1&lt;/span&gt;, in &lt;span class="n"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;
-  File &lt;span class="nb"&gt;&amp;quot;/tmp/pip-install-tkd8plx9/uwsgi/setup.py&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;137&lt;/span&gt;, in &lt;span class="n"&gt;&amp;lt;module&amp;gt;&lt;/span&gt;
-    &lt;span class="s1"&gt;'Programming Language :: Python :: 3.6'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-  File &lt;span class="nb"&gt;&amp;quot;/usr/local/lib/python3.6/site-packages/setuptools/__init__.py&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;129&lt;/span&gt;, in &lt;span class="n"&gt;setup&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;distutils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;core&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;attrs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-  File &lt;span class="nb"&gt;&amp;quot;/usr/local/lib/python3.6/distutils/core.py&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;148&lt;/span&gt;, in &lt;span class="n"&gt;setup&lt;/span&gt;
-    &lt;span class="n"&gt;dist&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_commands&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-  File &lt;span class="nb"&gt;&amp;quot;/usr/local/lib/python3.6/distutils/dist.py&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;955&lt;/span&gt;, in &lt;span class="n"&gt;run_commands&lt;/span&gt;
-    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_command&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cmd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-  File &lt;span class="nb"&gt;&amp;quot;/usr/local/lib/python3.6/distutils/dist.py&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;974&lt;/span&gt;, in &lt;span class="n"&gt;run_command&lt;/span&gt;
-    &lt;span class="n"&gt;cmd_obj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-  File &lt;span class="nb"&gt;&amp;quot;/tmp/pip-install-tkd8plx9/uwsgi/setup.py&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;77&lt;/span&gt;, in &lt;span class="n"&gt;run&lt;/span&gt;
-    &lt;span class="n"&gt;conf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;uc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;uConf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;get_profile&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
-  File &lt;span class="nb"&gt;&amp;quot;/tmp/pip-install-tkd8plx9/uwsgi/uwsgiconfig.py&amp;quot;&lt;/span&gt;, line &lt;span class="m"&gt;747&lt;/span&gt;, in &lt;span class="n"&gt;__init__&lt;/span&gt;
-    &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;you need a C compiler to build uWSGI&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="gr"&gt;Exception&lt;/span&gt;: &lt;span class="n"&gt;you need a C compiler to build uWSGI&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;Consistent with the uWSGI documentation, our system has said that we &amp;quot;need a C
-compiler to build uWSGI&amp;quot;. We'll do that in example 2.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="example-2-large-build-with-c-compiler-installed"&gt;
-&lt;h3&gt;Example 2: large build with C compiler installed&lt;/h3&gt;
-&lt;p&gt;In this example, we'll install our system dependencies so uWSGI can actually be
-built.&lt;/p&gt;
-&lt;p&gt;Copy the following code into a file called &amp;quot;Dockerfile.big&amp;quot;:&lt;/p&gt;
-&lt;pre class="code docker highlight literal-block"&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now run the following shell command in the same directory as your Dockerfile.break.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-break
+
+&lt;span class="go"&gt;Traceback (most recent call last):&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;&amp;lt;string&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;/tmp/pip-install-tkd8plx9/uwsgi/setup.py&amp;quot;, line 137, in &amp;lt;module&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;    &amp;#39;Programming Language :: Python :: 3.6&amp;#39;,&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;/usr/local/lib/python3.6/site-packages/setuptools/__init__.py&amp;quot;, line 129, in setup&lt;/span&gt;
+&lt;span class="go"&gt;    return distutils.core.setup(**attrs)&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;/usr/local/lib/python3.6/distutils/core.py&amp;quot;, line 148, in setup&lt;/span&gt;
+&lt;span class="go"&gt;    dist.run_commands()&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;/usr/local/lib/python3.6/distutils/dist.py&amp;quot;, line 955, in run_commands&lt;/span&gt;
+&lt;span class="go"&gt;    self.run_command(cmd)&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;/usr/local/lib/python3.6/distutils/dist.py&amp;quot;, line 974, in run_command&lt;/span&gt;
+&lt;span class="go"&gt;    cmd_obj.run()&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;/tmp/pip-install-tkd8plx9/uwsgi/setup.py&amp;quot;, line 77, in run&lt;/span&gt;
+&lt;span class="go"&gt;    conf = uc.uConf(get_profile())&lt;/span&gt;
+&lt;span class="go"&gt;  File &amp;quot;/tmp/pip-install-tkd8plx9/uwsgi/uwsgiconfig.py&amp;quot;, line 747, in __init__&lt;/span&gt;
+&lt;span class="go"&gt;    raise Exception(&amp;quot;you need a C compiler to build uWSGI&amp;quot;)&lt;/span&gt;
+&lt;span class="go"&gt;Exception: you need a C compiler to build uWSGI&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;At the end of our failed build, we see this Traceback (in addition to other helpful messages). Consistent with the uWSGI documentation, our system has said that we "need a C compiler to build uWSGI". We'll do that in example 2.&lt;/p&gt;
+&lt;h3 id="example-2-large-build-with-c-compiler-installed"&gt;Example 2: large build with C compiler installed&lt;a class="headerlink" href="#example-2-large-build-with-c-compiler-installed" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;In this example, we'll install our system dependencies so uWSGI can actually be built.&lt;/p&gt;
+&lt;p&gt;Copy the following code into a file called "Dockerfile.big":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage&lt;/span&gt;
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; apk add --no-cache linux-headers g++
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; pip install uwsgi
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Now run the following shell command:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-make build-big
-&lt;/pre&gt;
-&lt;p&gt;In the &amp;quot;build-big&amp;quot; make target, I've included a command to list all Docker
-images on your system. Because of this command, you should see something close
-to the following in your terminal:&lt;/p&gt;
-&lt;pre class="code text literal-block"&gt;
-REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
-blog-python         big                 8a68d0dad407        Less than a second ago   251MB
-python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB
-&lt;/pre&gt;
-&lt;div class="section" id="the-good"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-big
+
+&lt;span class="go"&gt;REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE&lt;/span&gt;
+&lt;span class="go"&gt;blog-python         big                 8a68d0dad407        Less than a second ago   251MB&lt;/span&gt;
+&lt;span class="go"&gt;python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In the "build-big" make target, I've included a command to list all Docker images on your system. Because of this command, you should see something close to the following in your terminal:&lt;/p&gt;
 &lt;h4&gt;The good&lt;/h4&gt;
 &lt;p&gt;The image built successfully.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="the-bad"&gt;
 &lt;h4&gt;The bad&lt;/h4&gt;
 &lt;p&gt;The image is unnecessarily large.&lt;/p&gt;
-&lt;p&gt;We're planning on scaling our web-service to handle a decent amount of traffic.
-Scaling will involve deploying many images on many servers. Larger images take
-longer to deploy and (obviously) take up more space than smaller images.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="the-ugly"&gt;
+&lt;p&gt;We're planning on scaling our web-service to handle a decent amount of traffic. Scaling will involve deploying many images on many servers. Larger images take longer to deploy and (obviously) take up more space than smaller images.&lt;/p&gt;
 &lt;h4&gt;The ugly&lt;/h4&gt;
 &lt;p&gt;We are including an unnecessary dependency.&lt;/p&gt;
-&lt;p&gt;We don't need a C compiler in the image, so the C compiler is an unnecessary
-dependency.  Including an unnecessary dependency in our runtime image is a
-horrible design, similar to including an unnecessary Python dependency in our
-requirements.txt or setup.py. As great software developers, we HATE bad system
-design, so let's find a way to resolve the &amp;quot;bad&amp;quot; and the &amp;quot;ugly&amp;quot; while
-preserving the &amp;quot;good&amp;quot;!&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="example-3-failed-attempt-at-simply-uninstalling-c-compiler"&gt;
-&lt;h3&gt;Example 3: failed attempt at simply &amp;quot;uninstalling&amp;quot; C compiler&lt;/h3&gt;
-&lt;p&gt;Unfortunately, if we want to reduce our image size, we cannot simply
-&amp;quot;uninstall&amp;quot; the C compiler. For reasons that I do not fully comprehend at this
-time, Docker caches anything you install in an image, so uninstalling a
-dependency does NOT reduce the image size.&lt;/p&gt;
-&lt;p&gt;Copy the following code into a file called &amp;quot;Dockerfile.uninstall&amp;quot;:&lt;/p&gt;
-&lt;pre class="code docker highlight literal-block"&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage-uninstalled&lt;/span&gt;
+&lt;p&gt;We don't need a C compiler in the image, so the C compiler is an unnecessary dependency. Including an unnecessary dependency in our runtime image is a horrible design, similar to including an unnecessary Python dependency in our requirements.txt or setup.py. As great software developers, we HATE bad system design, so let's find a way to resolve the "bad" and the "ugly" while preserving the "good"!&lt;/p&gt;
+&lt;h3 id="example-3-failed-attempt-at-simply-uninstalling-c-compiler"&gt;Example 3: failed attempt at simply "uninstalling" C compiler&lt;a class="headerlink" href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Unfortunately, if we want to reduce our image size, we cannot simply "uninstall" the C compiler. For reasons that I do not fully comprehend at this time, Docker caches anything you install in an image, so uninstalling a dependency does NOT reduce the image size.&lt;/p&gt;
+&lt;p&gt;Copy the following code into a file called "Dockerfile.uninstall":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage-uninstalled&lt;/span&gt;
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; apk add --no-cache linux-headers g++
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; pip install uwsgi
 
 &lt;span class="k"&gt;RUN&lt;/span&gt; apk del linux-headers g++
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Now run the following shell command:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-make build-uninstall-big
-&lt;/pre&gt;
-&lt;p&gt;You should see something close to the following in your terminal:&lt;/p&gt;
-&lt;pre class="code text literal-block"&gt;
-REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE
-blog-python         big-uninstall       10a0eb5d42aa        Less than a second ago   251MB
-blog-python         big                 8a68d0dad407        11 minutes ago           251MB
-python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB
-&lt;/pre&gt;
-&lt;p&gt;Our efforts at removing our C compiler proved futile. At this point, lesser
-developers would give up and assume we've reached the end of the road. But you,
-dear reader, are reading my blog, and I know you're better than that! Let's dig
-deeper and find an elegant way shrink our Docker image!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="example-4-small-final-build-without-c-compiler"&gt;
-&lt;h3&gt;Example 4: small final build without C compiler&lt;/h3&gt;
-&lt;p&gt;This final example results in a small image with uWSGI installed and without a
-C compiler. It relies heavily on multi-stage builds and on pip wheels.&lt;/p&gt;
-&lt;p&gt;Copy the following code into a file called &amp;quot;Dockerfile.small&amp;quot;:&lt;/p&gt;
-&lt;pre class="code docker highlight literal-block"&gt;
-&lt;span class="c"&gt;###########################################&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-uninstall-big
+
+&lt;span class="go"&gt;REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE&lt;/span&gt;
+&lt;span class="go"&gt;blog-python         big-uninstall       10a0eb5d42aa        Less than a second ago   251MB&lt;/span&gt;
+&lt;span class="go"&gt;blog-python         big                 8a68d0dad407        11 minutes ago           251MB&lt;/span&gt;
+&lt;span class="go"&gt;python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Our efforts at removing our C compiler proved futile. At this point, lesser developers would give up and assume we've reached the end of the road. But you, dear reader, are reading my blog, and I know you're better than that! Let's dig deeper and find an elegant way shrink our Docker image!&lt;/p&gt;
+&lt;h3 id="example-4-small-final-build-without-c-compiler"&gt;Example 4: small final build without C compiler&lt;a class="headerlink" href="#example-4-small-final-build-without-c-compiler" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;This final example results in a small image with uWSGI installed and without a C compiler. It relies heavily on multi-stage builds and on pip wheels.&lt;/p&gt;
+&lt;p&gt;Copy the following code into a file called "Dockerfile.small":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;###########################################&lt;/span&gt;
 &lt;span class="c"&gt;# Throwaway image with C compiler installed&lt;/span&gt;
 &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="s"&gt;python:3.6-alpine&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="s"&gt;bigimage&lt;/span&gt;
 
@@ -858,255 +775,173 @@ C compiler. It relies heavily on multi-stage builds and on pip wheels.&lt;/p&gt;
 &lt;span class="c"&gt;# Ignore the Python package index&lt;/span&gt;
 &lt;span class="c"&gt;# and look for archives in&lt;/span&gt;
 &lt;span class="c"&gt;# /root/wheels directory&lt;/span&gt;
-&lt;span class="k"&gt;RUN&lt;/span&gt; pip install &lt;span class="se"&gt;\
-&lt;/span&gt;      --no-index &lt;span class="se"&gt;\
-&lt;/span&gt;      --find-links&lt;span class="o"&gt;=&lt;/span&gt;/root/wheels &lt;span class="se"&gt;\
-&lt;/span&gt;      uwsgi
-&lt;/pre&gt;
-&lt;p&gt;Now run the following shell command:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-make build-small
-&lt;/pre&gt;
-&lt;p&gt;You should see something close to the following in your terminal:&lt;/p&gt;
-&lt;pre class="code text literal-block"&gt;
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-blog-python         small               b952f6280b00        1 second ago        97.4MB
-&amp;lt;none&amp;gt;              &amp;lt;none&amp;gt;              91c7bb911f32        3 minutes ago       249MB
-blog-python         big-uninstall       10a0eb5d42aa        23 minutes ago      251MB
-blog-python         big                 8a68d0dad407        34 minutes ago      251MB
-python              3.6-alpine          8eb1c554687d        16 hours ago        90.4MB
-&lt;/pre&gt;
-&lt;p&gt;Notice that the image tagged &amp;quot;small&amp;quot; is ~61% smaller than its &amp;quot;big&amp;quot;
-counterparts. It has 7 additional MB from its base alpine container. These
-megabytes represent only the uWSGI library itself. We'll need to make
-modifications to uWSGI itself to get any smaller. I leave uWSGI modifications
-as an exercise for the reader.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="explanation"&gt;
-&lt;h2&gt;Explanation&lt;/h2&gt;
-&lt;p&gt;Two key points are responsible for our Docker build's success:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;Reliance on copying between image stages in Docker multi-stage
-builds. This gets around caching problems with a single image&lt;/li&gt;
-&lt;li&gt;Understanding the difference between &amp;quot;pip install&amp;quot; and &amp;quot;pip wheel&amp;quot;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class="section" id="copying-betwen-docker-build-stages-in-multi-stage-build"&gt;
-&lt;h3&gt;Copying betwen Docker build stages in multi-stage build&lt;/h3&gt;
-&lt;p&gt;Unless we explicitly specify a &lt;a class="reference external" href="https://docs.docker.com/engine/reference/commandline/build/#specifying-target-build-stage---target"&gt;--target&lt;/a&gt;, Docker multi-stage builds will tag
-their last stage. Downstream build stages can reference upstream build stages
-and copy resources from them, similarly to how resources can be copied from any
-local or remote file system into a traditional Docker container. Therefore, we
-&amp;quot;compile&amp;quot; our Python code in one build stage and copy this compiled code in
-another build stage. Since the code no longer needs to be compiled, we don't
-need to a C compiler or Linux headers. As the coup de grâce, our build's final
-stage is not based on any image with a C compiler installed, so this approach
-completely avoids Docker's caching complexities.&lt;/p&gt;
-&lt;p&gt;Thanks to Docker's multi-stage builds, we are able to compile our Python
-package and avoid deploying the build's system dependencies in our final image.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="difference-between-pip-install-and-pip-wheel"&gt;
-&lt;h3&gt;Difference between &amp;quot;pip install&amp;quot; and &amp;quot;pip wheel&amp;quot;&lt;/h3&gt;
-&lt;p&gt;Docker multi-stage builds are cool and all, but I've seen many articles about
-them. Python's packaging tool, &lt;a class="reference external" href="https://pip.pypa.io/en/stable/"&gt;pip&lt;/a&gt;, hasn't gotten as much careful attention
-from the blogging community. Hopefully this section can clear up one common
-point of confusion: &lt;a class="reference external" href="https://pip.pypa.io/en/stable/reference/pip_install/"&gt;pip install&lt;/a&gt; vs &lt;a class="reference external" href="https://pip.pypa.io/en/stable/reference/pip_wheel/"&gt;pip wheel&lt;/a&gt;.&lt;/p&gt;
-&lt;div class="section" id="id1"&gt;
-&lt;h4&gt;pip install&lt;/h4&gt;
-&lt;p&gt;This is the command most people are familiar with. At a high level, it takes a
-Python package, runs its setup.py, downloads and installs its dependencies, and
-potentially does a lot more. Run &amp;quot;pip install&amp;quot; when you want to expand a
-package's contents and use it as its author intended.&lt;/p&gt;
-&lt;p&gt;A good mental model: &amp;quot;pip install&amp;quot; takes a consolidated bundle of code / build
-instructions and places the package's content and dependencies wherever they
-need to go on an operating system. Once &amp;quot;pip install&amp;quot; runs on our machine, file
-placement throughout our file system can be pretty &lt;a class="reference external" href="http://stayhawaiian.blogspot.com/2010/05/hamajang.html"&gt;hamajang&lt;/a&gt;, depending on a
-package's setup.py instructions.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h4&gt;pip wheel&lt;/h4&gt;
-&lt;p&gt;This tool is mostly used by library developers wanting to distribute their
-packages in a user-friendly way. For example, &lt;a class="reference external" href="http://scikit-learn.org"&gt;scikitlearn&lt;/a&gt;, a popular Python
-library for machine learning, requires &lt;a class="reference external" href="http://scikit-learn.org/stable/developers/advanced_installation.html"&gt;a lot of system dependencies&lt;/a&gt; to
-build. Many Python users, especially data scientists, are either unwilling or
-unable to install these dependencies on their host machines. This
-user-characteristic led to unfortunate platforms like &lt;a class="reference external" href="https://www.anaconda.com/what-is-anaconda/"&gt;Anaconda&lt;/a&gt; (author
-opinion). On a more mature note, for those of us with the appropriate
-dependencies installed, the installation process would often take a very long
-time; C, FORTRAN, and possibly other languages each needed to be compiled, and
-installing code written in these languages often leads to a long coffee break.&lt;/p&gt;
-&lt;p&gt;Wheels enable Python developers to compile a package, and its dependencies, in
-a distributable form targeting common operating system architectures. Today,
-most scikitlearn users install it &lt;a class="reference external" href="http://scikit-learn.org/stable/install.html"&gt;using its wheel&lt;/a&gt;, which takes a fraction of
-the time of the regular build process.&lt;/p&gt;
-&lt;p&gt;A good mental model: &amp;quot;pip wheel&amp;quot; takes a Python package, makes it ready to be
-installed on any target machine WITHOUT its build dependencies, and puts it in
-ONE easily-distributed archive file.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="why-we-care-about-this"&gt;
-&lt;h4&gt;Why we care about this?&lt;/h4&gt;
-&lt;p&gt;Not all Python packages are distributed as wheels. There are some packages,
-based mostly on C, that are hard to compile once and use in many places. uWSGI
-appears to be one of those packages. To build our final image, we construct
-a throw-away container to construct a wheel for uWSGI.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="conclusion"&gt;
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;When building a Docker container for a Python application, we can install
-packages requiring build-time system dependencies AND remove these system
-dependencies from our final Docker image through a combination of Docker
-multi-stage builds, pip wheel, and pip install.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="special-thanks"&gt;
-&lt;h2&gt;Special thanks&lt;/h2&gt;
-&lt;p&gt;This post took inspiration from &lt;a class="reference external" href="https://lekum.org/post/multistage-dockerfile/"&gt;this post&lt;/a&gt; by Alejandro Guirao. I am indebted
-to Alejandro for publishing his creative use of docker multi-stage builds in
-the context of Python systems.&lt;/p&gt;
-&lt;/div&gt;
-</content><category term="Software Development"></category><category term="Docker"></category><category term="Python"></category><category term="pip"></category></entry><entry><title>Vim Line Numbers</title><link href="https://samroeca.com/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-04-07:/vim-line-numbers.html</id><summary type="html">&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
-correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the
-correct times, I recommend installing the &lt;a class="reference external" href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
+&lt;span class="k"&gt;RUN&lt;/span&gt; pip install &lt;span class="se"&gt;\&lt;/span&gt;
+      --no-index &lt;span class="se"&gt;\&lt;/span&gt;
+      --find-links&lt;span class="o"&gt;=&lt;/span&gt;/root/wheels &lt;span class="se"&gt;\&lt;/span&gt;
+      uwsgi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class="section" id="the-problem"&gt;
-&lt;h2&gt;The Problem&lt;/h2&gt;
-&lt;p&gt;When editing text in a Vim window, I use relative numbers to help me use
-motions across text relative to my cursor. However, when I have multiple
-windows open, relative numbers look pretty weird in windows that I am not
-currently editing.  It would be nice for Vim to intelligently alternate between
-relativenumber and norelativenumber based on my Vim cursor location. Base Vim
-does not have this capability, so we have three options:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
+
+&lt;p&gt;Now run the following shell command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-small
+
+&lt;span class="go"&gt;REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE&lt;/span&gt;
+&lt;span class="go"&gt;blog-python         small               b952f6280b00        1 second ago        97.4MB&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;none&amp;gt;              &amp;lt;none&amp;gt;              91c7bb911f32        3 minutes ago       249MB&lt;/span&gt;
+&lt;span class="go"&gt;blog-python         big-uninstall       10a0eb5d42aa        23 minutes ago      251MB&lt;/span&gt;
+&lt;span class="go"&gt;blog-python         big                 8a68d0dad407        34 minutes ago      251MB&lt;/span&gt;
+&lt;span class="go"&gt;python              3.6-alpine          8eb1c554687d        16 hours ago        90.4MB&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice that the image tagged "small" is ~61% smaller than its "big" counterparts. It has 7 additional MB from its base alpine container. These megabytes represent only the uWSGI library itself. We'll need to make modifications to uWSGI itself to get any smaller. I leave uWSGI modifications as an exercise for the reader.&lt;/p&gt;
+&lt;h2 id="explanation"&gt;Explanation&lt;a class="headerlink" href="#explanation" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Two key points are responsible for our Docker build's success:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Reliance on copying between image stages in Docker multi-stage builds. This gets around caching problems with a single image&lt;/li&gt;
+&lt;li&gt;Understanding the difference between "pip install" and "pip wheel"&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="copying-betwen-docker-build-stages-in-multi-stage-build"&gt;Copying betwen Docker build stages in multi-stage build&lt;a class="headerlink" href="#copying-betwen-docker-build-stages-in-multi-stage-build" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Unless we explicitly specify a &lt;a href="https://docs.docker.com/engine/reference/commandline/build/#specifying-target-build-stage---target"&gt;--target&lt;/a&gt;, Docker multi-stage builds will tag their last stage. Downstream build stages can reference upstream build stages and copy resources from them, similarly to how resources can be copied from any local or remote file system into a traditional Docker container. Therefore, we "compile" our Python code in one build stage and copy this compiled code in another build stage. Since the code no longer needs to be compiled, we don't need to a C compiler or Linux headers. As the coup de grâce, our build's final stage is not based on any image with a C compiler installed, so this approach completely avoids Docker's caching complexities.&lt;/p&gt;
+&lt;p&gt;Thanks to Docker's multi-stage builds, we are able to compile our Python package and avoid deploying the build's system dependencies in our final image.&lt;/p&gt;
+&lt;h3 id="difference-between-pip-install-and-pip-wheel"&gt;Difference between "pip install" and "pip wheel"&lt;a class="headerlink" href="#difference-between-pip-install-and-pip-wheel" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Docker multi-stage builds are cool and all, but I've seen many articles about them. Python's packaging tool, &lt;a href="https://pip.pypa.io/en/stable/"&gt;pip&lt;/a&gt;, hasn't gotten as much careful attention from the blogging community. Hopefully this section can clear up one common point of confusion: &lt;a href="#pip-install"&gt;pip install&lt;/a&gt; vs &lt;a href="#pip-wheel"&gt;pip wheel&lt;/a&gt;.&lt;/p&gt;
+&lt;h4&gt;pip install&lt;/h4&gt;
+&lt;p&gt;This is the command most people are familiar with. At a high level, it takes a Python package, runs its setup.py, downloads and installs its dependencies, and potentially does a lot more. Run "pip install" when you want to expand a package's contents and use it as its author intended.&lt;/p&gt;
+&lt;p&gt;A good mental model: "pip install" takes a consolidated bundle of code / build instructions and places the package's content and dependencies wherever they need to go on an operating system. Once "pip install" runs on our machine, file placement throughout our file system can be pretty &lt;a href="http://stayhawaiian.blogspot.com/2010/05/hamajang.html"&gt;hamajang&lt;/a&gt;, depending on a package's setup.py instructions.&lt;/p&gt;
+&lt;h4&gt;pip wheel&lt;/h4&gt;
+&lt;p&gt;This tool is mostly used by library developers wanting to distribute their packages in a user-friendly way. For example, &lt;a href="http://scikit-learn.org"&gt;scikitlearn&lt;/a&gt;, a popular Python library for machine learning, requires &lt;a href="http://scikit-learn.org/stable/developers/advanced_installation.html"&gt;a lot of system dependencies&lt;/a&gt; to build. Many Python users, especially data scientists, are either unwilling or unable to install these dependencies on their host machines. This user-characteristic led to unfortunate platforms like &lt;a href="https://www.anaconda.com/what-is-anaconda/"&gt;Anaconda&lt;/a&gt; (author opinion). On a more mature note, for those of us with the appropriate dependencies installed, the installation process would often take a very long time; C, FORTRAN, and possibly other languages each needed to be compiled, and installing code written in these languages often leads to a long coffee break.&lt;/p&gt;
+&lt;p&gt;Wheels enable Python developers to compile a package, and its dependencies, in a distributable form targeting common operating system architectures. Today, most scikitlearn users install it &lt;a href="http://scikit-learn.org/stable/install.html"&gt;using its wheel&lt;/a&gt;, which takes a fraction of the time of the regular build process.&lt;/p&gt;
+&lt;p&gt;A good mental model: "pip wheel" takes a Python package, makes it ready to be installed on any target machine WITHOUT its build dependencies, and puts it in ONE easily-distributed archive file.&lt;/p&gt;
+&lt;h4&gt;Why we care about this?&lt;/h4&gt;
+&lt;p&gt;Not all Python packages are distributed as wheels. There are some packages, based mostly on C, that are hard to compile once and use in many places. uWSGI appears to be one of those packages. To build our final image, we construct a throw-away container to construct a wheel for uWSGI.&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;When building a Docker container for a Python application, we can install packages requiring build-time system dependencies AND remove these system dependencies from our final Docker image through a combination of Docker multi-stage builds, pip wheel, and pip install.&lt;/p&gt;
+&lt;h2 id="special-thanks"&gt;Special thanks&lt;a class="headerlink" href="#special-thanks" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;This post took inspiration from &lt;a href="https://lekum.org/post/multistage-dockerfile/"&gt;this post&lt;/a&gt; by Alejandro Guirao. I am indebted to Alejandro for publishing his creative use of docker multi-stage builds in the context of Python systems.&lt;/p&gt;</content><category term="Software Development"></category><category term="docker"></category><category term="python"></category><category term="pip"></category></entry><entry><title>Vim Line Numbers</title><link href="https://samroeca.com/vim-line-numbers.html" rel="alternate"></link><published>2018-04-07T00:00:00-05:00</published><updated>2018-04-07T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-04-07:/vim-line-numbers.html</id><summary type="html">
+&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the &lt;a href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
+</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table of Contents&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#the-problem"&gt;The Problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#wrapping-my-own-solution"&gt;Wrapping my own solution&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#the-good"&gt;The good&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-bad"&gt;The bad&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-back-breaking-straw"&gt;The back-breaking straw&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#the-game-changing-plugin"&gt;The Game-Changing Plugin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the &lt;a href="https://github.com/myusuf3/numbers.vim"&gt;myusuf3/numbers.vim&lt;/a&gt; plugin.&lt;/p&gt;
+
+
+&lt;h2 id="the-problem"&gt;The Problem&lt;a class="headerlink" href="#the-problem" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;When editing text in a Vim window, I use relative numbers to help me use motions across text relative to my cursor. However, when I have multiple windows open, relative numbers look pretty weird in windows that I am not currently editing. It would be nice for Vim to intelligently alternate between relativenumber and norelativenumber based on my Vim cursor location. Base Vim does not have this capability, so we have three options:&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;Accept a suboptimal workflow&lt;/li&gt;
 &lt;li&gt;Wrap our own solution in our .vimrc&lt;/li&gt;
 &lt;li&gt;Find a Plugin&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;I lived with option 1 for a while, but eventually grew too annoyed.  I then
-tried researching plugins, but thought I understood the problem well-enough to
-write my own solution. So I went straight to option 2 and tried wrapping my own
-solution.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="wrapping-my-own-solution"&gt;
-&lt;h2&gt;Wrapping my own solution&lt;/h2&gt;
+&lt;p&gt;I lived with option 1 for a while, but eventually grew too annoyed. I then tried researching plugins, but thought I understood the problem well-enough to write my own solution. So I went straight to option 2 and tried wrapping my own solution.&lt;/p&gt;
+&lt;h2 id="wrapping-my-own-solution"&gt;Wrapping my own solution&lt;a class="headerlink" href="#wrapping-my-own-solution" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The following code represents my original solution:&lt;/p&gt;
-&lt;pre class="code vim highlight literal-block"&gt;
-&lt;span class="ln"&gt; 1 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; ToggleRelativeNumber&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt; 2 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
-&lt;span class="ln"&gt; 3 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
-&lt;span class="ln"&gt; 4 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="ln"&gt; 5 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
-&lt;span class="ln"&gt; 6 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
-&lt;span class="ln"&gt; 7 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
-&lt;span class="ln"&gt; 8 &lt;/span&gt;
-&lt;span class="ln"&gt; 9 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUInsertEnter&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;10 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
-&lt;span class="ln"&gt;11 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'rnu'&lt;/span&gt;
-&lt;span class="ln"&gt;12 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;13 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="ln"&gt;14 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'nornu'&lt;/span&gt;
-&lt;span class="ln"&gt;15 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
-&lt;span class="ln"&gt;16 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
-&lt;span class="ln"&gt;17 &lt;/span&gt;
-&lt;span class="ln"&gt;18 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUInsertLeave&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;19 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'rnu'&lt;/span&gt;
-&lt;span class="ln"&gt;20 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;21 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="ln"&gt;22 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;23 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'nornu'&lt;/span&gt;
-&lt;span class="ln"&gt;24 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
-&lt;span class="ln"&gt;25 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
-&lt;span class="ln"&gt;26 &lt;/span&gt;
-&lt;span class="ln"&gt;27 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUWinEnter&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;28 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; exists&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'w:line_number_state'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="ln"&gt;29 &lt;/span&gt;    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'rnu'&lt;/span&gt;
-&lt;span class="ln"&gt;30 &lt;/span&gt;      &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;31 &lt;/span&gt;    &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="ln"&gt;32 &lt;/span&gt;      &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;33 &lt;/span&gt;    &lt;span class="k"&gt;endif&lt;/span&gt;
-&lt;span class="ln"&gt;34 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="ln"&gt;35 &lt;/span&gt;    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;36 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'rnu'&lt;/span&gt;
-&lt;span class="ln"&gt;37 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
-&lt;span class="ln"&gt;38 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
-&lt;span class="ln"&gt;39 &lt;/span&gt;
-&lt;span class="ln"&gt;40 &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUWinLeave&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;41 &lt;/span&gt;  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
-&lt;span class="ln"&gt;42 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'rnu'&lt;/span&gt;
-&lt;span class="ln"&gt;43 &lt;/span&gt;  &lt;span class="k"&gt;else&lt;/span&gt;
-&lt;span class="ln"&gt;44 &lt;/span&gt;    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'nornu'&lt;/span&gt;
-&lt;span class="ln"&gt;45 &lt;/span&gt;  &lt;span class="k"&gt;endif&lt;/span&gt;
-&lt;span class="ln"&gt;46 &lt;/span&gt;  &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;47 &lt;/span&gt;&lt;span class="k"&gt;endfunction&lt;/span&gt;
-&lt;span class="ln"&gt;48 &lt;/span&gt;&lt;span class="c"&gt;
-&lt;/span&gt;&lt;span class="ln"&gt;49 &lt;/span&gt;&lt;span class="c"&gt;&amp;quot; autocmd that will set up the w:created variable&lt;/span&gt;
-&lt;span class="ln"&gt;50 &lt;/span&gt;autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:created&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
-&lt;span class="ln"&gt;51 &lt;/span&gt;autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:created&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
-&lt;span class="ln"&gt;52 &lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;53 &lt;/span&gt;augroup rnu_nu
-&lt;span class="ln"&gt;54 &lt;/span&gt;  autocmd&lt;span class="p"&gt;!&lt;/span&gt;
-&lt;span class="ln"&gt;55 &lt;/span&gt;&lt;span class="c"&gt;  &amp;quot;Initial window settings&lt;/span&gt;
-&lt;span class="ln"&gt;56 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;exists&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'w:created'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
-&lt;span class="ln"&gt;57 &lt;/span&gt;        \&lt;span class="k"&gt;setlocal&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
-&lt;span class="ln"&gt;58 &lt;/span&gt;        \&lt;span class="k"&gt;endif&lt;/span&gt;
-&lt;span class="ln"&gt;59 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;User&lt;/span&gt; Startified &lt;span class="k"&gt;setlocal&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
-&lt;span class="ln"&gt;60 &lt;/span&gt;&lt;span class="c"&gt;  &amp;quot; Don't have relative numbers during insert mode&lt;/span&gt;
-&lt;span class="ln"&gt;61 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;InsertEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUInsertEnter&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;62 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;InsertLeave&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUInsertLeave&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;63 &lt;/span&gt;&lt;span class="c"&gt;  &amp;quot; Set and unset relative numbers when buffer is active&lt;/span&gt;
-&lt;span class="ln"&gt;64 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUWinEnter&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;65 &lt;/span&gt;  autocmd &lt;span class="nb"&gt;WinLeave&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUWinLeave&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="ln"&gt;66 &lt;/span&gt;augroup &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/pre&gt;
-&lt;div class="section" id="the-good"&gt;
-&lt;h3&gt;The good&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; ToggleRelativeNumber&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUInsertEnter&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nornu&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUInsertLeave&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nornu&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUWinEnter&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; exists&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;w:line_number_state&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+      &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+      &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; RNUWinLeave&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &amp;amp;&lt;span class="nb"&gt;rnu&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rnu&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:line_number_state &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;nornu&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;endif&lt;/span&gt;
+  &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;norelativenumber&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+&lt;span class="c"&gt;&amp;quot; autocmd that will set up the w:created variable&lt;/span&gt;
+autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:created&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * &lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;w&lt;/span&gt;:created&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+augroup rnu_nu
+  autocmd&lt;span class="p"&gt;!&lt;/span&gt;
+&lt;span class="c"&gt;  &amp;quot;Initial window settings&lt;/span&gt;
+  autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;exists&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;w:created&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+        \&lt;span class="k"&gt;setlocal&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+        \&lt;span class="k"&gt;endif&lt;/span&gt;
+  autocmd &lt;span class="nb"&gt;User&lt;/span&gt; Startified &lt;span class="k"&gt;setlocal&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt; &lt;span class="nb"&gt;relativenumber&lt;/span&gt;
+&lt;span class="c"&gt;  &amp;quot; Don&amp;#39;t have relative numbers during insert mode&lt;/span&gt;
+  autocmd &lt;span class="nb"&gt;InsertEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUInsertEnter&lt;span class="p"&gt;()&lt;/span&gt;
+  autocmd &lt;span class="nb"&gt;InsertLeave&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUInsertLeave&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="c"&gt;  &amp;quot; Set and unset relative numbers when buffer is active&lt;/span&gt;
+  autocmd &lt;span class="nb"&gt;WinEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUWinEnter&lt;span class="p"&gt;()&lt;/span&gt;
+  autocmd &lt;span class="nb"&gt;WinLeave&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; RNUWinLeave&lt;span class="p"&gt;()&lt;/span&gt;
+augroup &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3 id="the-good"&gt;The good&lt;a class="headerlink" href="#the-good" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The solution worked for most windows and tabs, most of the time.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="the-bad"&gt;
-&lt;h3&gt;The bad&lt;/h3&gt;
+&lt;h3 id="the-bad"&gt;The bad&lt;a class="headerlink" href="#the-bad" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;The code is a bit involved and it takes a little time to explain to others.&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;It relies on window-local variables (w:line_number_state, etc).
-These exacerbate Vim's already-difficult state-management woes.&lt;/li&gt;
+&lt;ol&gt;
+&lt;li&gt;It relies on window-local variables (w:line_number_state, etc). These exacerbate Vim's already-difficult state-management woes.&lt;/li&gt;
 &lt;li&gt;Several global functions are defined&lt;/li&gt;
-&lt;li&gt;There are some quirks I don't fully understand around the creation of
-variables during Vim startup (hence lines 50 and 51).&lt;/li&gt;
+&lt;li&gt;There are some quirks I don't fully understand around the creation of variables during Vim startup (hence lines 50 and 51).&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Despite these mild downsides, I was pretty proud that the solution mostly
-worked. That is, until I wasn't.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="the-back-breaking-straw"&gt;
-&lt;h3&gt;The back-breaking straw&lt;/h3&gt;
-&lt;p&gt;My custom solution did not work appropriately with some of my plugins. Namely,
-it didn't play well with &lt;a class="reference external" href="https://github.com/majutsushi/tagbar"&gt;majutsushi/tagbar&lt;/a&gt;, which I use frequently enough
-for this feature-dearth to become royally annoying. Therefore, after learning
-the ins-and-outs of window-specific variables and every Vim autocmd, I went
-back to the Plugin ecosystem to see if I'd missed anything...&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="the-game-changing-plugin"&gt;
-&lt;h2&gt;The Game-Changing Plugin&lt;/h2&gt;
-&lt;p&gt;Turns out a wonderful developer already solved this problem for me.
-Assuming you use &lt;a class="reference external" href="https://github.com/junegunn/vim-plug"&gt;junegunn/vim-plug&lt;/a&gt; to manage your plugins, place the
-following code in your .vimrc&lt;/p&gt;
-&lt;pre class="code vim literal-block"&gt;
-&lt;span class="k"&gt;call&lt;/span&gt; plug#begin&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'~/.vim/plugged'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;p&gt;Despite these mild downsides, I was pretty proud that the solution mostly worked. That is, until I wasn't.&lt;/p&gt;
+&lt;h3 id="the-back-breaking-straw"&gt;The back-breaking straw&lt;a class="headerlink" href="#the-back-breaking-straw" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;My custom solution did not work appropriately with some of my plugins. Namely, it didn't play well with &lt;a href="https://github.com/majutsushi/tagbar"&gt;majutsushi/tagbar&lt;/a&gt;, which I use frequently enough for this feature-dearth to become royally annoying. Therefore, after learning the ins-and-outs of window-specific variables and every Vim autocmd, I went back to the Plugin ecosystem to see if I'd missed anything...&lt;/p&gt;
+&lt;h2 id="the-game-changing-plugin"&gt;The Game-Changing Plugin&lt;a class="headerlink" href="#the-game-changing-plugin" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Turns out a wonderful developer already solved this problem for me. Assuming you use &lt;a href="https://github.com/junegunn/vim-plug"&gt;junegunn/vim-plug&lt;/a&gt; to manage your plugins, place the following code in your .vimrc&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;call&lt;/span&gt; plug#begin&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;~/.vim/plugged&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c"&gt;&amp;quot; Relative Numbering&lt;/span&gt;
-Plug &lt;span class="s1"&gt;'myusuf3/numbers.vim'&lt;/span&gt;
+Plug &lt;span class="s1"&gt;&amp;#39;myusuf3/numbers.vim&amp;#39;&lt;/span&gt;
 &lt;span class="c"&gt;&amp;quot; Put the rest of your plugins below...&lt;/span&gt;
 &lt;span class="k"&gt;call&lt;/span&gt; plug#&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="c"&gt;
-&amp;quot; Now, exclude the plugins you don't want numbers to deal with&lt;/span&gt;
-&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:numbers_exclude &lt;span class="p"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;'startify'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'gundo'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'vimshell'&lt;/span&gt;]
-&lt;/pre&gt;
+
+&lt;span class="c"&gt;&amp;quot; Now, exclude the plugins you don&amp;#39;t want numbers to deal with&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:numbers_exclude &lt;span class="p"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;&amp;#39;startify&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;gundo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;vimshell&amp;#39;&lt;/span&gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;This will give you a great editing experience. See below for a screencast:&lt;/p&gt;
-&lt;img alt="numbers.vim screencast" class="align-center" src="https://samroeca.com/gif/numbers-vim.gif" /&gt;
-&lt;/div&gt;
-&lt;div class="section" id="conclusion"&gt;
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Numbers.vim provides a usable line-numbering solution with minimal required
-configuration. I regret nothing about my bespoke journey, but I'm glad that
-Numbers.vim is my destination.&lt;/p&gt;
-&lt;/div&gt;
-</content><category term="Software Development"></category><category term="Vim"></category><category term="Vim Plugins"></category></entry></feed>
+&lt;p&gt;&lt;img alt="numbers.vim screencast" class="align-center" src="https://samroeca.com/gif/numbers-vim.gif"&gt;&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Numbers.vim provides a usable line-numbering solution with minimal required configuration. I regret nothing about my bespoke journey, but I'm glad that Numbers.vim is my destination.&lt;/p&gt;</content><category term="Software Development"></category><category term="Vim"></category><category term="Vim Plugins"></category></entry></feed>
