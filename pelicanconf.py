@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = 'Samuel Roeca'
+AUTHOR = "Samuel Roeca"
 SITENAME = "Sam's Blog"
 
 JINJA_ENVIRONMENT = {
-    'extensions': [
-        'jinja2.ext.i18n',
+    "extensions": [
+        "jinja2.ext.i18n",
     ],
 }
 
-PATH = 'content'
+PATH = "content"
 
-TIMEZONE = 'EST'
+TIMEZONE = "EST"
 
-DEFAULT_LANG = 'en'
-I18N_TEMPLATES_LANG = 'en'
+DEFAULT_LANG = "en"
+I18N_TEMPLATES_LANG = "en"
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -28,28 +28,28 @@ AUTHOR_FEED_RSS = None
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+# RELATIVE_URLS = True
 
 # How to extract data from filename
 # Currently, only does the slug
 # FILENAME_METADATA = '(?P<date>\d{4}-\d{2}-\d{2})_(?P<slug>.*)'
-FILENAME_METADATA = '(?P<slug>.*)'
+FILENAME_METADATA = "(?P<slug>.*)"
 
 # Ignore caching
 LOAD_CONTENT_CACHE = False
 
 # static pathes for publishing
-_CUSTOM_CSS = 'static/custom.css'
+_CUSTOM_CSS = "static/custom.css"
 EXTRA_PATH_METADATA = {
-    'extra/custom.css': {
-        'path': _CUSTOM_CSS,
+    "extra/custom.css": {
+        "path": _CUSTOM_CSS,
     },
 }
 STATIC_PATHS = [
-    'images',
-    'theme/images',
-    'gif',
-    'extra',
+    "images",
+    "theme/images",
+    "gif",
+    "extra",
 ]
 
 # Code blocks
@@ -61,68 +61,85 @@ PYGMENTS_RST_OPTIONS = {
 # Flex theme-specific configurations
 #######################################################################
 
-THEME = 'pelican-themes/Flex'
+THEME = "pelican-themes/Flex"
 
-FAVICON = '/theme/images/favicon.ico'
-PYGMENTS_STYLE = 'tango'
+FAVICON = "/theme/images/favicon.ico"
+PYGMENTS_STYLE = "tango"
 
 SITESUBTITLE = "Sam's blog"
 SITEDESCRIPTION = "Samuel Roeca's blog"
-SITEURL = 'http://localhost:8000'
-SITELOGO = '/images/sam-headshot-kepler-300x300.jpg'
+SITEURL = "http://localhost:8000"
+SITELOGO = "/images/sam-headshot-kepler-300x300.jpg"
 
 MAIN_MENU = True
 
 CUSTOM_CSS = _CUSTOM_CSS
 
 SOCIAL = (
-    ('github', 'https://github.com/pappasam'),
-    ('linkedin-square', 'https://www.linkedin.com/in/samuel-roeca-23010735'),
-    ('facebook','https://www.facebook.com/sam.roeca'),
-    ('twitter', 'https://twitter.com/SamRoeca'),
-    ('youtube', 'https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA?view_as=subscriber'),
-    ('envelope-o', 'mailto:samuel.roeca@gmail.com'),
+    ("github", "https://github.com/pappasam"),
+    ("linkedin-square", "https://www.linkedin.com/in/samuel-roeca-23010735"),
+    ("facebook", "https://www.facebook.com/sam.roeca"),
+    ("twitter", "https://twitter.com/SamRoeca"),
+    (
+        "youtube",
+        "https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA?view_as=subscriber",
+    ),
+    ("envelope-o", "mailto:samuel.roeca@gmail.com"),
 )
 
 DIRECT_TEMPLATES = [
-    'index',
-    'categories',
-    'authors',
-    'archives',
-    'tags',
+    "index",
+    "categories",
+    "authors",
+    "archives",
+    "tags",
 ]
 
 MENUITEMS = (
-    ('Archives', '/archives.html'),
-    ('Categories', '/categories.html'),
-    ('Tags', '/tags.html'),
+    ("Archives", "/archives.html"),
+    ("Categories", "/categories.html"),
+    ("Tags", "/tags.html"),
 )
+
+MARKDOWN = {
+    "extension_configs": {
+        "markdown.extensions.codehilite": {
+            "css_class": "highlight",
+        },
+        "markdown.extensions.extra": {},
+        "markdown.extensions.meta": {},
+        "markdown.extensions.toc": {
+            "permalink": True,
+        },
+    },
+    "output_format": "html5",
+}
 
 #######################################################################
 # Pelican Plugins
 #######################################################################
 
-PLUGIN_PATHS = ['pelican-plugins']
+PLUGIN_PATHS = ["pelican-plugins"]
 PLUGINS = [
-    'i18n_subsites',
-    'sitemap',
-    'extract_toc',
-    'neighbors',
-    'assets',              # minifies css assets
-    'summary',
+    "i18n_subsites",
+    "sitemap",
+    "extract_toc",
+    "neighbors",
+    "assets",  # minifies css assets
+    "summary",
 ]
 
 # sitemap
 SITEMAP = {
-    'format': 'xml',
-    'priorities': {
-        'articles': 1,
-        'pages': 1,
-        'indexes': 1,
+    "format": "xml",
+    "priorities": {
+        "articles": 1,
+        "pages": 1,
+        "indexes": 1,
     },
-    'changefreqs': {
-        'articles': 'always',
-        'pages': 'always',
-        'indexes': 'always',
+    "changefreqs": {
+        "articles": "always",
+        "pages": "always",
+        "indexes": "always",
     },
 }

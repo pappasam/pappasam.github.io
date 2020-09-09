@@ -2,6 +2,11 @@
   background-color: #f8f8f8;
 }
 
+.headerlink {
+    padding-left: 1rem;
+    color: #242121;
+}
+
 .literal-block, .highlight {
   font-size: 1rem;
   line-height: 1rem;
