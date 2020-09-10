@@ -36,12 +36,12 @@
 <!-- End Google Analytics -->
 
 <meta name="author" content="Samuel Roeca" />
-<meta name="description" content="If you follow these steps, you&#39;ll end up with the smallest-possible Python Docker container with all your Python dependencies intact." />
+<meta name="description" content="Create the smallest-possible Python Docker container with all your Python dependencies intact." />
 <meta name="keywords" content="docker, python, pip">
 
 <meta property="og:site_name" content="Sam's Blog"/>
 <meta property="og:title" content="Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels"/>
-<meta property="og:description" content="If you follow these steps, you&#39;ll end up with the smallest-possible Python Docker container with all your Python dependencies intact."/>
+<meta property="og:description" content="Create the smallest-possible Python Docker container with all your Python dependencies intact."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://samroeca.com/docker-python-install-wheels.html"/>
 <meta property="og:type" content="article"/>
@@ -138,11 +138,7 @@ required at runtime, structure your build as follows:</p>
 <li>Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels</li>
 <li>The rest of your build will be based on Stage 2</li>
 </ol>
-
-
 <p>If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact.</p>
-
-
 <p>Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that you are running <a href="https://github.com/python/cpython">CPython</a> (Python's reference implementation).</p>
 <h2 id="the-problem">The problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
 <p>We want to do a Python system build using Docker. Python system builds often require installing third-party code. This third-party code may contain code or resources that must be compiled during their installation. For simplicity's sake, assume we are talking about source code in the C programming language. Since a Docker container will be our "target machine", we'll need a C compiler in our Docker container. Unfortunately, C compilers are large programs. Since we plan to scale our number of containers up and down based on the demand for its provided service, the image should ideally be as small as possible.</p>

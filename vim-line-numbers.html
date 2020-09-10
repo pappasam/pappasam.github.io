@@ -36,12 +36,12 @@
 <!-- End Google Analytics -->
 
 <meta name="author" content="Samuel Roeca" />
-<meta name="description" content="If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the myusuf3/numbers.vim plugin." />
+<meta name="description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times." />
 <meta name="keywords" content="Vim, Vim Plugins">
 
 <meta property="og:site_name" content="Sam's Blog"/>
 <meta property="og:title" content="Vim Line Numbers"/>
-<meta property="og:description" content="If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the myusuf3/numbers.vim plugin."/>
+<meta property="og:description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://samroeca.com/vim-line-numbers.html"/>
 <meta property="og:type" content="article"/>
@@ -122,11 +122,7 @@
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-
-
 <p>If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the <a href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a> plugin.</p>
-
-
 <h2 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
 <p>When editing text in a Vim window, I use relative numbers to help me use motions across text relative to my cursor. However, when I have multiple windows open, relative numbers look pretty weird in windows that I am not currently editing. It would be nice for Vim to intelligently alternate between relativenumber and norelativenumber based on my Vim cursor location. Base Vim does not have this capability, so we have three options:</p>
 <ol>

@@ -36,12 +36,12 @@
 <!-- End Google Analytics -->
 
 <meta name="author" content="Samuel Roeca" />
-<meta name="description" content="Most modern software developers are aware of Git and its accompanying gitignore file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory but the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project&#39;s root gitignore." />
+<meta name="description" content="Discover two techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory other than the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project&#39;s root gitignore." />
 <meta name="keywords" content="version control, Git">
 
 <meta property="og:site_name" content="Sam's Blog"/>
 <meta property="og:title" content="Gitignore-A-Palooza: Two Tricks"/>
-<meta property="og:description" content="Most modern software developers are aware of Git and its accompanying gitignore file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory but the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project&#39;s root gitignore."/>
+<meta property="og:description" content="Discover two techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory other than the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project&#39;s root gitignore."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://samroeca.com/ignore-git.html"/>
 <meta property="og:type" content="article"/>
@@ -116,11 +116,7 @@
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-
-
 <p>Most modern software developers are aware of <a href="https://git-scm.com/">Git</a> and its accompanying <a href="https://git-scm.com/docs/gitignore">gitignore</a> file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory <strong>but</strong> the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project's root gitignore.</p>
-
-
 <p>Note: when discussing "<a href="https://git-scm.com/docs/gitignore">gitignore</a>" and "<a href="http://ternjs.net/doc/manual.html#configuration">tern-project</a>", I may sometimes add a "." before the filename. Whether I <a href="http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/">do or do not</a>, I'm talking about the same file (eg, ".gitignore" == "gitignore").</p>
 <h2 id="ignore-directory-contents-keep-directory">Ignore directory contents, keep directory<a class="headerlink" href="#ignore-directory-contents-keep-directory" title="Permanent link">&para;</a></h2>
 <p>It is often convenient to have a directory whose contents are not committed to version control. For example, this directory may contain large non-general data files (images, financial data, etc). Additionally, these could be small files with sensitive information specific to one person (passwords, ssh keys, etc). Either way, we do not want these files committed to our project's version control system. For the purposes of this conversation, we'll call this folder "instance" and place it at the root of our project.</p>
