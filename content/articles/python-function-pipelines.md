@@ -1,9 +1,9 @@
 ---
-title: Python Function Pipelines
+title: Python function pipelines
 date: 2018-06-02
-category: Software Development
+category: software development
 modified: 2018-06-02
-tags: python, unix, pipeline, functional programming
+tags: python, unix, functional programming
 summary: Develop a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.
 ---
 

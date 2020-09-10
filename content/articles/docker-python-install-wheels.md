@@ -1,10 +1,10 @@
 ---
-title: Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels
+title: Smaller python docker containers
 date: 2018-04-21
-category: Software Development
+category: software development
 modified: 2018-04-21
 tags: docker, python, pip
-summary: Create the smallest-possible Python Docker container with all your Python dependencies intact.
+summary: Create a small Python Docker continer using Docker multi-stage builds and Python wheels.
 ---
 
 [TOC]
