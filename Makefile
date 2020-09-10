@@ -10,7 +10,7 @@ help:  ## Print this help menu
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: setup
-setup: clone-themes clone-plugins  ## Setup a freshly cloned version of the website
+setup: clone-themes
 	poetry install
 
 .PHONY: clean
@@ -39,9 +39,5 @@ build-publish:  ## Build a static, production version of the website
 	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF)
 
 .PHONY: clone-themes
-clone-themes:  ## Clone all official pelican themes to ./pelican-themes
-	git clone --recursive git@github.com:getpelican/pelican-themes.git
-
-.PHONY: clone-plugins
-clone-plugins:  ## Clone all official pelican plugins to ./pelican-plugins
-	git clone --recursive git@github.com:getpelican/pelican-plugins.git
+clone-themes:  ## Clone relevant themes to ./pelican-themes
+	git clone git@github.com:alexandrevicenzi/Flex.git pelican-themes/Flex
