@@ -114,6 +114,9 @@ MARKDOWN = {
             "marker": "[TOC]",
             "toc_depth": 3,
         },
+        "mdx_include": {
+            "base_path": "./content/articles"
+        },
     },
     "output_format": "html5",
 }

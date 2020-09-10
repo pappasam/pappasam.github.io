@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 '''Simple function example'''
 
-# functions: begin
 def add_5(value: int) -> int:
     return value + 5
 
@@ -10,18 +9,14 @@ def add_6(value: int) -> int:
 
 def add_7(value: int) -> int:
     return value + 7
-# functions: end
 
-# reassignment: begin
 x_0 = 0
 x_5 = add_5(x_0)
 x_6 = add_6(x_5)
 x = add_7(x_6)
 
 print(f'x={x}')
-# reassignment: end
 
-# simple reduce: begin
 from functools import reduce
 y = reduce(
     lambda value, function: function(value),
@@ -34,9 +29,7 @@ y = reduce(
 )
 
 print(f'y={y}')
-# simple reduce: end
 
-# pipeline: begin
 from typing import TypeVar, Callable, Sequence
 
 T = TypeVar('T')
@@ -63,4 +56,3 @@ z = pipeline(
 )
 
 print(f'z={z}')
-# pipeline: end
