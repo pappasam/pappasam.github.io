@@ -354,19 +354,28 @@ special .gitignore contents:
 
 &lt;p&gt;Once you've done this, I recommend submitting one or two impressive pull requests. You should be invited as a repository &lt;a href="https://help.github.com/articles/github-glossary/#collaborator"&gt;collaborator&lt;/a&gt; (or its equivalent) in no time. With credentials in hand, you can then suggest the group adopt your awesome &lt;a href="https://github.com/ternjs/tern"&gt;Tern&lt;/a&gt;-based workflow (and your humble &lt;a href="http://ternjs.net/doc/manual.html#configuration"&gt;tern-project&lt;/a&gt; file) into the project. At this point, you should remove the ".tern-project" line from .git/info/exclude.&lt;/p&gt;
 &lt;h2 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Ignoring directory contents while retaining directories is easy. Privately ignoring the files only you care about (for now) is also easy. Hopefully you learned something from this post and happy hacking!&lt;/p&gt;</content><category term="Software Development"></category><category term="version control"></category><category term="Git"></category></entry><entry><title>Python Function Pipelines</title><link href="https://samroeca.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
-function pipeline. This post presents a simple, strongly-typed function
-pipeline for your personal projects to make beautiful, explicit, Unix-like
-pipelines in Python.  Requires Python 3.6 or greater.&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;If your Python code represents a function pipeline, it should look like a
-function pipeline. This post presents a simple, strongly-typed function
-pipeline for your personal projects to make beautiful, explicit, Unix-like
-pipelines in Python.  Requires Python 3.6 or greater.&lt;/p&gt;
+&lt;p&gt;Ignoring directory contents while retaining directories is easy. Privately ignoring the files only you care about (for now) is also easy. Hopefully you learned something from this post and happy hacking!&lt;/p&gt;</content><category term="Software Development"></category><category term="version control"></category><category term="Git"></category></entry><entry><title>Python Function Pipelines</title><link href="https://samroeca.com/python-function-pipelines.html" rel="alternate"></link><published>2018-06-02T00:00:00-05:00</published><updated>2018-06-02T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-06-02:/python-function-pipelines.html</id><summary type="html">
+&lt;p&gt;If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.  Requires Python 3.6 or greater.&lt;/p&gt;
+</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table of Contents&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#the-problem"&gt;The problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#unix-pipes"&gt;Unix pipes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#example"&gt;Example&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#solution-1-name-each-step-in-the-pipeline"&gt;Solution 1: name each step in the pipeline&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#solution-2-use-the-reduce-function"&gt;Solution 2: use the "reduce" function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#solution-3-custom-pipeline-function"&gt;Solution 3: custom "pipeline" function&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#full-script"&gt;Full script&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 
-&lt;p&gt;I was reading through the pytorch reinforcement learning &lt;a class="reference external" href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html"&gt;documentation&lt;/a&gt; today
-and came across the following irksome pattern:&lt;/p&gt;
-&lt;pre class="code python highlight literal-block"&gt;
-&lt;span class="o"&gt;...&lt;/span&gt;
+
+&lt;p&gt;If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.  Requires Python 3.6 or greater.&lt;/p&gt;
+
+
+&lt;p&gt;I was reading through the pytorch reinforcement learning &lt;a href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html"&gt;documentation&lt;/a&gt; today and came across the following irksome pattern:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;...&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;relu&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bn1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conv1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
@@ -374,58 +383,36 @@ and came across the following irksome pattern:&lt;/p&gt;
     &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;relu&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bn3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conv3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="o"&gt;..&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;The manipulation and reassignment of a variable &lt;em&gt;x&lt;/em&gt; to itself as it is passed
-through a neural network's gateways makes neural networks that much harder to
-follow. IMHO, explicit variable &lt;strong&gt;reassignment&lt;/strong&gt; is almost always bad because
-it makes it hard for my limited human brain to track a variable name's
-associated data during program execution. If a program tells me that &lt;em&gt;x&lt;/em&gt; is an
-integer on line 10 and then &lt;strong&gt;reassigns&lt;/strong&gt; it to a string on line 20, I will
-want to delete said program from my computer, take a cold shower, and exact
-revenge on the program's author. With that established, let's just avoid
-reassignment altogether.&lt;/p&gt;
-&lt;div class="section" id="the-problem"&gt;
-&lt;h2&gt;The problem&lt;/h2&gt;
-&lt;p&gt;In the above example, variable reassignment is convenient. It prevents the
-programmer from needing to come up with new names for each state in the
-connected pipeline. How can we find an elegant way of avoiding explicit
-variable reassignment in the pipeline use-case while still producing readable,
-performant code? The answer: take inspiration from Unix pipes!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="unix-pipes"&gt;
-&lt;h2&gt;Unix pipes&lt;/h2&gt;
-&lt;p&gt;In the Unix shell, virtually everything we work with has the same type: a
-&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Everything_is_a_file"&gt;file&lt;/a&gt;. &amp;quot;Everything is a File&amp;quot; makes it easy to chain functions together because
-all commands take files as inputs and return files as outputs.  One common way
-to chain system calls in Unix is called the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Anonymous_pipe"&gt;anonymous pipe&lt;/a&gt;, which enables
-programmers to chain command line programs together to manipulate a text
-stream. See the following example:&lt;/p&gt;
-&lt;pre class="code bash highlight literal-block"&gt;
-&lt;span class="ch"&gt;#!/bin/bash
-&lt;/span&gt;
-&lt;span class="c1"&gt;# Count the number of words
-&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hello hello hello world world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; wc -w
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;span class="c1"&gt;# Count the number of words that are not &amp;quot;hello&amp;quot;
-&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hello hello hello world world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;'s/hello//g'&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; wc -w
 
-&lt;span class="c1"&gt;# Count the number of words that are not &amp;quot;world&amp;quot;
-&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hello hello hello world world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;'s/world//g'&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; wc -w
+&lt;p&gt;The manipulation and reassignment of a variable &lt;em&gt;x&lt;/em&gt; to itself as it is passed through a neural network's gateways makes neural networks that much harder to follow. IMHO, explicit variable &lt;strong&gt;reassignment&lt;/strong&gt; is almost always bad because it makes it hard for my limited human brain to track a variable name's associated data during program execution. If a program tells me that &lt;em&gt;x&lt;/em&gt; is an integer on line 10 and then &lt;strong&gt;reassigns&lt;/strong&gt; it to a string on line 20, I will want to delete said program from my computer, take a cold shower, and exact revenge on the program's author. With that established, let's just avoid reassignment altogether.&lt;/p&gt;
+&lt;h2 id="the-problem"&gt;The problem&lt;a class="headerlink" href="#the-problem" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;In the above example, variable reassignment is convenient. It prevents the programmer from needing to come up with new names for each state in the connected pipeline. How can we find an elegant way of avoiding explicit variable reassignment in the pipeline use-case while still producing readable, performant code? The answer: take inspiration from Unix pipes!&lt;/p&gt;
+&lt;h2 id="unix-pipes"&gt;Unix pipes&lt;a class="headerlink" href="#unix-pipes" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;In the Unix shell, virtually everything we work with has the same type: a &lt;a href="https://en.wikipedia.org/wiki/Everything_is_a_file"&gt;file&lt;/a&gt;. "Everything is a File" makes it easy to chain functions together because all commands take files as inputs and return files as outputs.  One common way to chain system calls in Unix is called the &lt;a href="https://en.wikipedia.org/wiki/Anonymous_pipe"&gt;anonymous pipe&lt;/a&gt;, which enables programmers to chain command line programs together to manipulate a text stream. See the following example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
 
-&lt;span class="c1"&gt;# Should print the following to console:
-# 5
-# 2
-# 3&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;Notice that data flows &lt;strong&gt;through&lt;/strong&gt; the pipeline and no variable reassignment is
-used. The Unix pipeline is beautiful in this regard; I'd like to build
-something similar in Python.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="example"&gt;
-&lt;h2&gt;Example&lt;/h2&gt;
+&lt;span class="c1"&gt;# Count the number of words&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hello hello hello world world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; wc -w
+
+&lt;span class="c1"&gt;# Count the number of words that are not &amp;quot;hello&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hello hello hello world world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;s/hello//g&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; wc -w
+
+&lt;span class="c1"&gt;# Count the number of words that are not &amp;quot;world&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;hello hello hello world world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;s/world//g&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; wc -w
+
+&lt;span class="c1"&gt;# Should print the following to console:&lt;/span&gt;
+&lt;span class="c1"&gt;# 5&lt;/span&gt;
+&lt;span class="c1"&gt;# 2&lt;/span&gt;
+&lt;span class="c1"&gt;# 3&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice that data flows &lt;strong&gt;through&lt;/strong&gt; the pipeline and no variable reassignment is used. The Unix pipeline is beautiful in this regard; I'd like to build something similar in Python.&lt;/p&gt;
+&lt;h2 id="example"&gt;Example&lt;a class="headerlink" href="#example" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Let's say we have the following three functions:&lt;/p&gt;
-&lt;pre class="code python highlight literal-block"&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add_5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add_5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add_6&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -433,32 +420,25 @@ something similar in Python.&lt;/p&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add_7&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;Our &lt;strong&gt;example problem&lt;/strong&gt;: take an initial integer 0 and add 5, then 6, then 7
-to it using our three functions so that our final result is 18.&lt;/p&gt;
-&lt;div class="section" id="solution-1-name-each-step-in-the-pipeline"&gt;
-&lt;h3&gt;Solution 1: name each step in the pipeline&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Our &lt;strong&gt;example problem&lt;/strong&gt;: take an initial integer 0 and add 5, then 6, then 7 to it using our three functions so that our final result is 18.&lt;/p&gt;
+&lt;h3 id="solution-1-name-each-step-in-the-pipeline"&gt;Solution 1: name each step in the pipeline&lt;a class="headerlink" href="#solution-1-name-each-step-in-the-pipeline" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;We can do slightly better than the pytorch example and create a unique variable
 name for each step in the process.&lt;/p&gt;
-&lt;pre class="code python highlight literal-block"&gt;
-&lt;span class="n"&gt;x_0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;x_0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
 &lt;span class="n"&gt;x_5&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x_6&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_6&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_7&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'x=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;Besides being pretty ugly / hard to read, this creates some useless names in
-our module's scope. Do we really need to give each step its own name? We don't
-use the steps anywhere else and this makes the pipeline pretty hard to edit.
-This solution almost makes we wish we could go back to reassignment.
-Fortunately, the entire pipeline can be expressed with one name thanks to the
-&amp;quot;reduce&amp;quot; function.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="solution-2-use-the-reduce-function"&gt;
-&lt;h3&gt;Solution 2: use the &amp;quot;reduce&amp;quot; function&lt;/h3&gt;
-&lt;pre class="code python highlight literal-block"&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Besides being pretty ugly / hard to read, this creates some useless names in our module's scope. Do we really need to give each step its own name? We don't use the steps anywhere else and this makes the pipeline pretty hard to edit. This solution almost makes we wish we could go back to reassignment. Fortunately, the entire pipeline can be expressed with one name thanks to the "reduce" function.&lt;/p&gt;
+&lt;h3 id="solution-2-use-the-reduce-function"&gt;Solution 2: use the "reduce" function&lt;a class="headerlink" href="#solution-2-use-the-reduce-function" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;
 &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="p"&gt;(&lt;/span&gt;
@@ -469,40 +449,27 @@ Fortunately, the entire pipeline can be expressed with one name thanks to the
     &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'y=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;This example uses the standard library &amp;quot;reduce&amp;quot; function. Originally, &amp;quot;reduce&amp;quot;
-was intended to take a list of values and collapse them into one value. This
-use-case is described well in the &lt;a class="reference external" href="https://docs.python.org/3/library/functools.html#functools.reduce"&gt;Python documentation&lt;/a&gt; and in this
-&lt;a class="reference external" href="https://www.youtube.com/watch?v=ZrZ6vJGiE8I"&gt;YouTube&lt;/a&gt; video. Here, we use it a bit differently. Instead of taking a list
-of values and applying a &amp;quot;collapsing&amp;quot; function to them, we take a list of
-functions and pass a value through them. This has obvious advantages over
-solution 1: we can easily swap new functions in and out of the pipeline to suit
-our needs without needing to adjust any other code / rename pipeline steps
-(because we haven't named the steps at all!).&lt;/p&gt;
-&lt;p&gt;This solution frees us from naming each step in our pipeline but it does have
-some disadvantages: &amp;quot;reduce&amp;quot; is kind of hard to read and this use-case isn't
-quite standard. Whenever we find ourselves using a standard library function in
-a confusing way, that's a signal that we should probably define our own
-function to make this clearer to ourselves and to those who read our code.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="solution-3-custom-pipeline-function"&gt;
-&lt;h3&gt;Solution 3: custom &amp;quot;pipeline&amp;quot; function&lt;/h3&gt;
-&lt;pre class="code python highlight literal-block"&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;typing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;TypeVar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Callable&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Sequence&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TypeVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'T'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;p&gt;This example uses the standard library "reduce" function. Originally, "reduce" was intended to take a list of values and collapse them into one value. This use-case is described well in the &lt;a href="https://docs.python.org/3/library/functools.html#functools.reduce"&gt;Python documentation&lt;/a&gt; and in this &lt;a href="https://www.youtube.com/watch?v=ZrZ6vJGiE8I"&gt;YouTube&lt;/a&gt; video. Here, we use it a bit differently. Instead of taking a list of values and applying a "collapsing" function to them, we take a list of functions and pass a value through them. This has obvious advantages over solution 1: we can easily swap new functions in and out of the pipeline to suit our needs without needing to adjust any other code / rename pipeline steps (because we haven't named the steps at all!).&lt;/p&gt;
+&lt;p&gt;This solution frees us from naming each step in our pipeline but it does have some disadvantages: "reduce" is kind of hard to read and this use-case isn't quite standard. Whenever we find ourselves using a standard library function in a confusing way, that's a signal that we should probably define our own function to make this clearer to ourselves and to those who read our code.&lt;/p&gt;
+&lt;h3 id="solution-3-custom-pipeline-function"&gt;Solution 3: custom "pipeline" function&lt;a class="headerlink" href="#solution-3-custom-pipeline-function" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;typing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;TypeVar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Callable&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Sequence&lt;/span&gt;
+
+&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TypeVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;T&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
         &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
         &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Sequence&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Callable&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;]],&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="sd"&gt;'''A generic Unix-like pipeline
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;A generic Unix-like pipeline&lt;/span&gt;
 
-    :param value: the value you want to pass through a pipeline
-    :param function_pipeline: an ordered list of functions that
-        comprise your pipeline
-    '''&lt;/span&gt;
+&lt;span class="sd"&gt;    :param value: the value you want to pass through a pipeline&lt;/span&gt;
+&lt;span class="sd"&gt;    :param function_pipeline: an ordered list of functions that&lt;/span&gt;
+&lt;span class="sd"&gt;        comprise your pipeline&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
@@ -514,22 +481,15 @@ function to make this clearer to ourselves and to those who read our code.&lt;/p
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'z=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;This solution is elegant and explicit. It is generic and works with mypy. As
-long as our function pipeline contains only functions that take our value's
-type and return our value's type (similar to Unix command line utilities, where
-everything is a file), this pipeline will successfully pass our value in a
-type-safe way.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="full-script"&gt;
-&lt;h2&gt;Full script&lt;/h2&gt;
-&lt;pre class="code python highlight literal-block"&gt;
-&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
-&lt;span class="sd"&gt;'''Simple function example'''&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;z=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;span class="c1"&gt;# functions: begin&lt;/span&gt;
+
+&lt;p&gt;This solution is elegant and explicit. It is generic and works with mypy. As long as our function pipeline contains only functions that take our value's type and return our value's type (similar to Unix command line utilities, where everything is a file), this pipeline will successfully pass our value in a type-safe way.&lt;/p&gt;
+&lt;h2 id="full-script"&gt;Full script&lt;a class="headerlink" href="#full-script" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;Simple function example&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add_5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 
@@ -538,18 +498,14 @@ type-safe way.&lt;/p&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add_7&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;
-&lt;span class="c1"&gt;# functions: end&lt;/span&gt;
 
-&lt;span class="c1"&gt;# reassignment: begin&lt;/span&gt;
 &lt;span class="n"&gt;x_0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
 &lt;span class="n"&gt;x_5&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_5&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x_6&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_6&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;add_7&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'x=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="c1"&gt;# reassignment: end&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="c1"&gt;# simple reduce: begin&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;
 &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
@@ -561,24 +517,22 @@ type-safe way.&lt;/p&gt;
     &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'y=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="c1"&gt;# simple reduce: end&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="c1"&gt;# pipeline: begin&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;typing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;TypeVar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Callable&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Sequence&lt;/span&gt;
 
-&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TypeVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'T'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TypeVar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;T&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
         &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
         &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Sequence&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Callable&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;]],&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="sd"&gt;'''A generic Unix-like pipeline
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;A generic Unix-like pipeline&lt;/span&gt;
 
-    :param value: the value you want to pass through a pipeline
-    :param function_pipeline: an ordered list of functions that
-        comprise your pipeline
-    '''&lt;/span&gt;
+&lt;span class="sd"&gt;    :param value: the value you want to pass through a pipeline&lt;/span&gt;
+&lt;span class="sd"&gt;    :param function_pipeline: an ordered list of functions that&lt;/span&gt;
+&lt;span class="sd"&gt;        comprise your pipeline&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;function_pipeline&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pipeline&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
@@ -590,17 +544,12 @@ type-safe way.&lt;/p&gt;
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'z=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="c1"&gt;# pipeline: end&lt;/span&gt;
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div class="section" id="conclusion"&gt;
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;If your system resembles a pipeline, don't reassign your piped variable to
-itself. There is a better way and it's pretty much built into Python.  You'll
-just need to care enough to use it.&lt;/p&gt;
-&lt;/div&gt;
-</content><category term="Software Development"></category><category term="Python"></category><category term="Unix"></category><category term="pipeline"></category><category term="functional programming"></category></entry><entry><title>Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</title><link href="https://samroeca.com/docker-python-install-wheels.html" rel="alternate"></link><published>2018-04-21T00:00:00-05:00</published><updated>2018-04-21T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-04-21:/docker-python-install-wheels.html</id><summary type="html">
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;z=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;If your system resembles a pipeline, don't reassign your piped variable to itself. There is a better way and it's pretty much built into Python.  You'll just need to care enough to use it.&lt;/p&gt;</content><category term="Software Development"></category><category term="Python"></category><category term="Unix"></category><category term="pipeline"></category><category term="functional programming"></category></entry><entry><title>Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels</title><link href="https://samroeca.com/docker-python-install-wheels.html" rel="alternate"></link><published>2018-04-21T00:00:00-05:00</published><updated>2018-04-21T00:00:00-05:00</updated><author><name>Samuel Roeca</name></author><id>tag:samroeca.com,2018-04-21:/docker-python-install-wheels.html</id><summary type="html">
 &lt;p&gt;If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact.&lt;/p&gt;
 </summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table of Contents&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#the-problem"&gt;The problem&lt;/a&gt;&lt;/li&gt;
