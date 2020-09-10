@@ -21,6 +21,7 @@ AUTHOR_FEED_RSS = None
 DEFAULT_PAGINATION = 10
 FILENAME_METADATA = "(?P<slug>.*)"
 LOAD_CONTENT_CACHE = False
+TYPOGRIFY = True
 EXTRA_PATH_METADATA = {
     "extra/custom.css": {
         "path": _CUSTOM_CSS,

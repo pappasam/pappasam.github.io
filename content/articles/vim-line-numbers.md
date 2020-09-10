@@ -3,7 +3,7 @@ title: Vim Line Numbers
 date: 2018-04-07
 category: Software Development
 modified: 2018-04-07
-tags: Vim, Vim Plugins
+tags: vim, neovim
 summary: Learn how to make your Vim line numbers relative and/or not relative at optimal times.
 ---
 

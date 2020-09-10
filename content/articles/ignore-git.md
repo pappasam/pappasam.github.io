@@ -3,7 +3,7 @@ title: Gitignore-A-Palooza: Two Tricks
 date: 2018-12-02
 category: Software Development
 modified: 2018-12-02
-tags: version control, Git
+tags: vcs, git
 summary: Discover two techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory other than the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project's root gitignore.
 ---
 
