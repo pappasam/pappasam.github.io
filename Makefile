@@ -40,4 +40,4 @@ build-publish:  ## Build a static, production version of the website
 
 .PHONY: clone-themes
 clone-themes:  ## Clone relevant themes to ./pelican-themes
-	git clone git@github.com:alexandrevicenzi/Flex.git pelican-themes/Flex
+	git clone git@github.com:pappasam/Flex.git pelican-themes/Flex
