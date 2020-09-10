@@ -4,15 +4,12 @@ date: 2018-12-02
 category: Software Development
 modified: 2018-12-02
 tags: version control, Git
+summary: Discover two techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory other than the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project's root gitignore.
 ---
 
 [TOC]
 
-<!-- PELICAN_BEGIN_SUMMARY -->
-
 Most modern software developers are aware of [Git](https://git-scm.com/) and its accompanying [gitignore](https://git-scm.com/docs/gitignore) file. This post offers two lesser-known-yet-useful techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory **but** the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project's root gitignore.
-
-<!-- PELICAN_END_SUMMARY -->
 
 Note: when discussing "[gitignore](https://git-scm.com/docs/gitignore)" and "[tern-project](http://ternjs.net/doc/manual.html#configuration)", I may sometimes add a "." before the filename. Whether I [do or do not](http://www.yodaquotes.net/try-not-do-or-do-not-there-is-no-try/), I'm talking about the same file (eg, ".gitignore" == "gitignore").
 

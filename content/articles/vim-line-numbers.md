@@ -4,16 +4,12 @@ date: 2018-04-07
 category: Software Development
 modified: 2018-04-07
 tags: Vim, Vim Plugins
+summary: Learn how to make your Vim line numbers relative and/or not relative at optimal times.
 ---
-
 
 [TOC]
 
-<!-- PELICAN_BEGIN_SUMMARY -->
-
 If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the [myusuf3/numbers.vim](https://github.com/myusuf3/numbers.vim) plugin.
-
-<!-- PELICAN_END_SUMMARY -->
 
 ## The Problem
 

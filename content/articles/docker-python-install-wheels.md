@@ -4,6 +4,7 @@ date: 2018-04-21
 category: Software Development
 modified: 2018-04-21
 tags: docker, python, pip
+summary: Create the smallest-possible Python Docker container with all your Python dependencies intact.
 ---
 
 [TOC]
@@ -16,11 +17,7 @@ required at runtime, structure your build as follows:
 3. Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels
 4. The rest of your build will be based on Stage 2
 
-<!-- PELICAN_BEGIN_SUMMARY -->
-
 If you follow these steps, you'll end up with the smallest-possible Python Docker container with all your Python dependencies intact.
-
-<!-- PELICAN_END_SUMMARY -->
 
 Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that you are running [CPython](https://github.com/python/cpython) (Python's reference implementation).
 

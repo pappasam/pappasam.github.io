@@ -131,7 +131,6 @@ PLUGINS = [
     "sitemap",
     "neighbors",
     "assets",  # minifies css assets
-    "summary",
 ]
 
 # sitemap

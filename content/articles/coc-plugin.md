@@ -4,15 +4,12 @@ date: 2020-08-14
 category: Software Development
 modified: 2020-08-14
 tags: Vim, Vim Plugins, LSP
+summary: Build a "coc.nvim" extension that wraps an executable language server. You should learn what makes coc a stand-out LSP client and be able to write your own coc extension.
 ---
 
 [TOC]
 
-<!-- PELICAN_BEGIN_SUMMARY -->
-
 In this post, I build a "coc.nvim" extension that wraps an executable language server. By the end of this article, you should both understand what makes coc a stand-out LSP client and be able to write your own coc extension.
-
-<!-- PELICAN_END_SUMMARY -->
 
 For the interactive parts of this post, you'll need the following:
 

@@ -4,15 +4,12 @@ date: 2018-06-02
 category: Software Development
 modified: 2018-06-02
 tags: Python, Unix, pipeline, functional programming
+summary: Develop a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.
 ---
 
 [TOC]
 
-<!-- PELICAN_BEGIN_SUMMARY -->
-
 If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.  Requires Python 3.6 or greater.
-
-<!-- PELICAN_END_SUMMARY -->
 
 I was reading through the pytorch reinforcement learning [documentation](https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html) today and came across the following irksome pattern:
 
