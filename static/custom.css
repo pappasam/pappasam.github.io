@@ -22,6 +22,54 @@ h6 {
   font-size: 1.15rem;
 }
 
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+body {
+  font-family: 'Georgia', 'Lora', 'Times New Roman', 'serif';
+  font-size: 1rem;
+  line-height: 1.7rem;
+}
+
+body p {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+article {
+  max-width: 750px;
+}
+
+main article header {
+  line-height: 1rem;
+}
+
+main article header p {
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
+main article header h2 {
+  margin-top: 0;
+}
+
+main nav {
+  margin-bottom: 1rem;
+  text-align: justify;
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+main nav a {
+  font-size: 0.75rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+
+/* Classes */
+
 .highlight {
   background-color: #f8f8f8;
 }
@@ -35,31 +83,6 @@ h6 {
 .highlight {
   font-size: 0.9rem;
   line-height: 1.1rem;
-}
-
-body {
-  font-family: 'Georgia', 'Lora', 'Times New Roman', 'serif';
-  font-size: 1rem;
-  line-height: 1.7rem;
-  text-align: justify center;
-}
-
-article {
-  max-width: 750px;
-}
-
-article p {
-  text-align: justify left;
-}
-
-main article {
-  margin: auto;
-  padding-right: 20px;
-  padding-left: 20px;
-}
-
-main nav a {
-  font-size: 0.75rem;
 }
 
 /* Line numbers aren't selected by user */

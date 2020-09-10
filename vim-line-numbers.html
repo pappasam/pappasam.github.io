@@ -42,25 +42,25 @@
 <!-- End Google Analytics -->
 
 <meta name="author" content="Samuel Roeca" />
-<meta name="description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times." />
-<meta name="keywords" content="Vim, Vim Plugins">
+<meta name="description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times." />
+<meta name="keywords" content="vim, neovim">
 
 
 <meta property="og:site_name" content="Sam's Blog"/>
-<meta property="og:title" content="Vim Line Numbers"/>
-<meta property="og:description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times."/>
+<meta property="og:title" content="Vim line numbers"/>
+<meta property="og:description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://samroeca.com/vim-line-numbers.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2018-04-07 00:00:00-05:00"/>
 <meta property="article:modified_time" content="2018-04-07 00:00:00-05:00"/>
 <meta property="article:author" content="https://samroeca.com/author/samuel-roeca.html">
-<meta property="article:section" content="Software Development"/>
-<meta property="article:tag" content="Vim"/>
-<meta property="article:tag" content="Vim Plugins"/>
+<meta property="article:section" content="software development"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="neovim"/>
 <meta property="og:image" content="/images/sam-headshot-kepler-300x300.jpg">
 
-  <title>Sam's Blog &ndash; Vim Line Numbers</title>
+  <title>Sam's Blog &ndash; Vim line numbers</title>
 
 </head>
 <body class="light-theme">
@@ -83,7 +83,7 @@
               <li>
                 <a target="_self"
                    href="https://samroeca.com/pages/about.html#about">
-                  About me
+                  About&nbsp;me
                 </a>
               </li>
               <li>
@@ -147,9 +147,9 @@
 <article class="single">
   <header>
       
-    <h1 id="vim-line-numbers">Vim Line Numbers</h1>
+    <h1 id="vim-line-numbers">Vim line&nbsp;numbers</h1>
     <p>
-      Posted on Sat 07 April 2018 in <a href="https://samroeca.com/category/software-development.html">Software Development</a>
+      Posted on Sat 07 April 2018 in <a href="https://samroeca.com/category/software-development.html">software development</a>
 
     </p>
   </header>
@@ -157,28 +157,28 @@
 
   <div>
     <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#the-problem">The Problem</a></li>
+<li><a href="#the-problem">The&nbsp;Problem</a></li>
 <li><a href="#wrapping-my-own-solution">Wrapping my own solution</a><ul>
-<li><a href="#the-good">The good</a></li>
-<li><a href="#the-bad">The bad</a></li>
-<li><a href="#the-back-breaking-straw">The back-breaking straw</a></li>
+<li><a href="#the-good">The&nbsp;good</a></li>
+<li><a href="#the-bad">The&nbsp;bad</a></li>
+<li><a href="#the-back-breaking-straw">The back-breaking&nbsp;straw</a></li>
 </ul>
 </li>
-<li><a href="#the-game-changing-plugin">The Game-Changing Plugin</a></li>
+<li><a href="#the-game-changing-plugin">The Game-Changing&nbsp;Plugin</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-<p>If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the <a href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a> plugin.</p>
+<p>If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the <a href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a>&nbsp;plugin.</p>
 <h2 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
-<p>When editing text in a Vim window, I use relative numbers to help me use motions across text relative to my cursor. However, when I have multiple windows open, relative numbers look pretty weird in windows that I am not currently editing. It would be nice for Vim to intelligently alternate between relativenumber and norelativenumber based on my Vim cursor location. Base Vim does not have this capability, so we have three options:</p>
+<p>When editing text in a Vim window, I use relative numbers to help me use motions across text relative to my cursor. However, when I have multiple windows open, relative numbers look pretty weird in windows that I am not currently editing. It would be nice for Vim to intelligently alternate between relativenumber and norelativenumber based on my Vim cursor location. Base Vim does not have this capability, so we have three&nbsp;options:</p>
 <ol>
-<li>Accept a suboptimal workflow</li>
-<li>Wrap our own solution in our .vimrc</li>
-<li>Find a Plugin</li>
+<li>Accept a suboptimal&nbsp;workflow</li>
+<li>Wrap our own solution in our&nbsp;.vimrc</li>
+<li>Find a&nbsp;Plugin</li>
 </ol>
-<p>I lived with option 1 for a while, but eventually grew too annoyed. I then tried researching plugins, but thought I understood the problem well-enough to write my own solution. So I went straight to option 2 and tried wrapping my own solution.</p>
+<p>I lived with option 1 for a while, but eventually grew too annoyed. I then tried researching plugins, but thought I understood the problem well-enough to write my own solution. So I went straight to option 2 and tried wrapping my own&nbsp;solution.</p>
 <h2 id="wrapping-my-own-solution">Wrapping my own solution<a class="headerlink" href="#wrapping-my-own-solution" title="Permanent link">&para;</a></h2>
-<p>The following code represents my original solution:</p>
+<p>The following code represents my original&nbsp;solution:</p>
 <div class="highlight"><pre><span></span><code><span class="k">function</span><span class="p">!</span> ToggleRelativeNumber<span class="p">()</span>
   <span class="k">if</span> &amp;<span class="nb">rnu</span>
     <span class="k">set</span> <span class="nb">norelativenumber</span>
@@ -249,19 +249,19 @@ augroup <span class="k">end</span>
 
 
 <h3 id="the-good">The good<a class="headerlink" href="#the-good" title="Permanent link">&para;</a></h3>
-<p>The solution worked for most windows and tabs, most of the time.</p>
+<p>The solution worked for most windows and tabs, most of the&nbsp;time.</p>
 <h3 id="the-bad">The bad<a class="headerlink" href="#the-bad" title="Permanent link">&para;</a></h3>
-<p>The code is a bit involved and it takes a little time to explain to others.</p>
+<p>The code is a bit involved and it takes a little time to explain to&nbsp;others.</p>
 <ol>
-<li>It relies on window-local variables (w:line_number_state, etc). These exacerbate Vim's already-difficult state-management woes.</li>
-<li>Several global functions are defined</li>
-<li>There are some quirks I don't fully understand around the creation of variables during Vim startup (hence lines 50 and 51).</li>
+<li>It relies on window-local variables (w:line_number_state, etc). These exacerbate Vim&#8217;s already-difficult state-management&nbsp;woes.</li>
+<li>Several global functions are&nbsp;defined</li>
+<li>There are some quirks I don&#8217;t fully understand around the creation of variables during Vim startup (hence lines 50 and&nbsp;51).</li>
 </ol>
-<p>Despite these mild downsides, I was pretty proud that the solution mostly worked. That is, until I wasn't.</p>
+<p>Despite these mild downsides, I was pretty proud that the solution mostly worked. That is, until I&nbsp;wasn&#8217;t.</p>
 <h3 id="the-back-breaking-straw">The back-breaking straw<a class="headerlink" href="#the-back-breaking-straw" title="Permanent link">&para;</a></h3>
-<p>My custom solution did not work appropriately with some of my plugins. Namely, it didn't play well with <a href="https://github.com/majutsushi/tagbar">majutsushi/tagbar</a>, which I use frequently enough for this feature-dearth to become royally annoying. Therefore, after learning the ins-and-outs of window-specific variables and every Vim autocmd, I went back to the Plugin ecosystem to see if I'd missed anything...</p>
+<p>My custom solution did not work appropriately with some of my plugins. Namely, it didn&#8217;t play well with <a href="https://github.com/majutsushi/tagbar">majutsushi/tagbar</a>, which I use frequently enough for this feature-dearth to become royally annoying. Therefore, after learning the ins-and-outs of window-specific variables and every Vim autocmd, I went back to the Plugin ecosystem to see if I&#8217;d missed&nbsp;anything&#8230;</p>
 <h2 id="the-game-changing-plugin">The Game-Changing Plugin<a class="headerlink" href="#the-game-changing-plugin" title="Permanent link">&para;</a></h2>
-<p>Turns out a wonderful developer already solved this problem for me. Assuming you use <a href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a> to manage your plugins, place the following code in your .vimrc</p>
+<p>Turns out a wonderful developer already solved this problem for me. Assuming you use <a href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a> to manage your plugins, place the following code in your&nbsp;.vimrc</p>
 <div class="highlight"><pre><span></span><code><span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">&#39;~/.vim/plugged&#39;</span><span class="p">)</span>
 <span class="c">&quot; Relative Numbering</span>
 Plug <span class="s1">&#39;myusuf3/numbers.vim&#39;</span>
@@ -273,21 +273,21 @@ Plug <span class="s1">&#39;myusuf3/numbers.vim&#39;</span>
 </code></pre></div>
 
 
-<p>This will give you a great editing experience. See below for a screencast:</p>
+<p>This will give you a great editing experience. See below for a&nbsp;screencast:</p>
 <p><img alt="numbers.vim screencast" class="align-center" src="https://samroeca.com/gif/numbers-vim.gif"></p>
 <h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
-<p>Numbers.vim provides a usable line-numbering solution with minimal required configuration. I regret nothing about my bespoke journey, but I'm glad that Numbers.vim is my destination.</p>
+<p>Numbers.vim provides a usable line-numbering solution with minimal required configuration. I regret nothing about my bespoke journey, but I&#8217;m glad that Numbers.vim is my&nbsp;destination.</p>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="https://samroeca.com/tag/vim.html">Vim</a>
-      <a href="https://samroeca.com/tag/vim-plugins.html">Vim Plugins</a>
+      <a href="https://samroeca.com/tag/vim.html">vim</a>
+      <a href="https://samroeca.com/tag/neovim.html">neovim</a>
     </p>
   </div>
 
 
   <div class="neighbors">
-    <a class="btn float-right" href="https://samroeca.com/docker-python-install-wheels.html" title="Smaller Python Docker Containers with Multi-Stage Builds and Python Wheels">
+    <a class="btn float-right" href="https://samroeca.com/docker-python-install-wheels.html" title="Smaller python docker containers">
       Next Post <i class="fa fa-angle-right"></i>
     </a>
   </div>
