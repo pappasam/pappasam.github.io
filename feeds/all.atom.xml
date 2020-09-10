@@ -550,8 +550,7 @@ name for each step in the process.&lt;/p&gt;
 &lt;li&gt;&lt;a href="#special-thanks"&gt;Special thanks&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;p&gt;If your Docker Python build requires system dependencies that are NOT
-required at runtime, structure your build as follows:&lt;/p&gt;
+&lt;p&gt;If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Use a &lt;a href="https://docs.docker.com/develop/develop-images/multistage-build/"&gt;multi-stage build&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Stage 1 installs system dependencies and uses them to build local &lt;a href="https://pythonwheels.com/"&gt;wheels&lt;/a&gt;&lt;/li&gt;
