@@ -1,3 +1,27 @@
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1.15rem;
+}
+
 .highlight {
   background-color: #f8f8f8;
 }
@@ -5,34 +29,37 @@
 .headerlink {
   padding-left: 1rem;
   color: #242121;
-  /* font-size: 1.5rem; */
 }
 
 .literal-block,
 .highlight {
-  font-size: 1rem;
-  line-height: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.1rem;
 }
 
 body {
   font-family: 'Georgia', 'Lora', 'Times New Roman', 'serif';
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.7rem;
   text-align: justify center;
 }
 
 article {
-  max-width: 900px;
+  max-width: 750px;
 }
 
 article p {
-  text-align: justify center;
+  text-align: justify left;
 }
 
 main article {
   margin: auto;
   padding-right: 20px;
   padding-left: 20px;
+}
+
+main nav a {
+  font-size: 0.75rem;
 }
 
 /* Line numbers aren't selected by user */
