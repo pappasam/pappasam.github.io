@@ -9,8 +9,7 @@ summary: Create the smallest-possible Python Docker container with all your Pyth
 
 [TOC]
 
-If your Docker Python build requires system dependencies that are NOT
-required at runtime, structure your build as follows:
+If your Docker Python build requires system dependencies that are NOT required at runtime, structure your build as follows:
 
 1. Use a [multi-stage build](https://docs.docker.com/develop/develop-images/multistage-build/)
 2. Stage 1 installs system dependencies and uses them to build local [wheels](https://pythonwheels.com/)

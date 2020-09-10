@@ -1,12 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- #
-from __future__ import unicode_literals
+"""Pelican base configuration file."""
 
 # helpers
 #######################################################################
 _CUSTOM_CSS = "static/custom.css"
 
 # core
+#   https://docs.getpelican.com/en/stable/settings.html#basic-settings
 #######################################################################
 AUTHOR = "Samuel Roeca"
 SITENAME = "Sam's Blog"
@@ -34,7 +33,8 @@ STATIC_PATHS = [
     "extra",
 ]
 
-# theme
+# theme: Flex
+#   https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
 #######################################################################
 THEME = "pelican-themes/Flex"
 FAVICON = "/theme/images/favicon.ico"
@@ -87,6 +87,8 @@ MARKDOWN = {
 }
 
 # plugins
+#   https://github.com/pelican-plugins/sitemap#usage
+#   https://github.com/pelican-plugins/neighbors#basic-usage
 #######################################################################
 PLUGINS = [
     "sitemap",
