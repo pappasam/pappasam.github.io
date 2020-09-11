@@ -5,7 +5,6 @@ category: software development
 modified: 2018-04-07
 tags: vim, neovim
 summary: Learn how to make your Vim line numbers relative and/or not relative at optimal times.
-description: Create relative / not relative vim line numbers at optimal times.
 ---
 
 [TOC]
