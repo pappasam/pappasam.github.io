@@ -1,178 +1,221 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/stylesheet/style.min.css">
-
-
-    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-          href="https://samroeca.com/theme/pygments/tango.min.css">
-
-
-  <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/font-awesome/css/fontawesome.css">
-  <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/font-awesome/css/brands.css">
-  <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/font-awesome/css/solid.css">
-
-    <link href="https://samroeca.com/static/custom.css" rel="stylesheet">
-
-    <link href="https://samroeca.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Sam's Blog Atom">
-
-
-    <link rel="shortcut icon" href="/theme/images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/theme/images/favicon.ico" type="image/x-icon">
-
-<!-- Google Analytics -->
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="True" name="HandheldFriendly"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="" name="robots"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+  <link href="https://samroeca.com/theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+  <link href="https://samroeca.com/theme/pygments/tango.min.css" id="pygments-light-theme" rel="stylesheet" type="text/css"/>
+  <link href="https://samroeca.com/theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+  <link href="https://samroeca.com/theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+  <link href="https://samroeca.com/theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+  <link href="https://samroeca.com/static/custom.css" rel="stylesheet"/>
+  <link href="https://samroeca.com/feeds/all.atom.xml" rel="alternate" title="Sam's Blog Atom" type="application/atom+xml"/>
+  <link href="/theme/images/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+  <link href="/theme/images/favicon.ico" rel="icon" type="image/x-icon"/>
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-117115805-1', 'auto');
   ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
-
-<meta name="author" content="Samuel Roeca" />
-<meta name="description" content="Develop a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python." />
-<meta name="keywords" content="python, unix, functional programming">
-
-
-<meta property="og:site_name" content="Sam's Blog"/>
-<meta property="og:title" content="Python function pipelines"/>
-<meta property="og:description" content="Develop a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://samroeca.com/python-function-pipelines.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-06-02 00:00:00-05:00"/>
-<meta property="article:modified_time" content="2018-06-02 00:00:00-05:00"/>
-<meta property="article:author" content="https://samroeca.com/author/samuel-roeca.html">
-<meta property="article:section" content="software development"/>
-<meta property="article:tag" content="python"/>
-<meta property="article:tag" content="unix"/>
-<meta property="article:tag" content="functional programming"/>
-<meta property="og:image" content="/images/sam-headshot-kepler-300x300.jpg">
-
-  <title>Sam's Blog &ndash; Python function pipelines</title>
-
-</head>
-<body class="light-theme">
+   {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sam's Blog", "item": "https://samroeca.com"}, {"@type": "ListItem", "position": 2, "name": "Python function pipelines", "item": "https://samroeca.com/python-function-pipelines.html"}]}
+  </script>
+  <!-- End Google Analytics -->
+  <meta content="Samuel Roeca" name="author"/>
+  <meta content="Develop Unix-like pipelines in Python." name="description"/>
+  <meta content="python, unix, functional programming" name="keywords"/>
+  <meta content="Sam's Blog" property="og:site_name">
+   <meta content="Python function pipelines" property="og:title"/>
+   <meta content="Develop Unix-like pipelines in Python." property="og:description"/>
+   <meta content="en_US" property="og:locale"/>
+   <meta content="https://samroeca.com/python-function-pipelines.html" property="og:url"/>
+   <meta content="article" property="og:type"/>
+   <meta content="2018-06-02 00:00:00-05:00" property="article:published_time"/>
+   <meta content="2018-06-02 00:00:00-05:00" property="article:modified_time"/>
+   <meta content="https://samroeca.com/author/samuel-roeca.html" property="article:author"/>
+   <meta content="software development" property="article:section">
+    <meta content="python" property="article:tag"/>
+    <meta content="unix" property="article:tag"/>
+    <meta content="functional programming" property="article:tag"/>
+    <meta content="/images/sam-headshot-kepler-300x300.jpg" property="og:image"/>
+    <title>
+     Sam's Blog – Python function pipelines
+    </title>
+   </meta>
+  </meta>
+  <link href="https://samroeca.com/python-function-pipelines.html" rel="canonical"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Samuel Roeca"}, "publisher": {"@type": "Organization", "name": "Sam's Blog"}, "headline": "Python function&nbsp;pipelines", "about": "software development", "datePublished": "2018-06-02 00:00"}
+  </script>
+  <script type="application/ld+json">
+  </script>
+ </head>
+ <body class="light-theme">
   <aside>
-    <div>
-      <a href="https://samroeca.com">
-        <img src="/images/sam-headshot-kepler-300x300.jpg" alt="" title="">
+   <div>
+    <a href="https://samroeca.com">
+     <img alt="" src="/images/sam-headshot-kepler-300x300.jpg" title=""/>
+    </a>
+    <h1>
+     <a href="https://samroeca.com">
+     </a>
+    </h1>
+    <p>
+     Sam's blog
+    </p>
+    <nav>
+     <ul class="list">
+      <li>
+       <a href="https://samroeca.com/pages/about.html#about" target="_self">
+        About me
+       </a>
+      </li>
+      <li>
+       <a href="https://samroeca.com/pages/portfolio.html#portfolio" target="_self">
+        Portfolio
+       </a>
+      </li>
+     </ul>
+    </nav>
+    <ul class="social">
+     <li>
+      <a class="sc-github" href="https://github.com/pappasam" target="_blank">
+       <i class="fab fa-github">
+       </i>
       </a>
-
-      <h1>
-        <a href="https://samroeca.com"></a>
-      </h1>
-
-<p>Sam's blog</p>
-
-      <nav>
-        <ul class="list">
-
-
-              <li>
-                <a target="_self"
-                   href="https://samroeca.com/pages/about.html#about">
-                  About&nbsp;me
-                </a>
-              </li>
-              <li>
-                <a target="_self"
-                   href="https://samroeca.com/pages/portfolio.html#portfolio">
-                  Portfolio
-                </a>
-              </li>
-
-        </ul>
-      </nav>
-
-      <ul class="social">
-          <li>
-            <a  class="sc-github" href="https://github.com/pappasam" target="_blank">
-              <i class="fab fa-github"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-linkedin" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-facebook" href="https://www.facebook.com/sam.roeca" target="_blank">
-              <i class="fab fa-facebook"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-twitter" href="https://twitter.com/SamRoeca" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-youtube" href="https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA" target="_blank">
-              <i class="fab fa-youtube"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-envelope" href="mailto:samuel.roeca@gmail.com" target="_blank">
-              <i class="fas fa-envelope"></i>
-            </a>
-          </li>
-      </ul>
-    </div>
-
+     </li>
+     <li>
+      <a class="sc-linkedin" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank">
+       <i class="fab fa-linkedin">
+       </i>
+      </a>
+     </li>
+     <li>
+      <a class="sc-facebook" href="https://www.facebook.com/sam.roeca" target="_blank">
+       <i class="fab fa-facebook">
+       </i>
+      </a>
+     </li>
+     <li>
+      <a class="sc-twitter" href="https://twitter.com/SamRoeca" target="_blank">
+       <i class="fab fa-twitter">
+       </i>
+      </a>
+     </li>
+     <li>
+      <a class="sc-youtube" href="https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA" target="_blank">
+       <i class="fab fa-youtube">
+       </i>
+      </a>
+     </li>
+     <li>
+      <a class="sc-envelope" href="mailto:samuel.roeca@gmail.com" target="_blank">
+       <i class="fas fa-envelope">
+       </i>
+      </a>
+     </li>
+    </ul>
+   </div>
   </aside>
   <main>
-
-    <nav>
-      <a href="https://samroeca.com">Home</a>
-
-      <a href="/archives.html">Archives</a>
-      <a href="/categories.html">Categories</a>
-      <a href="/tags.html">Tags</a>
-
-      <a href="https://samroeca.com/feeds/all.atom.xml">Atom</a>
-
-    </nav>
-
-<article class="single">
-  <header>
-      
-    <h1 id="python-function-pipelines">Python function&nbsp;pipelines</h1>
-    <p>
-      Posted on Sat 02 June 2018 in <a href="https://samroeca.com/category/software-development.html">software development</a>
-
-    </p>
-  </header>
-
-
-  <div>
-    <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#the-problem">The&nbsp;problem</a></li>
-<li><a href="#unix-pipes">Unix&nbsp;pipes</a></li>
-<li><a href="#example">Example</a><ul>
-<li><a href="#solution-1-name-each-step-in-the-pipeline">Solution 1: name each step in the&nbsp;pipeline</a></li>
-<li><a href="#solution-2-use-the-reduce-function">Solution 2: use the &#8220;reduce&#8221;&nbsp;function</a></li>
-<li><a href="#solution-3-custom-pipeline-function">Solution 3: custom &#8220;pipeline&#8221;&nbsp;function</a></li>
-</ul>
-</li>
-<li><a href="#full-script">Full&nbsp;script</a></li>
-<li><a href="#conclusion">Conclusion</a></li>
-</ul>
-</div>
-<p>If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.  Requires Python 3.6 or&nbsp;greater.</p>
-<p>I was reading through the pytorch reinforcement learning <a href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html">documentation</a> today and came across the following irksome&nbsp;pattern:</p>
-<div class="highlight"><pre><span></span><code><span class="o">...</span>
+   <nav>
+    <a href="https://samroeca.com">
+     Home
+    </a>
+    <a href="/archives.html">
+     Archives
+    </a>
+    <a href="/categories.html">
+     Categories
+    </a>
+    <a href="/tags.html">
+     Tags
+    </a>
+    <a href="https://samroeca.com/feeds/all.atom.xml">
+     Atom
+    </a>
+   </nav>
+   <article class="single">
+    <header>
+     <h1 id="python-function-pipelines">
+      Python function pipelines
+     </h1>
+     <p>
+      Posted on Sat 02 June 2018 in
+      <a href="https://samroeca.com/category/software-development.html">
+       software development
+      </a>
+     </p>
+    </header>
+    <div>
+     <div class="toc">
+      <span class="toctitle">
+       Table of Contents
+      </span>
+      <ul>
+       <li>
+        <a href="#the-problem">
+         The problem
+        </a>
+       </li>
+       <li>
+        <a href="#unix-pipes">
+         Unix pipes
+        </a>
+       </li>
+       <li>
+        <a href="#example">
+         Example
+        </a>
+        <ul>
+         <li>
+          <a href="#solution-1-name-each-step-in-the-pipeline">
+           Solution 1: name each step in the pipeline
+          </a>
+         </li>
+         <li>
+          <a href="#solution-2-use-the-reduce-function">
+           Solution 2: use the “reduce” function
+          </a>
+         </li>
+         <li>
+          <a href="#solution-3-custom-pipeline-function">
+           Solution 3: custom “pipeline” function
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li>
+        <a href="#full-script">
+         Full script
+        </a>
+       </li>
+       <li>
+        <a href="#conclusion">
+         Conclusion
+        </a>
+       </li>
+      </ul>
+     </div>
+     <p>
+      If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.  Requires Python 3.6 or greater.
+     </p>
+     <p>
+      I was reading through the pytorch reinforcement learning
+      <a href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html">
+       documentation
+      </a>
+      today and came across the following irksome pattern:
+     </p>
+     <div class="highlight">
+      <pre><span></span><code><span class="o">...</span>
 
 <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
@@ -180,36 +223,93 @@
     <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 <span class="o">..</span>
-</code></pre></div>
-
-
-<p>The manipulation and reassignment of a variable <em>x</em> to itself as it is passed through a neural network&#8217;s gateways makes neural networks that much harder to follow. <span class="caps">IMHO</span>, explicit variable <strong>reassignment</strong> is almost always bad because it makes it hard for my limited human brain to track a variable name&#8217;s associated data during program execution. If a program tells me that <em>x</em> is an integer on line 10 and then <strong>reassigns</strong> it to a string on line 20, I will want to delete said program from my computer, take a cold shower, and exact revenge on the program&#8217;s author. With that established, let&#8217;s just avoid reassignment&nbsp;altogether.</p>
-<h2 id="the-problem">The problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
-<p>In the above example, variable reassignment is convenient. It prevents the programmer from needing to come up with new names for each state in the connected pipeline. How can we find an elegant way of avoiding explicit variable reassignment in the pipeline use-case while still producing readable, performant code? The answer: take inspiration from Unix&nbsp;pipes!</p>
-<h2 id="unix-pipes">Unix pipes<a class="headerlink" href="#unix-pipes" title="Permanent link">&para;</a></h2>
-<p>In the Unix shell, virtually everything we work with has the same type: a <a href="https://en.wikipedia.org/wiki/Everything_is_a_file">file</a>. &#8220;Everything is a File&#8221; makes it easy to chain functions together because all commands take files as inputs and return files as outputs.  One common way to chain system calls in Unix is called the <a href="https://en.wikipedia.org/wiki/Anonymous_pipe">anonymous pipe</a>, which enables programmers to chain command line programs together to manipulate a text stream. See the following&nbsp;example:</p>
-<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+</code></pre>
+     </div>
+     <p>
+      The manipulation and reassignment of a variable
+      <em>
+       x
+      </em>
+      to itself as it is passed through a neural network’s gateways makes neural networks that much harder to follow.
+      <span class="caps">
+       IMHO
+      </span>
+      , explicit variable
+      <strong>
+       reassignment
+      </strong>
+      is almost always bad because it makes it hard for my limited human brain to track a variable name’s associated data during program execution. If a program tells me that
+      <em>
+       x
+      </em>
+      is an integer on line 10 and then
+      <strong>
+       reassigns
+      </strong>
+      it to a string on line 20, I will want to delete said program from my computer, take a cold shower, and exact revenge on the program’s author. With that established, let’s just avoid reassignment altogether.
+     </p>
+     <h2 id="the-problem">
+      The problem
+      <a class="headerlink" href="#the-problem" title="Permanent link">
+       ¶
+      </a>
+     </h2>
+     <p>
+      In the above example, variable reassignment is convenient. It prevents the programmer from needing to come up with new names for each state in the connected pipeline. How can we find an elegant way of avoiding explicit variable reassignment in the pipeline use-case while still producing readable, performant code? The answer: take inspiration from Unix pipes!
+     </p>
+     <h2 id="unix-pipes">
+      Unix pipes
+      <a class="headerlink" href="#unix-pipes" title="Permanent link">
+       ¶
+      </a>
+     </h2>
+     <p>
+      In the Unix shell, virtually everything we work with has the same type: a
+      <a href="https://en.wikipedia.org/wiki/Everything_is_a_file">
+       file
+      </a>
+      . “Everything is a File” makes it easy to chain functions together because all commands take files as inputs and return files as outputs.  One common way to chain system calls in Unix is called the
+      <a href="https://en.wikipedia.org/wiki/Anonymous_pipe">
+       anonymous pipe
+      </a>
+      , which enables programmers to chain command line programs together to manipulate a text stream. See the following example:
+     </p>
+     <div class="highlight">
+      <pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Count the number of words</span>
-<span class="nb">echo</span> <span class="s2">&quot;hello hello hello world world&quot;</span> <span class="p">|</span> wc -w
+<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> wc -w
 
-<span class="c1"># Count the number of words that are not &quot;hello&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;hello hello hello world world&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/hello//g&#39;</span> <span class="p">|</span> wc -w
+<span class="c1"># Count the number of words that are not "hello"</span>
+<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> sed <span class="s1">'s/hello//g'</span> <span class="p">|</span> wc -w
 
-<span class="c1"># Count the number of words that are not &quot;world&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;hello hello hello world world&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/world//g&#39;</span> <span class="p">|</span> wc -w
+<span class="c1"># Count the number of words that are not "world"</span>
+<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> sed <span class="s1">'s/world//g'</span> <span class="p">|</span> wc -w
 
 <span class="c1"># Should print the following to console:</span>
 <span class="c1"># 5</span>
 <span class="c1"># 2</span>
 <span class="c1"># 3</span>
-</code></pre></div>
-
-
-<p>Notice that data flows <strong>through</strong> the pipeline and no variable reassignment is used. The Unix pipeline is beautiful in this regard; I&#8217;d like to build something similar in&nbsp;Python.</p>
-<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<p>Let&#8217;s say we have the following three&nbsp;functions:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_5</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</code></pre>
+     </div>
+     <p>
+      Notice that data flows
+      <strong>
+       through
+      </strong>
+      the pipeline and no variable reassignment is used. The Unix pipeline is beautiful in this regard; I’d like to build something similar in Python.
+     </p>
+     <h2 id="example">
+      Example
+      <a class="headerlink" href="#example" title="Permanent link">
+       ¶
+      </a>
+     </h2>
+     <p>
+      Let’s say we have the following three functions:
+     </p>
+     <div class="highlight">
+      <pre><span></span><code><span class="k">def</span> <span class="nf">add_5</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">5</span>
 
 <span class="k">def</span> <span class="nf">add_6</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -217,25 +317,45 @@
 
 <span class="k">def</span> <span class="nf">add_7</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">7</span>
-</code></pre></div>
-
-
-<p>Our <strong>example problem</strong>: take an initial integer 0 and add 5, then 6, then 7 to it using our three functions so that our final result is&nbsp;18.</p>
-<h3 id="solution-1-name-each-step-in-the-pipeline">Solution 1: name each step in the pipeline<a class="headerlink" href="#solution-1-name-each-step-in-the-pipeline" title="Permanent link">&para;</a></h3>
-<p>We can do slightly better than the pytorch example and create a unique variable
-name for each step in the&nbsp;process.</p>
-<div class="highlight"><pre><span></span><code><span class="n">x_0</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre>
+     </div>
+     <p>
+      Our
+      <strong>
+       example problem
+      </strong>
+      : take an initial integer 0 and add 5, then 6, then 7 to it using our three functions so that our final result is 18.
+     </p>
+     <h3 id="solution-1-name-each-step-in-the-pipeline">
+      Solution 1: name each step in the pipeline
+      <a class="headerlink" href="#solution-1-name-each-step-in-the-pipeline" title="Permanent link">
+       ¶
+      </a>
+     </h3>
+     <p>
+      We can do slightly better than the pytorch example and create a unique variable
+name for each step in the process.
+     </p>
+     <div class="highlight">
+      <pre><span></span><code><span class="n">x_0</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">x_5</span> <span class="o">=</span> <span class="n">add_5</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</code></pre></div>
-
-
-<p>Besides being pretty ugly / hard to read, this creates some useless names in our module&#8217;s scope. Do we really need to give each step its own name? We don&#8217;t use the steps anywhere else and this makes the pipeline pretty hard to edit. This solution almost makes we wish we could go back to reassignment. Fortunately, the entire pipeline can be expressed with one name thanks to the &#8220;reduce&#8221;&nbsp;function.</p>
-<h3 id="solution-2-use-the-reduce-function">Solution 2: use the &#8220;reduce&#8221; function<a class="headerlink" href="#solution-2-use-the-reduce-function" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</code></pre>
+     </div>
+     <p>
+      Besides being pretty ugly / hard to read, this creates some useless names in our module’s scope. Do we really need to give each step its own name? We don’t use the steps anywhere else and this makes the pipeline pretty hard to edit. This solution almost makes we wish we could go back to reassignment. Fortunately, the entire pipeline can be expressed with one name thanks to the “reduce” function.
+     </p>
+     <h3 id="solution-2-use-the-reduce-function">
+      Solution 2: use the “reduce” function
+      <a class="headerlink" href="#solution-2-use-the-reduce-function" title="Permanent link">
+       ¶
+      </a>
+     </h3>
+     <div class="highlight">
+      <pre><span></span><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">value</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
     <span class="p">(</span>
@@ -246,27 +366,44 @@ name for each step in the&nbsp;process.</p>
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</code></pre></div>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</code></pre>
+     </div>
+     <p>
+      This example uses the standard library “reduce” function. Originally, “reduce” was intended to take a list of values and collapse them into one value. This use-case is described well in the
+      <a href="https://docs.python.org/3/library/functools.html#functools.reduce">
+       Python documentation
+      </a>
+      and in this
+      <a href="https://www.youtube.com/watch?v=ZrZ6vJGiE8I">
+       YouTube
+      </a>
+      video. Here, we use it a bit differently. Instead of taking a list of values and applying a “collapsing” function to them, we take a list of functions and pass a value through them. This has obvious advantages over solution 1: we can easily swap new functions in and out of the pipeline to suit our needs without needing to adjust any other code / rename pipeline steps (because we haven’t named the steps at all!).
+     </p>
+     <p>
+      This solution frees us from naming each step in our pipeline but it does have some disadvantages: “reduce” is kind of hard to read and this use-case isn’t quite standard. Whenever we find ourselves using a standard library function in a confusing way, that’s a signal that we should probably define our own function to make this clearer to ourselves and to those who read our code.
+     </p>
+     <h3 id="solution-3-custom-pipeline-function">
+      Solution 3: custom “pipeline” function
+      <a class="headerlink" href="#solution-3-custom-pipeline-function" title="Permanent link">
+       ¶
+      </a>
+     </h3>
+     <div class="highlight">
+      <pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
 
-
-<p>This example uses the standard library &#8220;reduce&#8221; function. Originally, &#8220;reduce&#8221; was intended to take a list of values and collapse them into one value. This use-case is described well in the <a href="https://docs.python.org/3/library/functools.html#functools.reduce">Python documentation</a> and in this <a href="https://www.youtube.com/watch?v=ZrZ6vJGiE8I">YouTube</a> video. Here, we use it a bit differently. Instead of taking a list of values and applying a &#8220;collapsing&#8221; function to them, we take a list of functions and pass a value through them. This has obvious advantages over solution 1: we can easily swap new functions in and out of the pipeline to suit our needs without needing to adjust any other code / rename pipeline steps (because we haven&#8217;t named the steps at&nbsp;all!).</p>
-<p>This solution frees us from naming each step in our pipeline but it does have some disadvantages: &#8220;reduce&#8221; is kind of hard to read and this use-case isn&#8217;t quite standard. Whenever we find ourselves using a standard library function in a confusing way, that&#8217;s a signal that we should probably define our own function to make this clearer to ourselves and to those who read our&nbsp;code.</p>
-<h3 id="solution-3-custom-pipeline-function">Solution 3: custom &#8220;pipeline&#8221; function<a class="headerlink" href="#solution-3-custom-pipeline-function" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
-
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'T'</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span>
         <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
         <span class="n">function_pipeline</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;A generic Unix-like pipeline</span>
+    <span class="sd">'''A generic Unix-like pipeline</span>
 
 <span class="sd">    :param value: the value you want to pass through a pipeline</span>
 <span class="sd">    :param function_pipeline: an ordered list of functions that</span>
 <span class="sd">        comprise your pipeline</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="k">return</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
@@ -278,14 +415,21 @@ name for each step in the&nbsp;process.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</code></pre></div>
-
-
-<p>This solution is elegant and explicit. It is generic and works with mypy. As long as our function pipeline contains only functions that take our value&#8217;s type and return our value&#8217;s type (similar to Unix command line utilities, where everything is a file), this pipeline will successfully pass our value in a type-safe&nbsp;way.</p>
-<h2 id="full-script">Full script<a class="headerlink" href="#full-script" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
-<span class="sd">&#39;&#39;&#39;Simple function example&#39;&#39;&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</code></pre>
+     </div>
+     <p>
+      This solution is elegant and explicit. It is generic and works with mypy. As long as our function pipeline contains only functions that take our value’s type and return our value’s type (similar to Unix command line utilities, where everything is a file), this pipeline will successfully pass our value in a type-safe way.
+     </p>
+     <h2 id="full-script">
+      Full script
+      <a class="headerlink" href="#full-script" title="Permanent link">
+       ¶
+      </a>
+     </h2>
+     <div class="highlight">
+      <pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">'''Simple function example'''</span>
 
 <span class="k">def</span> <span class="nf">add_5</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">5</span>
@@ -301,7 +445,7 @@ name for each step in the&nbsp;process.</p>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
@@ -314,22 +458,22 @@ name for each step in the&nbsp;process.</p>
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'T'</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span>
         <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
         <span class="n">function_pipeline</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;A generic Unix-like pipeline</span>
+    <span class="sd">'''A generic Unix-like pipeline</span>
 
 <span class="sd">    :param value: the value you want to pass through a pipeline</span>
 <span class="sd">    :param function_pipeline: an ordered list of functions that</span>
 <span class="sd">        comprise your pipeline</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="k">return</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
@@ -341,61 +485,79 @@ name for each step in the&nbsp;process.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-</code></pre></div>
-
-
-<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
-<p>If your system resembles a pipeline, don&#8217;t reassign your piped variable to itself. There is a better way and it&#8217;s pretty much built into Python.  You&#8217;ll just need to care enough to use&nbsp;it.</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="https://samroeca.com/tag/python.html">python</a>
-      <a href="https://samroeca.com/tag/unix.html">unix</a>
-      <a href="https://samroeca.com/tag/functional-programming.html">functional programming</a>
-    </p>
-  </div>
-
-
-  <div class="neighbors">
-    <a class="btn float-left" href="https://samroeca.com/docker-python-install-wheels.html" title="Smaller python docker containers">
-      <i class="fa fa-angle-left"></i> Previous Post
-    </a>
-    <a class="btn float-right" href="https://samroeca.com/ignore-git.html" title="Gitignore: two tricks">
-      Next Post <i class="fa fa-angle-right"></i>
-    </a>
-  </div>
-
-
-
-<!-- Disqus -->
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'pappasam-github-io';
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</code></pre>
+     </div>
+     <h2 id="conclusion">
+      Conclusion
+      <a class="headerlink" href="#conclusion" title="Permanent link">
+       ¶
+      </a>
+     </h2>
+     <p>
+      If your system resembles a pipeline, don’t reassign your piped variable to itself. There is a better way and it’s pretty much built into Python.  You’ll just need to care enough to use it.
+     </p>
+    </div>
+    <div class="tag-cloud">
+     <p>
+      <a href="https://samroeca.com/tag/python.html">
+       python
+      </a>
+      <a href="https://samroeca.com/tag/unix.html">
+       unix
+      </a>
+      <a href="https://samroeca.com/tag/functional-programming.html">
+       functional programming
+      </a>
+     </p>
+    </div>
+    <div class="neighbors">
+     <a class="btn float-left" href="https://samroeca.com/docker-python-install-wheels.html" title="Smaller python docker containers">
+      <i class="fa fa-angle-left">
+      </i>
+      Previous Post
+     </a>
+     <a class="btn float-right" href="https://samroeca.com/ignore-git.html" title="Gitignore: two tricks">
+      Next Post
+      <i class="fa fa-angle-right">
+      </i>
+     </a>
+    </div>
+    <!-- Disqus -->
+    <div id="disqus_thread">
+    </div>
+    <script type="text/javascript">
+     var disqus_shortname = 'pappasam-github-io';
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-</script>
-<noscript>
-    Please enable JavaScript to view comments.
-</noscript>
-<!-- End Disqus -->
-</article>
-
-    <footer>
-<p>&copy;  </p>
-<p>
-Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
-</p>    </footer>
+    </script>
+    <noscript>
+     Please enable JavaScript to view comments.
+    </noscript>
+    <!-- End Disqus -->
+   </article>
+   <footer>
+    <p>
+     ©
+    </p>
+    <p>
+     Built with
+     <a href="http://getpelican.com" target="_blank">
+      Pelican
+     </a>
+     using
+     <a href="http://bit.ly/flex-pelican" target="_blank">
+      Flex
+     </a>
+     theme
+    </p>
+   </footer>
   </main>
-
-
-
-
-<script type="application/ld+json">
-{
+  <script type="application/ld+json">
+   {
   "@context" : "http://schema.org",
   "@type" : "Blog",
   "name": " Sam's Blog ",
@@ -403,8 +565,6 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   "image": "/images/sam-headshot-kepler-300x300.jpg",
   "description": "Samuel Roeca's blog"
 }
-</script>
-
-
-</body>
+  </script>
+ </body>
 </html>
