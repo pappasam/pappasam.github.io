@@ -1,7 +1,7 @@
 ---
 title: How to write a coc.nvim extension
 date: 2020-08-14
-category: software development
+category: Software Development
 modified: 2020-08-14
 tags: vim, neovim, lsp
 summary: Build a "coc.nvim" extension that wraps an executable language server. You should learn what makes coc a stand-out LSP client and be able to write your own coc extension.

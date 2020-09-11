@@ -1,7 +1,7 @@
 ---
 title: Vim line numbers
 date: 2018-04-07
-category: software development
+category: Software Development
 modified: 2018-04-07
 tags: vim, neovim
 summary: Learn how to make your Vim line numbers relative and/or not relative at optimal times.

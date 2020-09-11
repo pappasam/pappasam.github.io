@@ -1,14 +1,11 @@
 """Pelican base configuration file."""
 
-# helpers
-#######################################################################
-_CUSTOM_CSS = "static/custom.css"
-
 # core
 #   https://docs.getpelican.com/en/stable/settings.html#basic-settings
 #######################################################################
 AUTHOR = "Samuel Roeca"
-SITENAME = "Sam's Blog"
+SITENAME = "Sam's world"
+SITEURL = "http://localhost:8000"
 PATH = "content"
 TIMEZONE = "EST"
 DEFAULT_LANG = "en"
@@ -24,7 +21,10 @@ LOAD_CONTENT_CACHE = False
 TYPOGRIFY = True
 EXTRA_PATH_METADATA = {
     "extra/custom.css": {
-        "path": _CUSTOM_CSS,
+        "path": "static/custom.css",
+    },
+    "theme/images/favicon.ico": {
+        "path": "favicon.ico",
     },
 }
 STATIC_PATHS = [
@@ -33,42 +33,6 @@ STATIC_PATHS = [
     "gif",
     "extra",
 ]
-
-# theme: Flex
-#   https://github.com/alexandrevicenzi/Flex/wiki/Custom-Settings
-#######################################################################
-THEME = "pelican-themes/Flex"
-FAVICON = "/theme/images/favicon.ico"
-PYGMENTS_STYLE = "tango"
-SITESUBTITLE = "Sam's blog"
-SITEDESCRIPTION = "Samuel Roeca's blog"
-SITEURL = "http://localhost:8000"
-SITELOGO = "/images/sam-headshot-kepler-300x300.jpg"
-MAIN_MENU = True
-CUSTOM_CSS = _CUSTOM_CSS
-SOCIAL = (
-    ("github", "https://github.com/pappasam"),
-    ("linkedin", "https://www.linkedin.com/in/samuel-roeca-23010735"),
-    ("facebook", "https://www.facebook.com/sam.roeca"),
-    ("twitter", "https://twitter.com/SamRoeca"),
-    (
-        "youtube",
-        "https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA",
-    ),
-    ("envelope", "mailto:samuel.roeca@gmail.com"),
-)
-DIRECT_TEMPLATES = [
-    "index",
-    "categories",
-    "authors",
-    "archives",
-    "tags",
-]
-MENUITEMS = (
-    ("Archives", "/archives.html"),
-    ("Categories", "/categories.html"),
-    ("Tags", "/tags.html"),
-)
 MARKDOWN = {
     "extension_configs": {
         "markdown.extensions.codehilite": {
@@ -86,6 +50,26 @@ MARKDOWN = {
     },
     "output_format": "html5",
 }
+
+# theme: https://github.com/pappasam/pelican-alchemy
+#######################################################################
+THEME = "pelican-themes/pelican-alchemy/alchemy"
+PYGMENTS_STYLE = "default"
+SITESUBTITLE = "Sam Roeca's stream of thoughts, whims, and wisdom"
+DESCRIPTION = "Sam (Samuel) Roeca's personal blog about his thoughts/opinions."
+SITEIMAGE = "/images/sam-headshot-kepler-300x300.jpg"
+HIDE_AUTHORS = True
+THEME_CSS_OVERRIDES = ["static/custom.css"]
+# fmt: off
+ICONS = (
+    ("fab fa-github", "https://github.com/pappasam"),
+    ("fab fa-linkedin", "https://www.linkedin.com/in/samuel-roeca-23010735"),
+    ("fab fa-facebook", "https://www.facebook.com/sam.roeca"),
+    ("fab fa-twitter", "https://twitter.com/SamRoeca"),
+    ("fab fa-youtube", "https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA"),  # pylint: disable=line-too-long
+    ("far fa-envelope", "mailto:samuel.roeca@gmail.com"),
+)
+# fmt: on
 
 # plugins
 #   https://github.com/pelican-plugins/sitemap#usage
