@@ -1,244 +1,185 @@
+
 <!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-  <meta content="True" name="HandheldFriendly"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <meta content="" name="robots"/>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-  <link href="https://samroeca.com/theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
-  <link href="https://samroeca.com/theme/pygments/tango.min.css" id="pygments-light-theme" rel="stylesheet" type="text/css"/>
-  <link href="https://samroeca.com/theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
-  <link href="https://samroeca.com/theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
-  <link href="https://samroeca.com/theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
-  <link href="https://samroeca.com/static/custom.css" rel="stylesheet"/>
-  <link href="https://samroeca.com/feeds/all.atom.xml" rel="alternate" title="Sam's Blog Atom" type="application/atom+xml"/>
-  <link href="/theme/images/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
-  <link href="/theme/images/favicon.ico" rel="icon" type="image/x-icon"/>
-  <!-- Google Analytics -->
-  <script type="text/javascript">
-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="https://samroeca.com/theme/pygments/tango.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="https://samroeca.com/theme/font-awesome/css/solid.css">
+
+    <link href="https://samroeca.com/static/custom.css" rel="stylesheet">
+
+    <link href="https://samroeca.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Sam's Blog Atom">
+
+
+    <link rel="shortcut icon" href="/theme/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/theme/images/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-117115805-1', 'auto');
   ga('send', 'pageview');
-   {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Sam's Blog", "item": "https://samroeca.com"}, {"@type": "ListItem", "position": 2, "name": "Vim line numbers", "item": "https://samroeca.com/vim-line-numbers.html"}]}
-  </script>
-  <!-- End Google Analytics -->
-  <meta content="Samuel Roeca" name="author"/>
-  <meta content="Learn how to make your Vim line numbers relative and/or not relative at optimal times." name="description"/>
-  <meta content="vim, neovim" name="keywords"/>
-  <meta content="Sam's Blog" property="og:site_name">
-   <meta content="Vim line numbers" property="og:title"/>
-   <meta content="Learn how to make your Vim line numbers relative and/or not relative at optimal times." property="og:description"/>
-   <meta content="en_US" property="og:locale"/>
-   <meta content="https://samroeca.com/vim-line-numbers.html" property="og:url"/>
-   <meta content="article" property="og:type"/>
-   <meta content="2018-04-07 00:00:00-05:00" property="article:published_time"/>
-   <meta content="2018-04-07 00:00:00-05:00" property="article:modified_time"/>
-   <meta content="https://samroeca.com/author/samuel-roeca.html" property="article:author"/>
-   <meta content="software development" property="article:section">
-    <meta content="vim" property="article:tag"/>
-    <meta content="neovim" property="article:tag"/>
-    <meta content="/images/sam-headshot-kepler-300x300.jpg" property="og:image"/>
-    <title>
-     Sam's Blog – Vim line numbers
-    </title>
-   </meta>
-  </meta>
-  <link href="https://samroeca.com/vim-line-numbers.html" rel="canonical"/>
-  <script type="application/ld+json">
-   {"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Samuel Roeca"}, "publisher": {"@type": "Organization", "name": "Sam's Blog"}, "headline": "Vim line&nbsp;numbers", "about": "software development", "datePublished": "2018-04-07 00:00"}
-  </script>
-  <script type="application/ld+json">
-  </script>
- </head>
- <body class="light-theme">
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Samuel Roeca" />
+<meta name="description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times." />
+<meta name="keywords" content="vim, neovim">
+
+
+<meta property="og:site_name" content="Sam's Blog"/>
+<meta property="og:title" content="Vim line numbers"/>
+<meta property="og:description" content="Learn how to make your Vim line numbers relative and/or not relative at optimal times."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://samroeca.com/vim-line-numbers.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-04-07 00:00:00-05:00"/>
+<meta property="article:modified_time" content="2018-04-07 00:00:00-05:00"/>
+<meta property="article:author" content="https://samroeca.com/author/samuel-roeca.html">
+<meta property="article:section" content="software development"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="neovim"/>
+<meta property="og:image" content="/images/sam-headshot-kepler-300x300.jpg">
+
+  <title>Sam's Blog &ndash; Vim line numbers</title>
+
+</head>
+<body class="light-theme">
   <aside>
-   <div>
-    <a href="https://samroeca.com">
-     <img alt="" src="/images/sam-headshot-kepler-300x300.jpg" title=""/>
-    </a>
-    <h1>
-     <a href="https://samroeca.com">
-     </a>
-    </h1>
-    <p>
-     Sam's blog
-    </p>
-    <nav>
-     <ul class="list">
-      <li>
-       <a href="https://samroeca.com/pages/about.html#about" target="_self">
-        About me
-       </a>
-      </li>
-      <li>
-       <a href="https://samroeca.com/pages/portfolio.html#portfolio" target="_self">
-        Portfolio
-       </a>
-      </li>
-     </ul>
-    </nav>
-    <ul class="social">
-     <li>
-      <a class="sc-github" href="https://github.com/pappasam" target="_blank">
-       <i class="fab fa-github">
-       </i>
+    <div>
+      <a href="https://samroeca.com">
+        <img src="/images/sam-headshot-kepler-300x300.jpg" alt="" title="">
       </a>
-     </li>
-     <li>
-      <a class="sc-linkedin" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank">
-       <i class="fab fa-linkedin">
-       </i>
-      </a>
-     </li>
-     <li>
-      <a class="sc-facebook" href="https://www.facebook.com/sam.roeca" target="_blank">
-       <i class="fab fa-facebook">
-       </i>
-      </a>
-     </li>
-     <li>
-      <a class="sc-twitter" href="https://twitter.com/SamRoeca" target="_blank">
-       <i class="fab fa-twitter">
-       </i>
-      </a>
-     </li>
-     <li>
-      <a class="sc-youtube" href="https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA" target="_blank">
-       <i class="fab fa-youtube">
-       </i>
-      </a>
-     </li>
-     <li>
-      <a class="sc-envelope" href="mailto:samuel.roeca@gmail.com" target="_blank">
-       <i class="fas fa-envelope">
-       </i>
-      </a>
-     </li>
-    </ul>
-   </div>
+
+      <h1>
+        <a href="https://samroeca.com"></a>
+      </h1>
+
+<p>Sam's blog</p>
+
+      <nav>
+        <ul class="list">
+
+
+              <li>
+                <a target="_self"
+                   href="https://samroeca.com/pages/about.html#about">
+                  About&nbsp;me
+                </a>
+              </li>
+              <li>
+                <a target="_self"
+                   href="https://samroeca.com/pages/portfolio.html#portfolio">
+                  Portfolio
+                </a>
+              </li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-github" href="https://github.com/pappasam" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-facebook" href="https://www.facebook.com/sam.roeca" target="_blank">
+              <i class="fab fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-twitter" href="https://twitter.com/SamRoeca" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-youtube" href="https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA" target="_blank">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-envelope" href="mailto:samuel.roeca@gmail.com" target="_blank">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
   </aside>
   <main>
-   <nav>
-    <a href="https://samroeca.com">
-     Home
-    </a>
-    <a href="/archives.html">
-     Archives
-    </a>
-    <a href="/categories.html">
-     Categories
-    </a>
-    <a href="/tags.html">
-     Tags
-    </a>
-    <a href="https://samroeca.com/feeds/all.atom.xml">
-     Atom
-    </a>
-   </nav>
-   <article class="single">
-    <header>
-     <h1 id="vim-line-numbers">
-      Vim line numbers
-     </h1>
-     <p>
-      Posted on Sat 07 April 2018 in
-      <a href="https://samroeca.com/category/software-development.html">
-       software development
-      </a>
-     </p>
-    </header>
-    <div>
-     <div class="toc">
-      <span class="toctitle">
-       Table of Contents
-      </span>
-      <ul>
-       <li>
-        <a href="#the-problem">
-         The Problem
-        </a>
-       </li>
-       <li>
-        <a href="#wrapping-my-own-solution">
-         Wrapping my own solution
-        </a>
-        <ul>
-         <li>
-          <a href="#the-good">
-           The good
-          </a>
-         </li>
-         <li>
-          <a href="#the-bad">
-           The bad
-          </a>
-         </li>
-         <li>
-          <a href="#the-back-breaking-straw">
-           The back-breaking straw
-          </a>
-         </li>
-        </ul>
-       </li>
-       <li>
-        <a href="#the-game-changing-plugin">
-         The Game-Changing Plugin
-        </a>
-       </li>
-       <li>
-        <a href="#conclusion">
-         Conclusion
-        </a>
-       </li>
-      </ul>
-     </div>
-     <p>
-      If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the
-      <a href="https://github.com/myusuf3/numbers.vim">
-       myusuf3/numbers.vim
-      </a>
-      plugin.
-     </p>
-     <h2 id="the-problem">
-      The Problem
-      <a class="headerlink" href="#the-problem" title="Permanent link">
-       ¶
-      </a>
-     </h2>
-     <p>
-      When editing text in a Vim window, I use relative numbers to help me use motions across text relative to my cursor. However, when I have multiple windows open, relative numbers look pretty weird in windows that I am not currently editing. It would be nice for Vim to intelligently alternate between relativenumber and norelativenumber based on my Vim cursor location. Base Vim does not have this capability, so we have three options:
-     </p>
-     <ol>
-      <li>
-       Accept a suboptimal workflow
-      </li>
-      <li>
-       Wrap our own solution in our .vimrc
-      </li>
-      <li>
-       Find a Plugin
-      </li>
-     </ol>
-     <p>
-      I lived with option 1 for a while, but eventually grew too annoyed. I then tried researching plugins, but thought I understood the problem well-enough to write my own solution. So I went straight to option 2 and tried wrapping my own solution.
-     </p>
-     <h2 id="wrapping-my-own-solution">
-      Wrapping my own solution
-      <a class="headerlink" href="#wrapping-my-own-solution" title="Permanent link">
-       ¶
-      </a>
-     </h2>
-     <p>
-      The following code represents my original solution:
-     </p>
-     <div class="highlight">
-      <pre><span></span><code><span class="k">function</span><span class="p">!</span> ToggleRelativeNumber<span class="p">()</span>
+
+    <nav>
+      <a href="https://samroeca.com">Home</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://samroeca.com/feeds/all.atom.xml">Atom</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="vim-line-numbers">Vim line&nbsp;numbers</h1>
+    <p>
+      Posted on Sat 07 April 2018 in <a href="https://samroeca.com/category/software-development.html">software development</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#the-problem">The&nbsp;Problem</a></li>
+<li><a href="#wrapping-my-own-solution">Wrapping my own solution</a><ul>
+<li><a href="#the-good">The&nbsp;good</a></li>
+<li><a href="#the-bad">The&nbsp;bad</a></li>
+<li><a href="#the-back-breaking-straw">The back-breaking&nbsp;straw</a></li>
+</ul>
+</li>
+<li><a href="#the-game-changing-plugin">The Game-Changing&nbsp;Plugin</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<p>If you want your Vim line numbers to be relative and/or not relative at the correct times, I recommend installing the <a href="https://github.com/myusuf3/numbers.vim">myusuf3/numbers.vim</a>&nbsp;plugin.</p>
+<h2 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
+<p>When editing text in a Vim window, I use relative numbers to help me use motions across text relative to my cursor. However, when I have multiple windows open, relative numbers look pretty weird in windows that I am not currently editing. It would be nice for Vim to intelligently alternate between relativenumber and norelativenumber based on my Vim cursor location. Base Vim does not have this capability, so we have three&nbsp;options:</p>
+<ol>
+<li>Accept a suboptimal&nbsp;workflow</li>
+<li>Wrap our own solution in our&nbsp;.vimrc</li>
+<li>Find a&nbsp;Plugin</li>
+</ol>
+<p>I lived with option 1 for a while, but eventually grew too annoyed. I then tried researching plugins, but thought I understood the problem well-enough to write my own solution. So I went straight to option 2 and tried wrapping my own&nbsp;solution.</p>
+<h2 id="wrapping-my-own-solution">Wrapping my own solution<a class="headerlink" href="#wrapping-my-own-solution" title="Permanent link">&para;</a></h2>
+<p>The following code represents my original&nbsp;solution:</p>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="p">!</span> ToggleRelativeNumber<span class="p">()</span>
   <span class="k">if</span> &amp;<span class="nb">rnu</span>
     <span class="k">set</span> <span class="nb">norelativenumber</span>
   <span class="k">else</span>
@@ -248,201 +189,139 @@
 
 <span class="k">function</span><span class="p">!</span> RNUInsertEnter<span class="p">()</span>
   <span class="k">if</span> &amp;<span class="nb">rnu</span>
-    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'rnu'</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
     <span class="k">set</span> <span class="nb">norelativenumber</span>
   <span class="k">else</span>
-    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'nornu'</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
   <span class="k">endif</span>
 <span class="k">endfunction</span>
 
 <span class="k">function</span><span class="p">!</span> RNUInsertLeave<span class="p">()</span>
-  <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">'rnu'</span>
+  <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">&#39;rnu&#39;</span>
     <span class="k">set</span> <span class="nb">relativenumber</span>
   <span class="k">else</span>
     <span class="k">set</span> <span class="nb">norelativenumber</span>
-    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'nornu'</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
   <span class="k">endif</span>
 <span class="k">endfunction</span>
 
 <span class="k">function</span><span class="p">!</span> RNUWinEnter<span class="p">()</span>
-  <span class="k">if</span> exists<span class="p">(</span><span class="s1">'w:line_number_state'</span><span class="p">)</span>
-    <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">'rnu'</span>
+  <span class="k">if</span> exists<span class="p">(</span><span class="s1">&#39;w:line_number_state&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="k">w</span>:line_number_state <span class="p">==</span> <span class="s1">&#39;rnu&#39;</span>
       <span class="k">set</span> <span class="nb">relativenumber</span>
     <span class="k">else</span>
       <span class="k">set</span> <span class="nb">norelativenumber</span>
     <span class="k">endif</span>
   <span class="k">else</span>
     <span class="k">set</span> <span class="nb">relativenumber</span>
-    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'rnu'</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
   <span class="k">endif</span>
 <span class="k">endfunction</span>
 
 <span class="k">function</span><span class="p">!</span> RNUWinLeave<span class="p">()</span>
   <span class="k">if</span> &amp;<span class="nb">rnu</span>
-    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'rnu'</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;rnu&#39;</span>
   <span class="k">else</span>
-    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">'nornu'</span>
+    <span class="k">let</span> <span class="k">w</span>:line_number_state <span class="p">=</span> <span class="s1">&#39;nornu&#39;</span>
   <span class="k">endif</span>
   <span class="k">set</span> <span class="nb">norelativenumber</span>
 <span class="k">endfunction</span>
 
-<span class="c">" autocmd that will set up the w:created variable</span>
+<span class="c">&quot; autocmd that will set up the w:created variable</span>
 autocmd <span class="nb">VimEnter</span> * autocmd <span class="nb">WinEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
 autocmd <span class="nb">VimEnter</span> * <span class="k">let</span> <span class="k">w</span>:created<span class="p">=</span><span class="m">1</span>
 <span class="k">set</span> <span class="k">number</span> <span class="nb">relativenumber</span>
 augroup rnu_nu
   autocmd<span class="p">!</span>
-<span class="c">  "Initial window settings</span>
-  autocmd <span class="nb">WinEnter</span> * <span class="k">if</span> <span class="p">!</span>exists<span class="p">(</span><span class="s1">'w:created'</span><span class="p">)</span> <span class="p">|</span>
+<span class="c">  &quot;Initial window settings</span>
+  autocmd <span class="nb">WinEnter</span> * <span class="k">if</span> <span class="p">!</span>exists<span class="p">(</span><span class="s1">&#39;w:created&#39;</span><span class="p">)</span> <span class="p">|</span>
         \<span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span> <span class="p">|</span>
         \<span class="k">endif</span>
   autocmd <span class="nb">User</span> Startified <span class="k">setlocal</span> <span class="k">number</span> <span class="nb">relativenumber</span>
-<span class="c">  " Don't have relative numbers during insert mode</span>
+<span class="c">  &quot; Don&#39;t have relative numbers during insert mode</span>
   autocmd <span class="nb">InsertEnter</span> * :<span class="k">call</span> RNUInsertEnter<span class="p">()</span>
   autocmd <span class="nb">InsertLeave</span> * :<span class="k">call</span> RNUInsertLeave<span class="p">()</span>
-<span class="c">  " Set and unset relative numbers when buffer is active</span>
+<span class="c">  &quot; Set and unset relative numbers when buffer is active</span>
   autocmd <span class="nb">WinEnter</span> * :<span class="k">call</span> RNUWinEnter<span class="p">()</span>
   autocmd <span class="nb">WinLeave</span> * :<span class="k">call</span> RNUWinLeave<span class="p">()</span>
 augroup <span class="k">end</span>
-</code></pre>
-     </div>
-     <h3 id="the-good">
-      The good
-      <a class="headerlink" href="#the-good" title="Permanent link">
-       ¶
-      </a>
-     </h3>
-     <p>
-      The solution worked for most windows and tabs, most of the time.
-     </p>
-     <h3 id="the-bad">
-      The bad
-      <a class="headerlink" href="#the-bad" title="Permanent link">
-       ¶
-      </a>
-     </h3>
-     <p>
-      The code is a bit involved and it takes a little time to explain to others.
-     </p>
-     <ol>
-      <li>
-       It relies on window-local variables (w:line_number_state, etc). These exacerbate Vim’s already-difficult state-management woes.
-      </li>
-      <li>
-       Several global functions are defined
-      </li>
-      <li>
-       There are some quirks I don’t fully understand around the creation of variables during Vim startup (hence lines 50 and 51).
-      </li>
-     </ol>
-     <p>
-      Despite these mild downsides, I was pretty proud that the solution mostly worked. That is, until I wasn’t.
-     </p>
-     <h3 id="the-back-breaking-straw">
-      The back-breaking straw
-      <a class="headerlink" href="#the-back-breaking-straw" title="Permanent link">
-       ¶
-      </a>
-     </h3>
-     <p>
-      My custom solution did not work appropriately with some of my plugins. Namely, it didn’t play well with
-      <a href="https://github.com/majutsushi/tagbar">
-       majutsushi/tagbar
-      </a>
-      , which I use frequently enough for this feature-dearth to become royally annoying. Therefore, after learning the ins-and-outs of window-specific variables and every Vim autocmd, I went back to the Plugin ecosystem to see if I’d missed anything…
-     </p>
-     <h2 id="the-game-changing-plugin">
-      The Game-Changing Plugin
-      <a class="headerlink" href="#the-game-changing-plugin" title="Permanent link">
-       ¶
-      </a>
-     </h2>
-     <p>
-      Turns out a wonderful developer already solved this problem for me. Assuming you use
-      <a href="https://github.com/junegunn/vim-plug">
-       junegunn/vim-plug
-      </a>
-      to manage your plugins, place the following code in your .vimrc
-     </p>
-     <div class="highlight">
-      <pre><span></span><code><span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">'~/.vim/plugged'</span><span class="p">)</span>
-<span class="c">" Relative Numbering</span>
-Plug <span class="s1">'myusuf3/numbers.vim'</span>
-<span class="c">" Put the rest of your plugins below...</span>
+</code></pre></div>
+
+
+<h3 id="the-good">The good<a class="headerlink" href="#the-good" title="Permanent link">&para;</a></h3>
+<p>The solution worked for most windows and tabs, most of the&nbsp;time.</p>
+<h3 id="the-bad">The bad<a class="headerlink" href="#the-bad" title="Permanent link">&para;</a></h3>
+<p>The code is a bit involved and it takes a little time to explain to&nbsp;others.</p>
+<ol>
+<li>It relies on window-local variables (w:line_number_state, etc). These exacerbate Vim&#8217;s already-difficult state-management&nbsp;woes.</li>
+<li>Several global functions are&nbsp;defined</li>
+<li>There are some quirks I don&#8217;t fully understand around the creation of variables during Vim startup (hence lines 50 and&nbsp;51).</li>
+</ol>
+<p>Despite these mild downsides, I was pretty proud that the solution mostly worked. That is, until I&nbsp;wasn&#8217;t.</p>
+<h3 id="the-back-breaking-straw">The back-breaking straw<a class="headerlink" href="#the-back-breaking-straw" title="Permanent link">&para;</a></h3>
+<p>My custom solution did not work appropriately with some of my plugins. Namely, it didn&#8217;t play well with <a href="https://github.com/majutsushi/tagbar">majutsushi/tagbar</a>, which I use frequently enough for this feature-dearth to become royally annoying. Therefore, after learning the ins-and-outs of window-specific variables and every Vim autocmd, I went back to the Plugin ecosystem to see if I&#8217;d missed&nbsp;anything&#8230;</p>
+<h2 id="the-game-changing-plugin">The Game-Changing Plugin<a class="headerlink" href="#the-game-changing-plugin" title="Permanent link">&para;</a></h2>
+<p>Turns out a wonderful developer already solved this problem for me. Assuming you use <a href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a> to manage your plugins, place the following code in your&nbsp;.vimrc</p>
+<div class="highlight"><pre><span></span><code><span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">&#39;~/.vim/plugged&#39;</span><span class="p">)</span>
+<span class="c">&quot; Relative Numbering</span>
+Plug <span class="s1">&#39;myusuf3/numbers.vim&#39;</span>
+<span class="c">&quot; Put the rest of your plugins below...</span>
 <span class="k">call</span> plug#<span class="k">end</span><span class="p">()</span>
 
-<span class="c">" Now, exclude the plugins you don't want numbers to deal with</span>
-<span class="k">let</span> <span class="k">g</span>:numbers_exclude <span class="p">=</span> [<span class="s1">'startify'</span><span class="p">,</span> <span class="s1">'gundo'</span><span class="p">,</span> <span class="s1">'vimshell'</span>]
-</code></pre>
-     </div>
-     <p>
-      This will give you a great editing experience. See below for a screencast:
-     </p>
-     <p>
-      <img alt="numbers.vim screencast" class="align-center" src="https://samroeca.com/gif/numbers-vim.gif"/>
-     </p>
-     <h2 id="conclusion">
-      Conclusion
-      <a class="headerlink" href="#conclusion" title="Permanent link">
-       ¶
-      </a>
-     </h2>
-     <p>
-      Numbers.vim provides a usable line-numbering solution with minimal required configuration. I regret nothing about my bespoke journey, but I’m glad that Numbers.vim is my destination.
-     </p>
-    </div>
-    <div class="tag-cloud">
-     <p>
-      <a href="https://samroeca.com/tag/vim.html">
-       vim
-      </a>
-      <a href="https://samroeca.com/tag/neovim.html">
-       neovim
-      </a>
-     </p>
-    </div>
-    <div class="neighbors">
-     <a class="btn float-right" href="https://samroeca.com/docker-python-install-wheels.html" title="Smaller python docker containers">
-      Next Post
-      <i class="fa fa-angle-right">
-      </i>
-     </a>
-    </div>
-    <!-- Disqus -->
-    <div id="disqus_thread">
-    </div>
-    <script type="text/javascript">
-     var disqus_shortname = 'pappasam-github-io';
+<span class="c">&quot; Now, exclude the plugins you don&#39;t want numbers to deal with</span>
+<span class="k">let</span> <span class="k">g</span>:numbers_exclude <span class="p">=</span> [<span class="s1">&#39;startify&#39;</span><span class="p">,</span> <span class="s1">&#39;gundo&#39;</span><span class="p">,</span> <span class="s1">&#39;vimshell&#39;</span>]
+</code></pre></div>
+
+
+<p>This will give you a great editing experience. See below for a&nbsp;screencast:</p>
+<p><img alt="numbers.vim screencast" class="align-center" src="https://samroeca.com/gif/numbers-vim.gif"></p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>Numbers.vim provides a usable line-numbering solution with minimal required configuration. I regret nothing about my bespoke journey, but I&#8217;m glad that Numbers.vim is my&nbsp;destination.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://samroeca.com/tag/vim.html">vim</a>
+      <a href="https://samroeca.com/tag/neovim.html">neovim</a>
+    </p>
+  </div>
+
+
+  <div class="neighbors">
+    <a class="btn float-right" href="https://samroeca.com/docker-python-install-wheels.html" title="Smaller python docker containers">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'pappasam-github-io';
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-    </script>
-    <noscript>
-     Please enable JavaScript to view comments.
-    </noscript>
-    <!-- End Disqus -->
-   </article>
-   <footer>
-    <p>
-     ©
-    </p>
-    <p>
-     Built with
-     <a href="http://getpelican.com" target="_blank">
-      Pelican
-     </a>
-     using
-     <a href="http://bit.ly/flex-pelican" target="_blank">
-      Flex
-     </a>
-     theme
-    </p>
-   </footer>
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p>    </footer>
   </main>
-  <script type="application/ld+json">
-   {
+
+
+
+
+<script type="application/ld+json">
+{
   "@context" : "http://schema.org",
   "@type" : "Blog",
   "name": " Sam's Blog ",
@@ -450,6 +329,8 @@ Plug <span class="s1">'myusuf3/numbers.vim'</span>
   "image": "/images/sam-headshot-kepler-300x300.jpg",
   "description": "Samuel Roeca's blog"
 }
-  </script>
- </body>
+</script>
+
+
+</body>
 </html>
