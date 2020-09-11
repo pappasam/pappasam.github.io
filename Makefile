@@ -19,7 +19,7 @@ publish: build-publish  ## Publish the website to Github Pages
 		--message="Generate Pelican site" \
 		--branch=$(GITHUB_PAGES_BRANCH) \
 		--cname="samroeca.com" \
-		$(OUTPUTDIR)
+		output
 	git push origin $(GITHUB_PAGES_BRANCH)
 
 .PHONY: build-dev
