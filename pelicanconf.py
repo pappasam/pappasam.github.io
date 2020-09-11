@@ -23,16 +23,28 @@ EXTRA_PATH_METADATA = {
     "extra/custom.css": {
         "path": "static/custom.css",
     },
-    "theme/images/favicon.ico": {
+    "images/favicon.ico": {
         "path": "favicon.ico",
     },
+    "images/sam-headshot-kepler-57x57.png": {
+        "path": "apple-touch-icon-57x57.png",
+    },
+    "images/sam-headshot-kepler-72x72.png": {
+        "path": "apple-touch-icon-72x72.png",
+    },
+    "images/sam-headshot-kepler-114x114.png": {
+        "path": "apple-touch-icon-114x114.png",
+    },
+    "images/sam-headshot-kepler-144x144.png": {
+        "path": "apple-touch-icon-144x144.png",
+    },
+    "images/sam-headshot-kepler-150x150.png": {
+        "path": "apple-touch-icon.png",
+    },
 }
-STATIC_PATHS = [
-    "images",
-    "theme/images",
-    "gif",
-    "extra",
-]
+
+
+STATIC_PATHS = ["images", "gif", "extra"]
 MARKDOWN = {
     "extension_configs": {
         "markdown.extensions.codehilite": {
@@ -75,10 +87,7 @@ ICONS = (
 #   https://github.com/pelican-plugins/sitemap#usage
 #   https://github.com/pelican-plugins/neighbors#basic-usage
 #######################################################################
-PLUGINS = [
-    "sitemap",
-    "neighbors",
-]
+PLUGINS = ["sitemap", "neighbors"]
 SITEMAP = {
     "format": "xml",
     "priorities": {
