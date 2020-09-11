@@ -94,6 +94,7 @@ MARKDOWN = {
 PLUGINS = [
     "sitemap",
     "neighbors",
+    "seo",
 ]
 SITEMAP = {
     "format": "xml",
@@ -108,3 +109,5 @@ SITEMAP = {
         "indexes": "always",
     },
 }
+SEO_REPORT = False
+SEO_ENHANCER = False

@@ -4,7 +4,8 @@ date: 2018-04-21
 category: software development
 modified: 2018-04-21
 tags: docker, python, pip
-summary: Create a small Python Docker continer using Docker multi-stage builds and Python wheels.
+summary: Create a small Python Docker container using Docker multi-stage builds and Python wheels.
+description: Create a small Python Docker container using Docker multi-stage builds and Python wheels.
 ---
 
 [TOC]

@@ -1,6 +1,7 @@
 ---
 title: Portfolio
 slug: portfolio
+description: Discusses public projects created by Samuel Roeca.
 ---
 
 ## Software projects

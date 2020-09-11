@@ -1,7 +1,3 @@
-INPUTDIR=$(CURDIR)/content
-OUTPUTDIR=$(CURDIR)/output
-CONFFILE=$(CURDIR)/pelicanconf.py
-PUBLISHCONF=$(CURDIR)/publishconf.py
 GITHUB_PAGES_BRANCH=master
 
 .PHONY: help
@@ -12,10 +8,6 @@ help:  ## Print this help menu
 .PHONY: setup
 setup: clone-themes
 	poetry install
-
-.PHONY: clean
-clean:  ## Remove the output directory
-	[ ! -d $(OUTPUTDIR) ] || rm -rf $(OUTPUTDIR)
 
 .PHONY: serve
 serve:  build-dev  ## Run a local development server
@@ -32,12 +24,17 @@ publish: build-publish  ## Publish the website to Github Pages
 
 .PHONY: build-dev
 build-dev:  ## Build a static, development version of the website
-	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE)
+	pelican --settings pelicanconf.py content
 
 .PHONY: build-publish
 build-publish:  ## Build a static, production version of the website
-	pelican $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF)
+	pelican --settings publishconf.py content
 
 .PHONY: clone-themes
 clone-themes:  ## Clone relevant themes to ./pelican-themes
 	git clone git@github.com:pappasam/Flex.git pelican-themes/Flex
+
+.PHONY: clean
+clean:  ## Remove the output directory
+	rm -r output
+	rm seo_report.html

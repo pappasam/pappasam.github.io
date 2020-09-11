@@ -1,6 +1,7 @@
 # Files
 *.pid
 .python-version
+seo_report.html
 
 # Directories
 .venv/

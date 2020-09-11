@@ -4,7 +4,8 @@ date: 2018-06-02
 category: software development
 modified: 2018-06-02
 tags: python, unix, functional programming
-summary: Develop a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.
+summary: Develop Unix-like pipelines in Python.
+description: Develop Unix-like pipelines in Python.
 ---
 
 [TOC]
