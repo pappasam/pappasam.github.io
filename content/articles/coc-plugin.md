@@ -80,7 +80,7 @@ The LSP dream described in the previous section was similar to [Tim Berners-Lee]
 
 ![Browser wars](https://joaopsilva.github.io/talks/End-to-End-JavaScript-with-the-MEAN-Stack/img/ie-vs-netscape.jpg)
 
-Although what is happening today in the text editing community is tamer, it resembles the first browser war in that VSCode has become the de-facto standard for Language Clients. Authors of Language Servers may target VSCode without fully supporting the current LSP spec or by inadvertently support VSCode features that are not in the spec. This means that [Atom](https://atom.io/) users might be using a correctly-implemented language client that does not work with certain language servers. Additionally, there may be no way to easily configure certain language servers without VSCode's configuration options. This means that if you want to get the best language support possible across all language servers, as of August 2020, you pretty much need to use something that resembles VSCode.
+Although what is happening today in the text editing community is tamer, it resembles the first browser war in that VSCode has become the de-facto standard for Language Clients. Authors of Language Servers may target VSCode without fully supporting the current LSP spec or by inadvertently supporting VSCode features that are not in the spec. This means that [Atom](https://atom.io/) users might be using a correctly-implemented language client that does not work with certain language servers. Additionally, there may be no way to easily configure certain language servers without VSCode's configuration options. This means that if you want to get the best language support possible across all language servers, as of August 2020, you pretty much need to use something that resembles VSCode.
 
 ![you can't sit with us](https://memegenerator.net/img/instances/58875816/you-cant-sit-with-us.jpg)
 
@@ -123,7 +123,7 @@ Notice that the process hangs; it's waiting to receive standard input and will r
 }
 ```
 
-If you've configured coc.nvim and installed jedi-language-server in an accessible location, Vim and jedi-language-server will communicate to provide you autocomletion, goto definition, etc. Hooray!
+If you've configured coc.nvim and installed jedi-language-server in an accessible location, Vim and jedi-language-server will communicate to provide you autocompletion, goto definition, etc. Hooray!
 
 ![message teamwork](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/A_message_written_on_rice_paper_is_put_into_a_container_and_attached_to_a_carrier_pigeon_by_members_of_61st_Division_Signals_at_Ballymena%2C_Northern_Ireland%2C_3_July_1941._H11281.jpg/612px-thumbnail.jpg)
 
