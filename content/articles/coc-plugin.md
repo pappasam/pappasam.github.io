@@ -84,7 +84,7 @@ Although what is happening today in the text editing community is tamer, it rese
 
 ![you can't sit with us](https://memegenerator.net/img/instances/58875816/you-cant-sit-with-us.jpg)
 
-As the VSCode ecosystem seemed like it had formed an exclusive clique, [Qiming zhao](https://github.com/neoclide) and [Heyward Fann](https://github.com/fannheyward) realized that Vim could join the party by implementing a VSCode bridge for Neovim. They named this LSP bridge "coc.nvim".
+As the VSCode ecosystem seemed like it had formed an exclusive clique, [Qiming zhao](https://github.com/chemzqm) (@chemzqm on social media) realized that Vim could join the party by [implementing a VSCode bridge for Neovim](https://news.ycombinator.com/item?id=19532429). Qiming zhao named this LSP bridge "coc.nvim".
 
 ![Python bridge](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Amsterdam_Python_Bridge_10.jpg/640px-Amsterdam_Python_Bridge_10.jpg)
 
