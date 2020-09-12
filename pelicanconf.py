@@ -65,7 +65,7 @@ MARKDOWN = {
 
 # theme: https://github.com/pappasam/pelican-alchemy
 #######################################################################
-THEME = "pelican-themes/pelican-alchemy/alchemy"
+THEME = "pelican-themes/pelican-theme/alchemy"
 PYGMENTS_STYLE = "default"
 SITESUBTITLE = "Sam Roeca's stream of thoughts, whims, and wisdom"
 DESCRIPTION = "Sam (Samuel) Roeca's personal blog about his thoughts/opinions."

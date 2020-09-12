@@ -1,4 +1,5 @@
 GITHUB_PAGES_BRANCH=master
+PELICAN_THEME_GIT_URL=git@github.com:pappasam/pelican-alchemy.git
 
 .PHONY: help
 help:  ## Print this help menu
@@ -6,12 +7,12 @@ help:  ## Print this help menu
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: setup
-setup: pelican-themes/pelican-alchemy
+setup: pelican-themes/pelican-theme  ## Install local dependencies
 	poetry install
 
 .PHONY: serve
-serve:  build-dev  ## Run a local development server
-	pelican --listen --relative-urls
+serve:  ## Run a local development server
+	pelican --autoreload --listen --relative-urls
 
 .PHONY: publish
 publish: build-publish  ## Publish the website to Github Pages
@@ -30,10 +31,10 @@ build-dev:  ## Build a static, development version of the website
 build-publish:  ## Build a static, production version of the website
 	pelican --settings publishconf.py content
 
-pelican-themes/pelican-alchemy:
-	git clone git@github.com:pappasam/pelican-alchemy.git $@
-
 .PHONY: clean
 clean:  ## Remove the output directory
 	rm -r output
 	rm -rf pelican-themes
+
+pelican-themes/pelican-theme:
+	git clone $(PELICAN_THEME_GIT_URL) $@
