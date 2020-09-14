@@ -1,5 +1,5 @@
 ---
-title: About me
+title: Bio
 slug: about
 ---
 

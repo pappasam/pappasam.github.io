@@ -36,14 +36,20 @@ tr:hover {
   background-color: rgba(0, 0, 0, 0.15);
 }
 
+/* No container is wider then roughly 79 characters in terminal */
+.container {
+  max-width: 35rem;
+}
+
+pre {
+  /* code blocks need to be resized to appear as 79 characters */
+  font-size: 67%;
+  line-height: 1.1rem;
+}
+
 /* Site header */
 .header {
   background-color: rgba(0, 0, 0, 0.1);
-}
-
-.header img {
-  width: 200px;
-  height: 200px;
 }
 
 .headerlink {
