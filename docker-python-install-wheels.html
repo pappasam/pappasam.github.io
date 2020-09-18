@@ -93,43 +93,43 @@
     </header>
     <div class="content">
       <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#the-problem">The&nbsp;problem</a></li>
+<li><a href="#the-problem">The problem</a></li>
 <li><a href="#examples">Examples</a><ul>
 <li><a href="#setup">Setup</a></li>
-<li><a href="#example-1-broken-build-requiring-a-c-compiler">Example 1: broken build requiring a C&nbsp;compiler</a></li>
-<li><a href="#example-2-large-build-with-c-compiler-installed">Example 2: large build with C compiler&nbsp;installed</a></li>
-<li><a href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler">Example 3: failed attempt at simply &#8220;uninstalling&#8221; C&nbsp;compiler</a></li>
-<li><a href="#example-4-small-final-build-without-c-compiler">Example 4: small final build without C&nbsp;compiler</a></li>
+<li><a href="#example-1-broken-build-requiring-a-c-compiler">Example 1: broken build requiring a C compiler</a></li>
+<li><a href="#example-2-large-build-with-c-compiler-installed">Example 2: large build with C compiler installed</a></li>
+<li><a href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler">Example 3: failed attempt at simply “uninstalling” C compiler</a></li>
+<li><a href="#example-4-small-final-build-without-c-compiler">Example 4: small final build without C compiler</a></li>
 </ul>
 </li>
 <li><a href="#explanation">Explanation</a><ul>
-<li><a href="#copying-betwen-docker-build-stages-in-multi-stage-build">Copying betwen Docker build stages in multi-stage&nbsp;build</a></li>
-<li><a href="#difference-between-pip-install-and-pip-wheel">Difference between &#8220;pip install&#8221; and &#8220;pip&nbsp;wheel&#8221;</a></li>
+<li><a href="#copying-betwen-docker-build-stages-in-multi-stage-build">Copying betwen Docker build stages in multi-stage build</a></li>
+<li><a href="#difference-between-pip-install-and-pip-wheel">Difference between “pip install” and “pip wheel”</a></li>
 </ul>
 </li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#special-thanks">Special&nbsp;thanks</a></li>
+<li><a href="#special-thanks">Special thanks</a></li>
 </ul>
 </div>
-<p>If your Docker Python build requires system dependencies that are <span class="caps">NOT</span> required at runtime, structure your build as&nbsp;follows:</p>
+<p>If your Docker Python build requires system dependencies that are <span class="caps">NOT</span> required at runtime, structure your build as follows:</p>
 <ol>
-<li>Use a <a href="https://docs.docker.com/develop/develop-images/multistage-build/">multi-stage&nbsp;build</a></li>
+<li>Use a <a href="https://docs.docker.com/develop/develop-images/multistage-build/">multi-stage build</a></li>
 <li>Stage 1 installs system dependencies and uses them to build local <a href="https://pythonwheels.com/">wheels</a></li>
-<li>Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the&nbsp;wheels</li>
-<li>The rest of your build will be based on Stage&nbsp;2</li>
+<li>Stage 2 begins from the same base as Stage 1, copies wheels from Stage 1, and installs the wheels</li>
+<li>The rest of your build will be based on Stage 2</li>
 </ol>
-<p>If you follow these steps, you&#8217;ll end up with the smallest-possible Python Docker container with all your Python dependencies&nbsp;intact.</p>
-<p>Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that you are running <a href="https://github.com/python/cpython">CPython</a> (Python&#8217;s reference&nbsp;implementation).</p>
-<h2 id="the-problem">The problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
-<p>We want to do a Python system build using Docker. Python system builds often require installing third-party code. This third-party code may contain code or resources that must be compiled during their installation. For simplicity&#8217;s sake, assume we are talking about source code in the C programming language. Since a Docker container will be our &#8220;target machine&#8221;, we&#8217;ll need a C compiler in our Docker container. Unfortunately, C compilers are large programs. Since we plan to scale our number of containers up and down based on the demand for its provided service, the image should ideally be as small as&nbsp;possible.</p>
+<p>If you follow these steps, you’ll end up with the smallest-possible Python Docker container with all your Python dependencies intact.</p>
+<p>Note: this post references Docker 18.03, Python 3.6, and pip 10. I assume that you are running <a href="https://github.com/python/cpython">CPython</a> (Python’s reference implementation).</p>
+<h2 id="the-problem">The problem<a class="headerlink" href="#the-problem" title="Permanent link">¶</a></h2>
+<p>We want to do a Python system build using Docker. Python system builds often require installing third-party code. This third-party code may contain code or resources that must be compiled during their installation. For simplicity’s sake, assume we are talking about source code in the C programming language. Since a Docker container will be our “target machine”, we’ll need a C compiler in our Docker container. Unfortunately, C compilers are large programs. Since we plan to scale our number of containers up and down based on the demand for its provided service, the image should ideally be as small as possible.</p>
 <p>Basically, we want to build C code with a C compiler and then throw away
-the C compiler to save space in our deployment&nbsp;image.</p>
-<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+the C compiler to save space in our deployment image.</p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">¶</a></h2>
 <p>The following examples should clarify the problem and its resolution.
-Note: I&#8217;m assuming that you&#8217;re using a
-<a href="https://en.wikipedia.org/wiki/POSIX"><span class="caps">POSIX</span></a>-inspired&nbsp;system.</p>
-<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
-<p>Copy the following Makefile into your current working&nbsp;directory.</p>
+Note: I’m assuming that you’re using a
+<a href="https://en.wikipedia.org/wiki/POSIX"><span class="caps">POSIX</span></a>-inspired system.</p>
+<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">¶</a></h3>
+<p>Copy the following Makefile into your current working directory.</p>
 <div class="highlight"><pre><span></span><code>.PHONY: build-break
 build-break:
     docker build -t blog-python:break -f ./Dockerfile.break .
@@ -149,74 +149,64 @@ build-small:
     docker build -t blog-python:small -f ./Dockerfile.small .
     docker images
 </code></pre></div>
-
-
-<p>Note: you might need to convert spaces to&nbsp;tabs.</p>
-<h3 id="example-1-broken-build-requiring-a-c-compiler">Example 1: broken build requiring a C compiler<a class="headerlink" href="#example-1-broken-build-requiring-a-c-compiler" title="Permanent link">&para;</a></h3>
-<p>We have a simple, <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">entrypoint</a>-less Docker container in which we must install <a href="https://uwsgi-docs.readthedocs.io/en/latest/">uWSGI</a>. In the uWSGI <a href="https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html">quickstart</a> guide, its developers clarify that it &#8220;is a (big) C application, so you need a C compiler (like gcc or clang) and the Python development&nbsp;headers&#8221;.</p>
-<p>Copy the following code into a file called&nbsp;&#8220;Dockerfile.break&#8221;:</p>
+<p>Note: you might need to convert spaces to tabs.</p>
+<h3 id="example-1-broken-build-requiring-a-c-compiler">Example 1: broken build requiring a C compiler<a class="headerlink" href="#example-1-broken-build-requiring-a-c-compiler" title="Permanent link">¶</a></h3>
+<p>We have a simple, <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">entrypoint</a>-less Docker container in which we must install <a href="https://uwsgi-docs.readthedocs.io/en/latest/">uWSGI</a>. In the uWSGI <a href="https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html">quickstart</a> guide, its developers clarify that it “is a (big) C application, so you need a C compiler (like gcc or clang) and the Python development headers”.</p>
+<p>Copy the following code into a file called “Dockerfile.break”:</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">breakimage</span>
 
 <span class="k">RUN</span> pip install uwsgi
 </code></pre></div>
-
-
-<p>Now run the following shell command in the same directory as your&nbsp;Dockerfile.break.</p>
+<p>Now run the following shell command in the same directory as your Dockerfile.break.</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-break
 
 <span class="go">Traceback (most recent call last):</span>
-<span class="go">  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</span>
-<span class="go">  File &quot;/tmp/pip-install-tkd8plx9/uwsgi/setup.py&quot;, line 137, in &lt;module&gt;</span>
-<span class="go">    &#39;Programming Language :: Python :: 3.6&#39;,</span>
-<span class="go">  File &quot;/usr/local/lib/python3.6/site-packages/setuptools/__init__.py&quot;, line 129, in setup</span>
+<span class="go">  File "&lt;string&gt;", line 1, in &lt;module&gt;</span>
+<span class="go">  File "/tmp/pip-install-tkd8plx9/uwsgi/setup.py", line 137, in &lt;module&gt;</span>
+<span class="go">    'Programming Language :: Python :: 3.6',</span>
+<span class="go">  File "/usr/local/lib/python3.6/site-packages/setuptools/__init__.py", line 129, in setup</span>
 <span class="go">    return distutils.core.setup(**attrs)</span>
-<span class="go">  File &quot;/usr/local/lib/python3.6/distutils/core.py&quot;, line 148, in setup</span>
+<span class="go">  File "/usr/local/lib/python3.6/distutils/core.py", line 148, in setup</span>
 <span class="go">    dist.run_commands()</span>
-<span class="go">  File &quot;/usr/local/lib/python3.6/distutils/dist.py&quot;, line 955, in run_commands</span>
+<span class="go">  File "/usr/local/lib/python3.6/distutils/dist.py", line 955, in run_commands</span>
 <span class="go">    self.run_command(cmd)</span>
-<span class="go">  File &quot;/usr/local/lib/python3.6/distutils/dist.py&quot;, line 974, in run_command</span>
+<span class="go">  File "/usr/local/lib/python3.6/distutils/dist.py", line 974, in run_command</span>
 <span class="go">    cmd_obj.run()</span>
-<span class="go">  File &quot;/tmp/pip-install-tkd8plx9/uwsgi/setup.py&quot;, line 77, in run</span>
+<span class="go">  File "/tmp/pip-install-tkd8plx9/uwsgi/setup.py", line 77, in run</span>
 <span class="go">    conf = uc.uConf(get_profile())</span>
-<span class="go">  File &quot;/tmp/pip-install-tkd8plx9/uwsgi/uwsgiconfig.py&quot;, line 747, in __init__</span>
-<span class="go">    raise Exception(&quot;you need a C compiler to build uWSGI&quot;)</span>
+<span class="go">  File "/tmp/pip-install-tkd8plx9/uwsgi/uwsgiconfig.py", line 747, in __init__</span>
+<span class="go">    raise Exception("you need a C compiler to build uWSGI")</span>
 <span class="go">Exception: you need a C compiler to build uWSGI</span>
 </code></pre></div>
-
-
-<p>At the end of our failed build, we see this Traceback (in addition to other helpful messages). Consistent with the uWSGI documentation, our system has said that we &#8220;need a C compiler to build uWSGI&#8221;. We&#8217;ll do that in example&nbsp;2.</p>
-<h3 id="example-2-large-build-with-c-compiler-installed">Example 2: large build with C compiler installed<a class="headerlink" href="#example-2-large-build-with-c-compiler-installed" title="Permanent link">&para;</a></h3>
-<p>In this example, we&#8217;ll install our system dependencies so uWSGI can actually be&nbsp;built.</p>
-<p>Copy the following code into a file called&nbsp;&#8220;Dockerfile.big&#8221;:</p>
+<p>At the end of our failed build, we see this Traceback (in addition to other helpful messages). Consistent with the uWSGI documentation, our system has said that we “need a C compiler to build uWSGI”. We’ll do that in example 2.</p>
+<h3 id="example-2-large-build-with-c-compiler-installed">Example 2: large build with C compiler installed<a class="headerlink" href="#example-2-large-build-with-c-compiler-installed" title="Permanent link">¶</a></h3>
+<p>In this example, we’ll install our system dependencies so uWSGI can actually be built.</p>
+<p>Copy the following code into a file called “Dockerfile.big”:</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage</span>
 
 <span class="k">RUN</span> apk add --no-cache linux-headers g++
 
 <span class="k">RUN</span> pip install uwsgi
 </code></pre></div>
-
-
-<p>Now run the following shell&nbsp;command:</p>
+<p>Now run the following shell command:</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-big
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE</span>
 <span class="go">blog-python         big                 8a68d0dad407        Less than a second ago   251MB</span>
 <span class="go">python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB</span>
 </code></pre></div>
-
-
-<p>In the &#8220;build-big&#8221; make target, I&#8217;ve included a command to list all Docker images on your system. Because of this command, you should see something close to the following in your&nbsp;terminal:</p>
-<h4>The&nbsp;good</h4>
-<p>The image built&nbsp;successfully.</p>
-<h4>The&nbsp;bad</h4>
-<p>The image is unnecessarily&nbsp;large.</p>
-<p>We&#8217;re planning on scaling our web-service to handle a decent amount of traffic. Scaling will involve deploying many images on many servers. Larger images take longer to deploy and (obviously) take up more space than smaller&nbsp;images.</p>
-<h4>The&nbsp;ugly</h4>
-<p>We are including an unnecessary&nbsp;dependency.</p>
-<p>We don&#8217;t need a C compiler in the image, so the C compiler is an unnecessary dependency. Including an unnecessary dependency in our runtime image is a horrible design, similar to including an unnecessary Python dependency in our requirements.txt or setup.py. As great software developers, we <span class="caps">HATE</span> bad system design, so let&#8217;s find a way to resolve the &#8220;bad&#8221; and the &#8220;ugly&#8221; while preserving the&nbsp;&#8220;good&#8221;!</p>
-<h3 id="example-3-failed-attempt-at-simply-uninstalling-c-compiler">Example 3: failed attempt at simply &#8220;uninstalling&#8221; C compiler<a class="headerlink" href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler" title="Permanent link">&para;</a></h3>
-<p>Unfortunately, if we want to reduce our image size, we cannot simply &#8220;uninstall&#8221; the C compiler. For reasons that I do not fully comprehend at this time, Docker caches anything you install in an image, so uninstalling a dependency does <span class="caps">NOT</span> reduce the image&nbsp;size.</p>
-<p>Copy the following code into a file called&nbsp;&#8220;Dockerfile.uninstall&#8221;:</p>
+<p>In the “build-big” make target, I’ve included a command to list all Docker images on your system. Because of this command, you should see something close to the following in your terminal:</p>
+<h4>The good</h4>
+<p>The image built successfully.</p>
+<h4>The bad</h4>
+<p>The image is unnecessarily large.</p>
+<p>We’re planning on scaling our web-service to handle a decent amount of traffic. Scaling will involve deploying many images on many servers. Larger images take longer to deploy and (obviously) take up more space than smaller images.</p>
+<h4>The ugly</h4>
+<p>We are including an unnecessary dependency.</p>
+<p>We don’t need a C compiler in the image, so the C compiler is an unnecessary dependency. Including an unnecessary dependency in our runtime image is a horrible design, similar to including an unnecessary Python dependency in our requirements.txt or setup.py. As great software developers, we <span class="caps">HATE</span> bad system design, so let’s find a way to resolve the “bad” and the “ugly” while preserving the “good”!</p>
+<h3 id="example-3-failed-attempt-at-simply-uninstalling-c-compiler">Example 3: failed attempt at simply “uninstalling” C compiler<a class="headerlink" href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler" title="Permanent link">¶</a></h3>
+<p>Unfortunately, if we want to reduce our image size, we cannot simply “uninstall” the C compiler. For reasons that I do not fully comprehend at this time, Docker caches anything you install in an image, so uninstalling a dependency does <span class="caps">NOT</span> reduce the image size.</p>
+<p>Copy the following code into a file called “Dockerfile.uninstall”:</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage-uninstalled</span>
 
 <span class="k">RUN</span> apk add --no-cache linux-headers g++
@@ -225,9 +215,7 @@ build-small:
 
 <span class="k">RUN</span> apk del linux-headers g++
 </code></pre></div>
-
-
-<p>Now run the following shell&nbsp;command:</p>
+<p>Now run the following shell command:</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-uninstall-big
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE</span>
@@ -235,12 +223,10 @@ build-small:
 <span class="go">blog-python         big                 8a68d0dad407        11 minutes ago           251MB</span>
 <span class="go">python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB</span>
 </code></pre></div>
-
-
-<p>Our efforts at removing our C compiler proved futile. At this point, lesser developers would give up and assume we&#8217;ve reached the end of the road. But you, dear reader, are reading my blog, and I know you&#8217;re better than that! Let&#8217;s dig deeper and find an elegant way shrink our Docker&nbsp;image!</p>
-<h3 id="example-4-small-final-build-without-c-compiler">Example 4: small final build without C compiler<a class="headerlink" href="#example-4-small-final-build-without-c-compiler" title="Permanent link">&para;</a></h3>
-<p>This final example results in a small image with uWSGI installed and without a C compiler. It relies heavily on multi-stage builds and on pip&nbsp;wheels.</p>
-<p>Copy the following code into a file called&nbsp;&#8220;Dockerfile.small&#8221;:</p>
+<p>Our efforts at removing our C compiler proved futile. At this point, lesser developers would give up and assume we’ve reached the end of the road. But you, dear reader, are reading my blog, and I know you’re better than that! Let’s dig deeper and find an elegant way shrink our Docker image!</p>
+<h3 id="example-4-small-final-build-without-c-compiler">Example 4: small final build without C compiler<a class="headerlink" href="#example-4-small-final-build-without-c-compiler" title="Permanent link">¶</a></h3>
+<p>This final example results in a small image with uWSGI installed and without a C compiler. It relies heavily on multi-stage builds and on pip wheels.</p>
+<p>Copy the following code into a file called “Dockerfile.small”:</p>
 <div class="highlight"><pre><span></span><code><span class="c">###########################################</span>
 <span class="c"># Throwaway image with C compiler installed</span>
 <span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage</span>
@@ -265,9 +251,7 @@ build-small:
       --find-links<span class="o">=</span>/root/wheels <span class="se">\</span>
       uwsgi
 </code></pre></div>
-
-
-<p>Now run the following shell&nbsp;command:</p>
+<p>Now run the following shell command:</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-small
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span>
@@ -277,33 +261,31 @@ build-small:
 <span class="go">blog-python         big                 8a68d0dad407        34 minutes ago      251MB</span>
 <span class="go">python              3.6-alpine          8eb1c554687d        16 hours ago        90.4MB</span>
 </code></pre></div>
-
-
-<p>Notice that the image tagged &#8220;small&#8221; is ~61% smaller than its &#8220;big&#8221; counterparts. It has 7 additional <span class="caps">MB</span> from its base alpine container. These megabytes represent only the uWSGI library itself. We&#8217;ll need to make modifications to uWSGI itself to get any smaller. I leave uWSGI modifications as an exercise for the&nbsp;reader.</p>
-<h2 id="explanation">Explanation<a class="headerlink" href="#explanation" title="Permanent link">&para;</a></h2>
-<p>Two key points are responsible for our Docker build&#8217;s&nbsp;success:</p>
+<p>Notice that the image tagged “small” is ~61% smaller than its “big” counterparts. It has 7 additional <span class="caps">MB</span> from its base alpine container. These megabytes represent only the uWSGI library itself. We’ll need to make modifications to uWSGI itself to get any smaller. I leave uWSGI modifications as an exercise for the reader.</p>
+<h2 id="explanation">Explanation<a class="headerlink" href="#explanation" title="Permanent link">¶</a></h2>
+<p>Two key points are responsible for our Docker build’s success:</p>
 <ol>
-<li>Reliance on copying between image stages in Docker multi-stage builds. This gets around caching problems with a single&nbsp;image</li>
-<li>Understanding the difference between &#8220;pip install&#8221; and &#8220;pip&nbsp;wheel&#8221;</li>
+<li>Reliance on copying between image stages in Docker multi-stage builds. This gets around caching problems with a single image</li>
+<li>Understanding the difference between “pip install” and “pip wheel”</li>
 </ol>
-<h3 id="copying-betwen-docker-build-stages-in-multi-stage-build">Copying betwen Docker build stages in multi-stage build<a class="headerlink" href="#copying-betwen-docker-build-stages-in-multi-stage-build" title="Permanent link">&para;</a></h3>
-<p>Unless we explicitly specify a <a href="https://docs.docker.com/engine/reference/commandline/build/#specifying-target-build-stage---target">target</a>, Docker multi-stage builds will tag their last stage. Downstream build stages can reference upstream build stages and copy resources from them, similarly to how resources can be copied from any local or remote file system into a traditional Docker container. Therefore, we &#8220;compile&#8221; our Python code in one build stage and copy this compiled code in another build stage. Since the code no longer needs to be compiled, we don&#8217;t need to a C compiler or Linux headers. As the coup de grâce, our build&#8217;s final stage is not based on any image with a C compiler installed, so this approach completely avoids Docker&#8217;s caching&nbsp;complexities.</p>
-<p>Thanks to Docker&#8217;s multi-stage builds, we are able to compile our Python package and avoid deploying the build&#8217;s system dependencies in our final&nbsp;image.</p>
-<h3 id="difference-between-pip-install-and-pip-wheel">Difference between &#8220;pip install&#8221; and &#8220;pip wheel&#8221;<a class="headerlink" href="#difference-between-pip-install-and-pip-wheel" title="Permanent link">&para;</a></h3>
-<p>Docker multi-stage builds are cool and all, but I&#8217;ve seen many articles about them. Python&#8217;s packaging tool, <a href="https://pip.pypa.io/en/stable/">pip</a>, hasn&#8217;t gotten as much careful attention from the blogging community. Hopefully this section can clear up one common point of confusion: <a href="#pip-install">pip install</a> vs <a href="#pip-wheel">pip wheel</a>.</p>
-<h4>pip&nbsp;install</h4>
-<p>This is the command most people are familiar with. At a high level, it takes a Python package, runs its setup.py, downloads and installs its dependencies, and potentially does a lot more. Run &#8220;pip install&#8221; when you want to expand a package&#8217;s contents and use it as its author&nbsp;intended.</p>
-<p>A good mental model: &#8220;pip install&#8221; takes a consolidated bundle of code / build instructions and places the package&#8217;s content and dependencies wherever they need to go on an operating system. Once &#8220;pip install&#8221; runs on our machine, file placement throughout our file system can be pretty <a href="http://stayhawaiian.blogspot.com/2010/05/hamajang.html">hamajang</a>, depending on a package&#8217;s setup.py&nbsp;instructions.</p>
-<h4>pip&nbsp;wheel</h4>
-<p>This tool is mostly used by library developers wanting to distribute their packages in a user-friendly way. For example, <a href="http://scikit-learn.org">scikitlearn</a>, a popular Python library for machine learning, requires <a href="http://scikit-learn.org/stable/developers/advanced_installation.html">a lot of system dependencies</a> to build. Many Python users, especially data scientists, are either unwilling or unable to install these dependencies on their host machines. This user-characteristic led to unfortunate platforms like <a href="https://www.anaconda.com/what-is-anaconda/">Anaconda</a> (author opinion). On a more mature note, for those of us with the appropriate dependencies installed, the installation process would often take a very long time; C, <span class="caps">FORTRAN</span>, and possibly other languages each needed to be compiled, and installing code written in these languages often leads to a long coffee&nbsp;break.</p>
-<p>Wheels enable Python developers to compile a package, and its dependencies, in a distributable form targeting common operating system architectures. Today, most scikitlearn users install it <a href="http://scikit-learn.org/stable/install.html">using its wheel</a>, which takes a fraction of the time of the regular build&nbsp;process.</p>
-<p>A good mental model: &#8220;pip wheel&#8221; takes a Python package, makes it ready to be installed on any target machine <span class="caps">WITHOUT</span> its build dependencies, and puts it in <span class="caps">ONE</span> easily-distributed archive&nbsp;file.</p>
-<h4>Why we care about&nbsp;this?</h4>
-<p>Not all Python packages are distributed as wheels. There are some packages, based mostly on C, that are hard to compile once and use in many places. uWSGI appears to be one of those packages. To build our final image, we construct a throw-away container to construct a wheel for&nbsp;uWSGI.</p>
-<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
-<p>When building a Docker container for a Python application, we can install packages requiring build-time system dependencies <span class="caps">AND</span> remove these system dependencies from our final Docker image through a combination of Docker multi-stage builds, pip wheel, and pip&nbsp;install.</p>
-<h2 id="special-thanks">Special thanks<a class="headerlink" href="#special-thanks" title="Permanent link">&para;</a></h2>
-<p>This post took inspiration from <a href="https://lekum.org/post/multistage-dockerfile/">this post</a> by Alejandro Guirao. I am indebted to Alejandro for publishing his creative use of docker multi-stage builds in the context of Python&nbsp;systems.</p>
+<h3 id="copying-betwen-docker-build-stages-in-multi-stage-build">Copying betwen Docker build stages in multi-stage build<a class="headerlink" href="#copying-betwen-docker-build-stages-in-multi-stage-build" title="Permanent link">¶</a></h3>
+<p>Unless we explicitly specify a <a href="https://docs.docker.com/engine/reference/commandline/build/#specifying-target-build-stage---target">target</a>, Docker multi-stage builds will tag their last stage. Downstream build stages can reference upstream build stages and copy resources from them, similarly to how resources can be copied from any local or remote file system into a traditional Docker container. Therefore, we “compile” our Python code in one build stage and copy this compiled code in another build stage. Since the code no longer needs to be compiled, we don’t need to a C compiler or Linux headers. As the coup de grâce, our build’s final stage is not based on any image with a C compiler installed, so this approach completely avoids Docker’s caching complexities.</p>
+<p>Thanks to Docker’s multi-stage builds, we are able to compile our Python package and avoid deploying the build’s system dependencies in our final image.</p>
+<h3 id="difference-between-pip-install-and-pip-wheel">Difference between “pip install” and “pip wheel”<a class="headerlink" href="#difference-between-pip-install-and-pip-wheel" title="Permanent link">¶</a></h3>
+<p>Docker multi-stage builds are cool and all, but I’ve seen many articles about them. Python’s packaging tool, <a href="https://pip.pypa.io/en/stable/">pip</a>, hasn’t gotten as much careful attention from the blogging community. Hopefully this section can clear up one common point of confusion: <a href="#pip-install">pip install</a> vs <a href="#pip-wheel">pip wheel</a>.</p>
+<h4>pip install</h4>
+<p>This is the command most people are familiar with. At a high level, it takes a Python package, runs its setup.py, downloads and installs its dependencies, and potentially does a lot more. Run “pip install” when you want to expand a package’s contents and use it as its author intended.</p>
+<p>A good mental model: “pip install” takes a consolidated bundle of code / build instructions and places the package’s content and dependencies wherever they need to go on an operating system. Once “pip install” runs on our machine, file placement throughout our file system can be pretty <a href="http://stayhawaiian.blogspot.com/2010/05/hamajang.html">hamajang</a>, depending on a package’s setup.py instructions.</p>
+<h4>pip wheel</h4>
+<p>This tool is mostly used by library developers wanting to distribute their packages in a user-friendly way. For example, <a href="http://scikit-learn.org">scikitlearn</a>, a popular Python library for machine learning, requires <a href="http://scikit-learn.org/stable/developers/advanced_installation.html">a lot of system dependencies</a> to build. Many Python users, especially data scientists, are either unwilling or unable to install these dependencies on their host machines. This user-characteristic led to unfortunate platforms like <a href="https://www.anaconda.com/what-is-anaconda/">Anaconda</a> (author opinion). On a more mature note, for those of us with the appropriate dependencies installed, the installation process would often take a very long time; C, <span class="caps">FORTRAN</span>, and possibly other languages each needed to be compiled, and installing code written in these languages often leads to a long coffee break.</p>
+<p>Wheels enable Python developers to compile a package, and its dependencies, in a distributable form targeting common operating system architectures. Today, most scikitlearn users install it <a href="http://scikit-learn.org/stable/install.html">using its wheel</a>, which takes a fraction of the time of the regular build process.</p>
+<p>A good mental model: “pip wheel” takes a Python package, makes it ready to be installed on any target machine <span class="caps">WITHOUT</span> its build dependencies, and puts it in <span class="caps">ONE</span> easily-distributed archive file.</p>
+<h4>Why we care about this?</h4>
+<p>Not all Python packages are distributed as wheels. There are some packages, based mostly on C, that are hard to compile once and use in many places. uWSGI appears to be one of those packages. To build our final image, we construct a throw-away container to construct a wheel for uWSGI.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h2>
+<p>When building a Docker container for a Python application, we can install packages requiring build-time system dependencies <span class="caps">AND</span> remove these system dependencies from our final Docker image through a combination of Docker multi-stage builds, pip wheel, and pip install.</p>
+<h2 id="special-thanks">Special thanks<a class="headerlink" href="#special-thanks" title="Permanent link">¶</a></h2>
+<p>This post took inspiration from <a href="https://lekum.org/post/multistage-dockerfile/">this post</a> by Alejandro Guirao. I am indebted to Alejandro for publishing his creative use of docker multi-stage builds in the context of Python systems.</p>
       <hr>
       <div class="row text-center">
           <div class="col-sm-6">

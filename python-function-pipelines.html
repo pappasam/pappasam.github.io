@@ -93,20 +93,20 @@
     </header>
     <div class="content">
       <div class="toc"><span class="toctitle">Table of Contents</span><ul>
-<li><a href="#the-problem">The&nbsp;problem</a></li>
-<li><a href="#unix-pipes">Unix&nbsp;pipes</a></li>
+<li><a href="#the-problem">The problem</a></li>
+<li><a href="#unix-pipes">Unix pipes</a></li>
 <li><a href="#example">Example</a><ul>
-<li><a href="#solution-1-name-each-step-in-the-pipeline">Solution 1: name each step in the&nbsp;pipeline</a></li>
-<li><a href="#solution-2-use-the-reduce-function">Solution 2: use the &#8220;reduce&#8221;&nbsp;function</a></li>
-<li><a href="#solution-3-custom-pipeline-function">Solution 3: custom &#8220;pipeline&#8221;&nbsp;function</a></li>
+<li><a href="#solution-1-name-each-step-in-the-pipeline">Solution 1: name each step in the pipeline</a></li>
+<li><a href="#solution-2-use-the-reduce-function">Solution 2: use the “reduce” function</a></li>
+<li><a href="#solution-3-custom-pipeline-function">Solution 3: custom “pipeline” function</a></li>
 </ul>
 </li>
-<li><a href="#full-script">Full&nbsp;script</a></li>
+<li><a href="#full-script">Full script</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-<p>If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.  Requires Python 3.6 or&nbsp;greater.</p>
-<p>I was reading through the pytorch reinforcement learning <a href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html">documentation</a> today and came across the following irksome&nbsp;pattern:</p>
+<p>If your Python code represents a function pipeline, it should look like a function pipeline. This post presents a simple, strongly-typed function pipeline for your personal projects to make beautiful, explicit, Unix-like pipelines in Python.  Requires Python 3.6 or greater.</p>
+<p>I was reading through the pytorch reinforcement learning <a href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html">documentation</a> today and came across the following irksome pattern:</p>
 <div class="highlight"><pre><span></span><code><span class="o">...</span>
 
 <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
@@ -116,34 +116,30 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 <span class="o">..</span>
 </code></pre></div>
-
-
-<p>The manipulation and reassignment of a variable <em>x</em> to itself as it is passed through a neural network&#8217;s gateways makes neural networks that much harder to follow. <span class="caps">IMHO</span>, explicit variable <strong>reassignment</strong> is almost always bad because it makes it hard for my limited human brain to track a variable name&#8217;s associated data during program execution. If a program tells me that <em>x</em> is an integer on line 10 and then <strong>reassigns</strong> it to a string on line 20, I will want to delete said program from my computer, take a cold shower, and exact revenge on the program&#8217;s author. With that established, let&#8217;s just avoid reassignment&nbsp;altogether.</p>
-<h2 id="the-problem">The problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
-<p>In the above example, variable reassignment is convenient. It prevents the programmer from needing to come up with new names for each state in the connected pipeline. How can we find an elegant way of avoiding explicit variable reassignment in the pipeline use-case while still producing readable, performant code? The answer: take inspiration from Unix&nbsp;pipes!</p>
-<h2 id="unix-pipes">Unix pipes<a class="headerlink" href="#unix-pipes" title="Permanent link">&para;</a></h2>
-<p>In the Unix shell, virtually everything we work with has the same type: a <a href="https://en.wikipedia.org/wiki/Everything_is_a_file">file</a>. &#8220;Everything is a File&#8221; makes it easy to chain functions together because all commands take files as inputs and return files as outputs.  One common way to chain system calls in Unix is called the <a href="https://en.wikipedia.org/wiki/Anonymous_pipe">anonymous pipe</a>, which enables programmers to chain command line programs together to manipulate a text stream. See the following&nbsp;example:</p>
+<p>The manipulation and reassignment of a variable <em>x</em> to itself as it is passed through a neural network’s gateways makes neural networks that much harder to follow. <span class="caps">IMHO</span>, explicit variable <strong>reassignment</strong> is almost always bad because it makes it hard for my limited human brain to track a variable name’s associated data during program execution. If a program tells me that <em>x</em> is an integer on line 10 and then <strong>reassigns</strong> it to a string on line 20, I will want to delete said program from my computer, take a cold shower, and exact revenge on the program’s author. With that established, let’s just avoid reassignment altogether.</p>
+<h2 id="the-problem">The problem<a class="headerlink" href="#the-problem" title="Permanent link">¶</a></h2>
+<p>In the above example, variable reassignment is convenient. It prevents the programmer from needing to come up with new names for each state in the connected pipeline. How can we find an elegant way of avoiding explicit variable reassignment in the pipeline use-case while still producing readable, performant code? The answer: take inspiration from Unix pipes!</p>
+<h2 id="unix-pipes">Unix pipes<a class="headerlink" href="#unix-pipes" title="Permanent link">¶</a></h2>
+<p>In the Unix shell, virtually everything we work with has the same type: a <a href="https://en.wikipedia.org/wiki/Everything_is_a_file">file</a>. “Everything is a File” makes it easy to chain functions together because all commands take files as inputs and return files as outputs.  One common way to chain system calls in Unix is called the <a href="https://en.wikipedia.org/wiki/Anonymous_pipe">anonymous pipe</a>, which enables programmers to chain command line programs together to manipulate a text stream. See the following example:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Count the number of words</span>
-<span class="nb">echo</span> <span class="s2">&quot;hello hello hello world world&quot;</span> <span class="p">|</span> wc -w
+<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> wc -w
 
-<span class="c1"># Count the number of words that are not &quot;hello&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;hello hello hello world world&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/hello//g&#39;</span> <span class="p">|</span> wc -w
+<span class="c1"># Count the number of words that are not "hello"</span>
+<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> sed <span class="s1">'s/hello//g'</span> <span class="p">|</span> wc -w
 
-<span class="c1"># Count the number of words that are not &quot;world&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;hello hello hello world world&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/world//g&#39;</span> <span class="p">|</span> wc -w
+<span class="c1"># Count the number of words that are not "world"</span>
+<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> sed <span class="s1">'s/world//g'</span> <span class="p">|</span> wc -w
 
 <span class="c1"># Should print the following to console:</span>
 <span class="c1"># 5</span>
 <span class="c1"># 2</span>
 <span class="c1"># 3</span>
 </code></pre></div>
-
-
-<p>Notice that data flows <strong>through</strong> the pipeline and no variable reassignment is used. The Unix pipeline is beautiful in this regard; I&#8217;d like to build something similar in&nbsp;Python.</p>
-<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<p>Let&#8217;s say we have the following three&nbsp;functions:</p>
+<p>Notice that data flows <strong>through</strong> the pipeline and no variable reassignment is used. The Unix pipeline is beautiful in this regard; I’d like to build something similar in Python.</p>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">¶</a></h2>
+<p>Let’s say we have the following three functions:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_5</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">5</span>
 
@@ -153,23 +149,19 @@
 <span class="k">def</span> <span class="nf">add_7</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">7</span>
 </code></pre></div>
-
-
-<p>Our <strong>example problem</strong>: take an initial integer 0 and add 5, then 6, then 7 to it using our three functions so that our final result is&nbsp;18.</p>
-<h3 id="solution-1-name-each-step-in-the-pipeline">Solution 1: name each step in the pipeline<a class="headerlink" href="#solution-1-name-each-step-in-the-pipeline" title="Permanent link">&para;</a></h3>
+<p>Our <strong>example problem</strong>: take an initial integer 0 and add 5, then 6, then 7 to it using our three functions so that our final result is 18.</p>
+<h3 id="solution-1-name-each-step-in-the-pipeline">Solution 1: name each step in the pipeline<a class="headerlink" href="#solution-1-name-each-step-in-the-pipeline" title="Permanent link">¶</a></h3>
 <p>We can do slightly better than the pytorch example and create a unique variable
-name for each step in the&nbsp;process.</p>
+name for each step in the process.</p>
 <div class="highlight"><pre><span></span><code><span class="n">x_0</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">x_5</span> <span class="o">=</span> <span class="n">add_5</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </code></pre></div>
-
-
-<p>Besides being pretty ugly / hard to read, this creates some useless names in our module&#8217;s scope. Do we really need to give each step its own name? We don&#8217;t use the steps anywhere else and this makes the pipeline pretty hard to edit. This solution almost makes we wish we could go back to reassignment. Fortunately, the entire pipeline can be expressed with one name thanks to the &#8220;reduce&#8221;&nbsp;function.</p>
-<h3 id="solution-2-use-the-reduce-function">Solution 2: use the &#8220;reduce&#8221; function<a class="headerlink" href="#solution-2-use-the-reduce-function" title="Permanent link">&para;</a></h3>
+<p>Besides being pretty ugly / hard to read, this creates some useless names in our module’s scope. Do we really need to give each step its own name? We don’t use the steps anywhere else and this makes the pipeline pretty hard to edit. This solution almost makes we wish we could go back to reassignment. Fortunately, the entire pipeline can be expressed with one name thanks to the “reduce” function.</p>
+<h3 id="solution-2-use-the-reduce-function">Solution 2: use the “reduce” function<a class="headerlink" href="#solution-2-use-the-reduce-function" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">value</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
@@ -181,27 +173,25 @@ name for each step in the&nbsp;process.</p>
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </code></pre></div>
-
-
-<p>This example uses the standard library &#8220;reduce&#8221; function. Originally, &#8220;reduce&#8221; was intended to take a list of values and collapse them into one value. This use-case is described well in the <a href="https://docs.python.org/3/library/functools.html#functools.reduce">Python documentation</a> and in this <a href="https://www.youtube.com/watch?v=ZrZ6vJGiE8I">YouTube</a> video. Here, we use it a bit differently. Instead of taking a list of values and applying a &#8220;collapsing&#8221; function to them, we take a list of functions and pass a value through them. This has obvious advantages over solution 1: we can easily swap new functions in and out of the pipeline to suit our needs without needing to adjust any other code / rename pipeline steps (because we haven&#8217;t named the steps at&nbsp;all!).</p>
-<p>This solution frees us from naming each step in our pipeline but it does have some disadvantages: &#8220;reduce&#8221; is kind of hard to read and this use-case isn&#8217;t quite standard. Whenever we find ourselves using a standard library function in a confusing way, that&#8217;s a signal that we should probably define our own function to make this clearer to ourselves and to those who read our&nbsp;code.</p>
-<h3 id="solution-3-custom-pipeline-function">Solution 3: custom &#8220;pipeline&#8221; function<a class="headerlink" href="#solution-3-custom-pipeline-function" title="Permanent link">&para;</a></h3>
+<p>This example uses the standard library “reduce” function. Originally, “reduce” was intended to take a list of values and collapse them into one value. This use-case is described well in the <a href="https://docs.python.org/3/library/functools.html#functools.reduce">Python documentation</a> and in this <a href="https://www.youtube.com/watch?v=ZrZ6vJGiE8I">YouTube</a> video. Here, we use it a bit differently. Instead of taking a list of values and applying a “collapsing” function to them, we take a list of functions and pass a value through them. This has obvious advantages over solution 1: we can easily swap new functions in and out of the pipeline to suit our needs without needing to adjust any other code / rename pipeline steps (because we haven’t named the steps at all!).</p>
+<p>This solution frees us from naming each step in our pipeline but it does have some disadvantages: “reduce” is kind of hard to read and this use-case isn’t quite standard. Whenever we find ourselves using a standard library function in a confusing way, that’s a signal that we should probably define our own function to make this clearer to ourselves and to those who read our code.</p>
+<h3 id="solution-3-custom-pipeline-function">Solution 3: custom “pipeline” function<a class="headerlink" href="#solution-3-custom-pipeline-function" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'T'</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span>
         <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
         <span class="n">function_pipeline</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;A generic Unix-like pipeline</span>
+    <span class="sd">'''A generic Unix-like pipeline</span>
 
 <span class="sd">    :param value: the value you want to pass through a pipeline</span>
 <span class="sd">    :param function_pipeline: an ordered list of functions that</span>
 <span class="sd">        comprise your pipeline</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="k">return</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
@@ -213,14 +203,12 @@ name for each step in the&nbsp;process.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </code></pre></div>
-
-
-<p>This solution is elegant and explicit. It is generic and works with mypy. As long as our function pipeline contains only functions that take our value&#8217;s type and return our value&#8217;s type (similar to Unix command line utilities, where everything is a file), this pipeline will successfully pass our value in a type-safe&nbsp;way.</p>
-<h2 id="full-script">Full script<a class="headerlink" href="#full-script" title="Permanent link">&para;</a></h2>
+<p>This solution is elegant and explicit. It is generic and works with mypy. As long as our function pipeline contains only functions that take our value’s type and return our value’s type (similar to Unix command line utilities, where everything is a file), this pipeline will successfully pass our value in a type-safe way.</p>
+<h2 id="full-script">Full script<a class="headerlink" href="#full-script" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
-<span class="sd">&#39;&#39;&#39;Simple function example&#39;&#39;&#39;</span>
+<span class="sd">'''Simple function example'''</span>
 
 <span class="k">def</span> <span class="nf">add_5</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">5</span>
@@ -236,7 +224,7 @@ name for each step in the&nbsp;process.</p>
 <span class="n">x_6</span> <span class="o">=</span> <span class="n">add_6</span><span class="p">(</span><span class="n">x_5</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">add_7</span><span class="p">(</span><span class="n">x_6</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span>
@@ -249,22 +237,22 @@ name for each step in the&nbsp;process.</p>
     <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'y=</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'T'</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">pipeline</span><span class="p">(</span>
         <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
         <span class="n">function_pipeline</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-    <span class="sd">&#39;&#39;&#39;A generic Unix-like pipeline</span>
+    <span class="sd">'''A generic Unix-like pipeline</span>
 
 <span class="sd">    :param value: the value you want to pass through a pipeline</span>
 <span class="sd">    :param function_pipeline: an ordered list of functions that</span>
 <span class="sd">        comprise your pipeline</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="k">return</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">function_pipeline</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
@@ -276,12 +264,10 @@ name for each step in the&nbsp;process.</p>
     <span class="p">)</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'z=</span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </code></pre></div>
-
-
-<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
-<p>If your system resembles a pipeline, don&#8217;t reassign your piped variable to itself. There is a better way and it&#8217;s pretty much built into Python.  You&#8217;ll just need to care enough to use&nbsp;it.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h2>
+<p>If your system resembles a pipeline, don’t reassign your piped variable to itself. There is a better way and it’s pretty much built into Python.  You’ll just need to care enough to use it.</p>
       <hr>
       <div class="row text-center">
           <div class="col-sm-6">
