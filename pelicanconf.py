@@ -86,8 +86,14 @@ FOOTER_LINKS = [
 #   https://github.com/pelican-plugins/sitemap#usage
 #   https://github.com/pelican-plugins/neighbors#basic-usage
 #   https://github.com/pelican-plugins/simple-footnotes#usage
+#   https://github.com/johanvergeer/pelican-add-css-classes#usage
 #######################################################################
-PLUGINS = ["sitemap", "neighbors", "simple_footnotes"]
+PLUGINS = [
+    "sitemap",
+    "neighbors",
+    "simple_footnotes",
+    "add_css_classes",
+]
 SITEMAP = {
     "format": "xml",
     "priorities": {
@@ -101,3 +107,8 @@ SITEMAP = {
         "indexes": "always",
     },
 }
+ADD_CSS_CLASSES = {
+    "table": ["table", "table-bordered", "table-striped"],
+}
+ADD_CSS_CLASSES_TO_PAGE = {}
+ADD_CSS_CLASSES_TO_ARTICLE = {}

@@ -3,8 +3,14 @@ title: Portfolio
 slug: portfolio
 ---
 
-| Name                                                                           | Description                                               |
-|--------------------------------------------------------------------------------|-----------------------------------------------------------|
+[TOC]
+
+<hr>
+
+## Open Source Software
+
+| Project                                                                        | Description                                               |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------- |
 | [jedi-language-server](https://github.com/pappasam/jedi-language-server)       | a language server for the latest version(s) of Jedi       |
 | [serdataclasses](https://github.com/pappasam/serdataclasses)                   | deserialize and serialize (ish) Python objects            |
 | [toml-sort](https://github.com/pappasam/toml-sort)                             | command line utility to sort and format your toml files   |
@@ -15,14 +21,14 @@ slug: portfolio
 | [vim-keywordprg-commands](https://github.com/pappasam/vim-keywordprg-commands) | Neovim/Vim "keywordprg command" authoring utility         |
 | [nvim-repl](https://github.com/pappasam/nvim-repl)                             | create, use, and remove an interactive repl within Neovim |
 
-<br>
+<hr>
 
-## Poetry: "dependency management and packaging made easy"
+## Pygotham 2019: Poetry
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/QX_Nhu1zhlg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <hr>
 
-## Vim + Tmux: a terminal-based IDE
+## NYC Vim Meetup: Vim + Tmux
 
 <https://www.meetup.com/The-New-York-Vim-Meetup/events/258283693/>

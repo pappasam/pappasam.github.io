@@ -22,6 +22,7 @@ typogrify = "^2.0.7"
 pelican-sitemap = "^1.0.2"
 pelican-neighbors = "^1.1.0"
 pelican-simple-footnotes = "^1.0.2"
+pelican-add-css-classes = "^1.0.4"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.5.2"
