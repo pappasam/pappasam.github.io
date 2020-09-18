@@ -19,7 +19,9 @@
 
   <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
         href="https://samroeca.com/feeds/all.atom.xml">
-  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed"
+        href="https://samroeca.com/feed/atom.xml">  <link rel="alternate" type="application/rss+xml" title="RSS Feed"
+        href="https://samroeca.com/feed/rss.xml">  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
         href="https://samroeca.com/feeds/software-development.atom.xml">  
   <meta name="description" content="Create a small Python Docker container using Docker multi-stage builds and Python wheels.">
   <script>
@@ -59,10 +61,10 @@
             <li class=" list-inline-item text-muted">|</li>
           <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/pappasam" target="_blank"></a></li>
           <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank"></a></li>
-          <li class="list-inline-item"><a class="fab fa-facebook" href="https://www.facebook.com/sam.roeca" target="_blank"></a></li>
-          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/SamRoeca" target="_blank"></a></li>
-          <li class="list-inline-item"><a class="fab fa-youtube" href="https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA" target="_blank"></a></li>
-          <li class="list-inline-item"><a class="far fa-envelope" href="https://samroeca.com/mailto:samuel.roeca@gmail.com" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="far fa-envelope" href="mailto:samuel.roeca@gmail.com" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fas fa-code-branch" href="https://github.com/pappasam/pappasam.github.io" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fas fa-rss-square" href="feed/rss.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="feed/atom.xml" target="_blank"></a></li>
       </ul>
   </div>
 </div>    </div>
@@ -285,7 +287,7 @@ build-small:
 <li>Understanding the difference between &#8220;pip install&#8221; and &#8220;pip&nbsp;wheel&#8221;</li>
 </ol>
 <h3 id="copying-betwen-docker-build-stages-in-multi-stage-build">Copying betwen Docker build stages in multi-stage build<a class="headerlink" href="#copying-betwen-docker-build-stages-in-multi-stage-build" title="Permanent link">&para;</a></h3>
-<p>Unless we explicitly specify a <a href="https://docs.docker.com/engine/reference/commandline/build/#specifying-target-build-stage---target">&#8212;target</a>, Docker multi-stage builds will tag their last stage. Downstream build stages can reference upstream build stages and copy resources from them, similarly to how resources can be copied from any local or remote file system into a traditional Docker container. Therefore, we &#8220;compile&#8221; our Python code in one build stage and copy this compiled code in another build stage. Since the code no longer needs to be compiled, we don&#8217;t need to a C compiler or Linux headers. As the coup de grâce, our build&#8217;s final stage is not based on any image with a C compiler installed, so this approach completely avoids Docker&#8217;s caching&nbsp;complexities.</p>
+<p>Unless we explicitly specify a <a href="https://docs.docker.com/engine/reference/commandline/build/#specifying-target-build-stage---target">target</a>, Docker multi-stage builds will tag their last stage. Downstream build stages can reference upstream build stages and copy resources from them, similarly to how resources can be copied from any local or remote file system into a traditional Docker container. Therefore, we &#8220;compile&#8221; our Python code in one build stage and copy this compiled code in another build stage. Since the code no longer needs to be compiled, we don&#8217;t need to a C compiler or Linux headers. As the coup de grâce, our build&#8217;s final stage is not based on any image with a C compiler installed, so this approach completely avoids Docker&#8217;s caching&nbsp;complexities.</p>
 <p>Thanks to Docker&#8217;s multi-stage builds, we are able to compile our Python package and avoid deploying the build&#8217;s system dependencies in our final&nbsp;image.</p>
 <h3 id="difference-between-pip-install-and-pip-wheel">Difference between &#8220;pip install&#8221; and &#8220;pip wheel&#8221;<a class="headerlink" href="#difference-between-pip-install-and-pip-wheel" title="Permanent link">&para;</a></h3>
 <p>Docker multi-stage builds are cool and all, but I&#8217;ve seen many articles about them. Python&#8217;s packaging tool, <a href="https://pip.pypa.io/en/stable/">pip</a>, hasn&#8217;t gotten as much careful attention from the blogging community. Hopefully this section can clear up one common point of confusion: <a href="#pip-install">pip install</a> vs <a href="#pip-wheel">pip wheel</a>.</p>
@@ -302,6 +304,19 @@ build-small:
 <p>When building a Docker container for a Python application, we can install packages requiring build-time system dependencies <span class="caps">AND</span> remove these system dependencies from our final Docker image through a combination of Docker multi-stage builds, pip wheel, and pip&nbsp;install.</p>
 <h2 id="special-thanks">Special thanks<a class="headerlink" href="#special-thanks" title="Permanent link">&para;</a></h2>
 <p>This post took inspiration from <a href="https://lekum.org/post/multistage-dockerfile/">this post</a> by Alejandro Guirao. I am indebted to Alejandro for publishing his creative use of docker multi-stage builds in the context of Python&nbsp;systems.</p>
+      <hr>
+      <div class="row text-center">
+          <div class="col-sm-6">
+              <a href="https://samroeca.com/vim-line-numbers.html">
+                &larr;vim line&nbsp;numbers
+              </a>
+          </div>
+          <div class="col-sm-6">
+              <a href="https://samroeca.com/python-function-pipelines.html">
+                python function&nbsp;pipelines&rarr;
+              </a>
+          </div>
+      </div>
     </div>
   </article>
   <hr>
@@ -328,12 +343,12 @@ build-small:
   <footer class="footer">
     <div class="container">
 <div class="row">
-  <ul class="col-sm-6 list-inline">
-    <li class="list-inline-item"><a href="https://samroeca.com/archives.html">Archives</a></li>
+  <ul class="col-sm-8 list-inline">
     <li class="list-inline-item"><a href="https://samroeca.com/categories.html">Categories</a></li>
-      <li class="list-inline-item"><a href="https://samroeca.com/tags.html">Tags</a></li>
+    <li class="list-inline-item"><a href="https://samroeca.com/archives.html">Archives</a></li>
+    <li class="list-inline-item"><a href="https://samroeca.com/tags.html">Tags</a></li>
   </ul>
-  <p class="col-sm-6 text-sm-right text-muted">
+  <p class="col-sm-4 text-sm-right text-muted">
     Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
     / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
   </p>
