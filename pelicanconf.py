@@ -9,12 +9,8 @@ SITEURL = "http://localhost:8000"
 PATH = "content"
 TIMEZONE = "EST"
 DEFAULT_LANG = "en"
-I18N_TEMPLATES_LANG = "en"
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
-TRANSLATION_FEED_ATOM = None
-AUTHOR_FEED_ATOM = None
-AUTHOR_FEED_RSS = None
+FEED_ATOM = "feed/atom.xml"
+FEED_RSS = "feed/rss.xml"
 DEFAULT_PAGINATION = 10
 FILENAME_METADATA = "(?P<slug>.*)"
 LOAD_CONTENT_CACHE = False
@@ -72,24 +68,26 @@ DESCRIPTION = "Sam (Samuel) Roeca's personal blog about his thoughts/opinions."
 SITEIMAGE = "/images/sam-headshot-kepler-200x200.jpg"
 HIDE_AUTHORS = True
 THEME_CSS_OVERRIDES = ["static/custom.css"]
-
-ICONS = (
+ICONS = [
     ("fab fa-github", "https://github.com/pappasam"),
     ("fab fa-linkedin", "https://www.linkedin.com/in/samuel-roeca-23010735"),
     ("far fa-envelope", "mailto:samuel.roeca@gmail.com"),
-    # ("fab fa-facebook", "https://www.facebook.com/sam.roeca"),
-    # ("fab fa-twitter", "https://twitter.com/SamRoeca"),
-    # (
-    #   "fab fa-youtube",
-    #   "https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA"
-    # ),
-)
+    ("fas fa-code-branch", "https://github.com/pappasam/pappasam.github.io"),
+    ("fas fa-rss-square", FEED_RSS),
+    ("fas fa-rss", FEED_ATOM),
+]
+FOOTER_LINKS = [
+    ("Categories", "categories.html"),
+    ("Archives", "archives.html"),
+    ("Tags", "tags.html"),
+]
 
 # plugins
 #   https://github.com/pelican-plugins/sitemap#usage
 #   https://github.com/pelican-plugins/neighbors#basic-usage
+#   https://github.com/pelican-plugins/simple-footnotes#usage
 #######################################################################
-PLUGINS = ["sitemap", "neighbors"]
+PLUGINS = ["sitemap", "neighbors", "simple_footnotes"]
 SITEMAP = {
     "format": "xml",
     "priorities": {

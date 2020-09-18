@@ -165,6 +165,24 @@ version = "3.1.8"
 gitdb = ">=4.0.1,<5"
 
 [[package]]
+category = "main"
+description = "HTML parser based on the WHATWG HTML specification"
+name = "html5lib"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+version = "1.1"
+
+[package.dependencies]
+six = ">=1.9"
+webencodings = "*"
+
+[package.extras]
+all = ["genshi", "chardet (>=2.2)", "lxml"]
+chardet = ["chardet (>=2.2)"]
+genshi = ["genshi"]
+lxml = ["lxml"]
+
+[[package]]
 category = "dev"
 description = "A Python utility / library to sort Python imports."
 name = "isort"
@@ -285,6 +303,21 @@ python-versions = ">=3.6,<4.0"
 version = "1.1.0"
 
 [package.dependencies]
+pelican = ">=4.5,<5.0"
+
+[package.extras]
+markdown = ["markdown (>=3.2.2,<4.0.0)"]
+
+[[package]]
+category = "main"
+description = "Pelican plugin to add footnotes to articles and pages"
+name = "pelican-simple-footnotes"
+optional = false
+python-versions = ">=3.6,<4.0"
+version = "1.0.2"
+
+[package.dependencies]
+html5lib = ">=1.1,<2.0"
 pelican = ">=4.5,<5.0"
 
 [package.extras]
@@ -454,6 +487,14 @@ python-versions = "*"
 version = "2.0"
 
 [[package]]
+category = "main"
+description = "Character encoding aliases for legacy web content"
+name = "webencodings"
+optional = false
+python-versions = "*"
+version = "0.5.1"
+
+[[package]]
 category = "dev"
 description = "Module for decorators, wrappers and monkey patching."
 name = "wrapt"
@@ -462,7 +503,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "00b5c02cfd26b9773fcb3f8f58db83092b28425c5dbe1a05d2ff9277e12df177"
+content-hash = "8e13502e2c9661d00fc811222b2c227913993d11a117ffa7d1b616e96d0c99f6"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -523,6 +564,10 @@ gitdb = [
 gitpython = [
     {file = "GitPython-3.1.8-py3-none-any.whl", hash = "sha256:1858f4fd089abe92ae465f01d5aaaf55e937eca565fb2c1fce35a51b5f85c910"},
     {file = "GitPython-3.1.8.tar.gz", hash = "sha256:080bf8e2cf1a2b907634761c2eaefbe83b69930c94c66ad11b65a8252959f912"},
+]
+html5lib = [
+    {file = "html5lib-1.1-py2.py3-none-any.whl", hash = "sha256:0d78f8fde1c230e99fe37986a60526d7049ed4bf8a9fadbad5f00e22e58e041d"},
+    {file = "html5lib-1.1.tar.gz", hash = "sha256:b2e5b40261e20f354d198eae92afc10d750afb487ed5e50f9c4eaf07c184146f"},
 ]
 isort = [
     {file = "isort-5.5.2-py3-none-any.whl", hash = "sha256:ba91218eee31f1e300ecc079ef0c524cea3fc41bfbb979cbdf5fd3a889e3cfed"},
@@ -612,6 +657,10 @@ pelican = [
 pelican-neighbors = [
     {file = "pelican-neighbors-1.1.0.tar.gz", hash = "sha256:a24a5cce71a99a4b8e7838de8d4a965b0c23748a60a1b444302f58040aceedf6"},
     {file = "pelican_neighbors-1.1.0-py3-none-any.whl", hash = "sha256:08ae8103d079d3ee8fb0b96dc6d665c9ab3afcd6340604bf4f7ee2112127c18f"},
+]
+pelican-simple-footnotes = [
+    {file = "pelican-simple-footnotes-1.0.2.tar.gz", hash = "sha256:29e72a93922795b00dc2f0aa5e2bdfaa56b7dc17ec1c73f287316603f05f2188"},
+    {file = "pelican_simple_footnotes-1.0.2-py3-none-any.whl", hash = "sha256:f4af101cf329cb0a46eaa68faad6eb183695ba4427e988828761a70ccfec3a48"},
 ]
 pelican-sitemap = [
     {file = "pelican-sitemap-1.0.2.tar.gz", hash = "sha256:464052dbbf3daa7183c531c486e3db872f8f74b5fcc7aa25743b7c9aefbb359a"},
@@ -720,6 +769,10 @@ untokenize = [
 webassets = [
     {file = "webassets-2.0-py3-none-any.whl", hash = "sha256:a31a55147752ba1b3dc07dee0ad8c8efff274464e08bbdb88c1fd59ffd552724"},
     {file = "webassets-2.0.tar.gz", hash = "sha256:167132337677c8cedc9705090f6d48da3fb262c8e0b2773b29f3352f050181cd"},
+]
+webencodings = [
+    {file = "webencodings-0.5.1-py2.py3-none-any.whl", hash = "sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78"},
+    {file = "webencodings-0.5.1.tar.gz", hash = "sha256:b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923"},
 ]
 wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},

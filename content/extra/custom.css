@@ -10,12 +10,12 @@ img {
 }
 
 a {
-  color: #333333;
+  color: #005766;
 }
 
 a:focus,
 a:hover {
-  color: #0085a1;
+  color: #0098b3;
 }
 
 /* Tables */
@@ -54,6 +54,15 @@ pre {
 
 .headerlink {
   padding-left: 0.5rem;
+  text-decoration: none !important;
+}
+
+.simple-footnote {
+  padding-left: 0.1rem;
+}
+
+.simple-footnote-back {
+  padding-left: 0.1rem;
   text-decoration: none !important;
 }
 
