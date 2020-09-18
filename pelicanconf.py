@@ -72,16 +72,18 @@ DESCRIPTION = "Sam (Samuel) Roeca's personal blog about his thoughts/opinions."
 SITEIMAGE = "/images/sam-headshot-kepler-200x200.jpg"
 HIDE_AUTHORS = True
 THEME_CSS_OVERRIDES = ["static/custom.css"]
-# fmt: off
+
 ICONS = (
     ("fab fa-github", "https://github.com/pappasam"),
     ("fab fa-linkedin", "https://www.linkedin.com/in/samuel-roeca-23010735"),
-    ("fab fa-facebook", "https://www.facebook.com/sam.roeca"),
-    ("fab fa-twitter", "https://twitter.com/SamRoeca"),
-    ("fab fa-youtube", "https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA"),  # pylint: disable=line-too-long
     ("far fa-envelope", "mailto:samuel.roeca@gmail.com"),
+    # ("fab fa-facebook", "https://www.facebook.com/sam.roeca"),
+    # ("fab fa-twitter", "https://twitter.com/SamRoeca"),
+    # (
+    #   "fab fa-youtube",
+    #   "https://www.youtube.com/channel/UCjORdFKiDlqzzW7bWYqXuKA"
+    # ),
 )
-# fmt: on
 
 # plugins
 #   https://github.com/pelican-plugins/sitemap#usage
