@@ -63,7 +63,7 @@ MARKDOWN = {
 #######################################################################
 THEME = "pelican-themes/pelican-theme/alchemy"
 PYGMENTS_STYLE = "default"
-SITESUBTITLE = "Sam Roeca's stream of thoughts, whims, and wisdom"
+SITESUBTITLE = "A stream of thought, whim, and wisdom"
 DESCRIPTION = "Sam (Samuel) Roeca's personal blog about his thoughts/opinions."
 SITEIMAGE = "/images/sam-headshot-kepler-200x200.jpg"
 HIDE_AUTHORS = True
