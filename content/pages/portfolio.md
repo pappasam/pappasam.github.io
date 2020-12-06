@@ -12,7 +12,7 @@ slug: portfolio
 | Project                                                                        | Description                                               |
 | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
 | [jedi-language-server](https://github.com/pappasam/jedi-language-server)       | a language server for the latest version(s) of Jedi       |
-| [serdataclasses](https://github.com/pappasam/serdataclasses)                   | deserialize and serialize (ish) Python objects            |
+| [serdelicacy](https://github.com/pappasam/serdelicacy)                         | deserialize and serialize (ish) Python objects            |
 | [toml-sort](https://github.com/pappasam/toml-sort)                             | command line utility to sort and format your toml files   |
 | [latexbuild](https://github.com/pappasam/latexbuild)                           | light Latex build wrapper for Python with Jinja2          |
 | [cookiecutter-hovercraft](https://github.com/pappasam/cookiecutter-hovercraft) | a cookiecutter template for use with Hovercraft           |
