@@ -149,7 +149,7 @@ build-small:
 <span class="k">RUN</span> pip install uwsgi
 </code></pre></div>
 <p>Now run the following shell command in the same directory as your Dockerfile.break.</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-break
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-break
 
 <span class="go">Traceback (most recent call last):</span>
 <span class="go">  File "&lt;string&gt;", line 1, in &lt;module&gt;</span>
@@ -180,19 +180,19 @@ build-small:
 <span class="k">RUN</span> pip install uwsgi
 </code></pre></div>
 <p>Now run the following shell command:</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-big
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-big
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE</span>
 <span class="go">blog-python         big                 8a68d0dad407        Less than a second ago   251MB</span>
 <span class="go">python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB</span>
 </code></pre></div>
 <p>In the “build-big” make target, I’ve included a command to list all Docker images on your system. Because of this command, you should see something close to the following in your terminal:</p>
-<h4>The good</h4>
+<h4 id="the-good">The good<a class="headerlink" href="#the-good" title="Permanent link">¶</a></h4>
 <p>The image built successfully.</p>
-<h4>The bad</h4>
+<h4 id="the-bad">The bad<a class="headerlink" href="#the-bad" title="Permanent link">¶</a></h4>
 <p>The image is unnecessarily large.</p>
 <p>We’re planning on scaling our web-service to handle a decent amount of traffic. Scaling will involve deploying many images on many servers. Larger images take longer to deploy and (obviously) take up more space than smaller images.</p>
-<h4>The ugly</h4>
+<h4 id="the-ugly">The ugly<a class="headerlink" href="#the-ugly" title="Permanent link">¶</a></h4>
 <p>We are including an unnecessary dependency.</p>
 <p>We don’t need a C compiler in the image, so the C compiler is an unnecessary dependency. Including an unnecessary dependency in our runtime image is a horrible design, similar to including an unnecessary Python dependency in our requirements.txt or setup.py. As great software developers, we <span class="caps">HATE</span> bad system design, so let’s find a way to resolve the “bad” and the “ugly” while preserving the “good”!</p>
 <h3 id="example-3-failed-attempt-at-simply-uninstalling-c-compiler">Example 3: failed attempt at simply “uninstalling” C compiler<a class="headerlink" href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler" title="Permanent link">¶</a></h3>
@@ -207,7 +207,7 @@ build-small:
 <span class="k">RUN</span> apk del linux-headers g++
 </code></pre></div>
 <p>Now run the following shell command:</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-uninstall-big
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-uninstall-big
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE</span>
 <span class="go">blog-python         big-uninstall       10a0eb5d42aa        Less than a second ago   251MB</span>
@@ -243,7 +243,7 @@ build-small:
       uwsgi
 </code></pre></div>
 <p>Now run the following shell command:</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$</span> make build-small
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-small
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span>
 <span class="go">blog-python         small               b952f6280b00        1 second ago        97.4MB</span>
@@ -264,14 +264,14 @@ build-small:
 <p>Thanks to Docker’s multi-stage builds, we are able to compile our Python package and avoid deploying the build’s system dependencies in our final image.</p>
 <h3 id="difference-between-pip-install-and-pip-wheel">Difference between “pip install” and “pip wheel”<a class="headerlink" href="#difference-between-pip-install-and-pip-wheel" title="Permanent link">¶</a></h3>
 <p>Docker multi-stage builds are cool and all, but I’ve seen many articles about them. Python’s packaging tool, <a href="https://pip.pypa.io/en/stable/">pip</a>, hasn’t gotten as much careful attention from the blogging community. Hopefully this section can clear up one common point of confusion: <a href="#pip-install">pip install</a> vs <a href="#pip-wheel">pip wheel</a>.</p>
-<h4>pip install</h4>
+<h4 id="pip-install">pip install<a class="headerlink" href="#pip-install" title="Permanent link">¶</a></h4>
 <p>This is the command most people are familiar with. At a high level, it takes a Python package, runs its setup.py, downloads and installs its dependencies, and potentially does a lot more. Run “pip install” when you want to expand a package’s contents and use it as its author intended.</p>
 <p>A good mental model: “pip install” takes a consolidated bundle of code / build instructions and places the package’s content and dependencies wherever they need to go on an operating system. Once “pip install” runs on our machine, file placement throughout our file system can be pretty <a href="http://stayhawaiian.blogspot.com/2010/05/hamajang.html">hamajang</a>, depending on a package’s setup.py instructions.</p>
-<h4>pip wheel</h4>
+<h4 id="pip-wheel">pip wheel<a class="headerlink" href="#pip-wheel" title="Permanent link">¶</a></h4>
 <p>This tool is mostly used by library developers wanting to distribute their packages in a user-friendly way. For example, <a href="http://scikit-learn.org">scikitlearn</a>, a popular Python library for machine learning, requires <a href="http://scikit-learn.org/stable/developers/advanced_installation.html">a lot of system dependencies</a> to build. Many Python users, especially data scientists, are either unwilling or unable to install these dependencies on their host machines. This user-characteristic led to unfortunate platforms like <a href="https://www.anaconda.com/what-is-anaconda/">Anaconda</a> (author opinion). On a more mature note, for those of us with the appropriate dependencies installed, the installation process would often take a very long time; C, <span class="caps">FORTRAN</span>, and possibly other languages each needed to be compiled, and installing code written in these languages often leads to a long coffee break.</p>
 <p>Wheels enable Python developers to compile a package, and its dependencies, in a distributable form targeting common operating system architectures. Today, most scikitlearn users install it <a href="http://scikit-learn.org/stable/install.html">using its wheel</a>, which takes a fraction of the time of the regular build process.</p>
 <p>A good mental model: “pip wheel” takes a Python package, makes it ready to be installed on any target machine <span class="caps">WITHOUT</span> its build dependencies, and puts it in <span class="caps">ONE</span> easily-distributed archive file.</p>
-<h4>Why we care about this?</h4>
+<h4 id="why-we-care-about-this">Why we care about this?<a class="headerlink" href="#why-we-care-about-this" title="Permanent link">¶</a></h4>
 <p>Not all Python packages are distributed as wheels. There are some packages, based mostly on C, that are hard to compile once and use in many places. uWSGI appears to be one of those packages. To build our final image, we construct a throw-away container to construct a wheel for uWSGI.</p>
 <h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h2>
 <p>When building a Docker container for a Python application, we can install packages requiring build-time system dependencies <span class="caps">AND</span> remove these system dependencies from our final Docker image through a combination of Docker multi-stage builds, pip wheel, and pip install.</p>

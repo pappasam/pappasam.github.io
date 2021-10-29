@@ -94,7 +94,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If you’ve configured coc.nvim and installed jedi-language-server in an accessible location, Vim and jedi-language-server will communicate to provide you autocompletion, goto definition, etc. Hooray!&lt;/p&gt;
 &lt;p&gt;&lt;img alt="message teamwork" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/A_message_written_on_rice_paper_is_put_into_a_container_and_attached_to_a_carrier_pigeon_by_members_of_61st_Division_Signals_at_Ballymena%2C_Northern_Ireland%2C_3_July_1941._H11281.jpg/612px-thumbnail.jpg"/&gt;&lt;/p&gt;
-&lt;h4&gt;Manual configuration&lt;/h4&gt;
+&lt;h4 id="manual-configuration"&gt;Manual configuration&lt;a class="headerlink" href="#manual-configuration" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;It turns out there are some practical problems with expecting users to configure jedi-language-server manually:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Remembering to manually install a language server can annoy people; shouldn’t the editor remember to do that?&lt;/li&gt;
@@ -110,9 +110,9 @@
 &lt;li&gt;Allow the user to configure the server as “disabled” if needed&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;The reader may address other requirements as a post-blog exercise.&lt;/p&gt;
-&lt;h4&gt;Project skaffolding&lt;/h4&gt;
+&lt;h4 id="project-skaffolding"&gt;Project skaffolding&lt;a class="headerlink" href="#project-skaffolding" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;In &lt;code&gt;~/src&lt;/code&gt;, use &lt;a href="https://github.com/fannheyward/create-coc-extension"&gt;create-coc-extension&lt;/a&gt; to create a project skeleton:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; yarn create coc-extension coc-jls
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;yarn create coc-extension coc-jls
 &lt;span class="go"&gt;...&lt;/span&gt;
 &lt;span class="go"&gt;? Project title: coc-jls&lt;/span&gt;
 &lt;span class="go"&gt;? Project description: A great project&lt;/span&gt;
@@ -122,8 +122,8 @@
 &lt;span class="go"&gt;? Install node dependencies? Yes&lt;/span&gt;
 &lt;span class="go"&gt;  installing node dependencies...&lt;/span&gt;
 &lt;span class="go"&gt;Done...&lt;/span&gt;
-&lt;span class="gp"&gt;$&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; coc-jls
-&lt;span class="gp"&gt;$&lt;/span&gt; yarn
+&lt;span class="gp"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; coc-jls
+&lt;span class="gp"&gt;$ &lt;/span&gt;yarn
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;You should have the following version-controlled files in coc-jls:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;LICENSE
@@ -137,18 +137,18 @@ webpack.config.js
 yarn.lock
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Delete the files in &lt;code&gt;src&lt;/code&gt;; we’ll be writing these from scratch.&lt;/p&gt;
-&lt;h4&gt;First file&lt;/h4&gt;
+&lt;h4 id="first-file"&gt;First file&lt;a class="headerlink" href="#first-file" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;To get a simple wrapper around an existing jedi-language-server executable, place the following code in &lt;code&gt;src/index.ts&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;'coc.nvim'&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;'coc.nvim'&lt;/span&gt;
 
-&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;activate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;context&lt;/span&gt;: &lt;span class="kt"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;Promise&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;serverOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;export&lt;/span&gt; &lt;span class="k"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;activate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;context&lt;/span&gt;: &lt;span class="kt"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="ow"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;serverOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nx"&gt;command&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'jedi-language-server'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// run jls&lt;/span&gt;
   &lt;span class="p"&gt;}&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;clientOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;clientOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nx"&gt;documentSelector&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'python'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;// run jls on py files&lt;/span&gt;
   &lt;span class="p"&gt;}&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ow"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="s1"&gt;'coc-jls'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the id&lt;/span&gt;
     &lt;span class="s1"&gt;'coc-jls'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the name of the language server&lt;/span&gt;
     &lt;span class="nx"&gt;serverOptions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -164,7 +164,7 @@ yarn.lock
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;runtimepath&lt;/span&gt;^&lt;span class="p"&gt;=~&lt;/span&gt;&lt;span class="sr"&gt;/src/&lt;/span&gt;&lt;span class="k"&gt;sandbox&lt;/span&gt;/coc&lt;span class="p"&gt;-&lt;/span&gt;jls
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This command will help coc discover your extension. Depending on your coc configuration, you should see diagnostics, have autocompletion, etc. In the long term, you may want to manage your coc extension as a plugin or a Vim &lt;a href="https://shapeshed.com/vim-packages"&gt;package&lt;/a&gt;, but we’ll stay local and simple for now.&lt;/p&gt;
-&lt;h4&gt;User configuration&lt;/h4&gt;
+&lt;h4 id="user-configuration"&gt;User configuration&lt;a class="headerlink" href="#user-configuration" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;We’ve wrapped jedi-language-server with a coc extension and now it’s time to add some user configuration! Coc provides a simple mechanism to help users communicate their configuration values like VSCode: through the package.json. Make sure the following lines are in your package.json:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="nt"&gt;"contributes"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
@@ -188,23 +188,23 @@ yarn.lock
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now we must add some logic to our typescript code to read the user configuration and disable the server if the user has chosen not to have it enabled:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;'coc.nvim'&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;'coc.nvim'&lt;/span&gt;
 
-&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;activate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;context&lt;/span&gt;: &lt;span class="kt"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;Promise&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="k"&gt;export&lt;/span&gt; &lt;span class="k"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;activate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;context&lt;/span&gt;: &lt;span class="kt"&gt;ExtensionContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="ow"&gt;void&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="c1"&gt;// BEGIN NEW CODE&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getConfiguration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'coc-jls'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;isEnable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kr"&gt;boolean&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'enable'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;workspace&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getConfiguration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'coc-jls'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;isEnable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;boolean&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'enable'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
   &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;isEnable&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt;
   &lt;span class="p"&gt;}&lt;/span&gt;
   &lt;span class="c1"&gt;// END NEW CODE&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;serverOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;serverOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nx"&gt;command&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'jedi-language-server'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// run jls&lt;/span&gt;
   &lt;span class="p"&gt;}&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;clientOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;clientOptions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nx"&gt;documentSelector&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'python'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;// run jls on py files&lt;/span&gt;
   &lt;span class="p"&gt;}&lt;/span&gt;
-  &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+  &lt;span class="kd"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ow"&gt;new&lt;/span&gt; &lt;span class="nx"&gt;LanguageClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
     &lt;span class="s1"&gt;'coc-jls'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the id&lt;/span&gt;
     &lt;span class="s1"&gt;'coc-jls'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// the name of the language server&lt;/span&gt;
     &lt;span class="nx"&gt;serverOptions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -545,7 +545,7 @@ build-small:
 &lt;span class="k"&gt;RUN&lt;/span&gt; pip install uwsgi
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now run the following shell command in the same directory as your Dockerfile.break.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-break
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;make build-break
 
 &lt;span class="go"&gt;Traceback (most recent call last):&lt;/span&gt;
 &lt;span class="go"&gt;  File "&amp;lt;string&amp;gt;", line 1, in &amp;lt;module&amp;gt;&lt;/span&gt;
@@ -576,19 +576,19 @@ build-small:
 &lt;span class="k"&gt;RUN&lt;/span&gt; pip install uwsgi
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now run the following shell command:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-big
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;make build-big
 
 &lt;span class="go"&gt;REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE&lt;/span&gt;
 &lt;span class="go"&gt;blog-python         big                 8a68d0dad407        Less than a second ago   251MB&lt;/span&gt;
 &lt;span class="go"&gt;python              3.6-alpine          8eb1c554687d        16 hours ago             90.4MB&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In the “build-big” make target, I’ve included a command to list all Docker images on your system. Because of this command, you should see something close to the following in your terminal:&lt;/p&gt;
-&lt;h4&gt;The good&lt;/h4&gt;
+&lt;h4 id="the-good"&gt;The good&lt;a class="headerlink" href="#the-good" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;The image built successfully.&lt;/p&gt;
-&lt;h4&gt;The bad&lt;/h4&gt;
+&lt;h4 id="the-bad"&gt;The bad&lt;a class="headerlink" href="#the-bad" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;The image is unnecessarily large.&lt;/p&gt;
 &lt;p&gt;We’re planning on scaling our web-service to handle a decent amount of traffic. Scaling will involve deploying many images on many servers. Larger images take longer to deploy and (obviously) take up more space than smaller images.&lt;/p&gt;
-&lt;h4&gt;The ugly&lt;/h4&gt;
+&lt;h4 id="the-ugly"&gt;The ugly&lt;a class="headerlink" href="#the-ugly" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;We are including an unnecessary dependency.&lt;/p&gt;
 &lt;p&gt;We don’t need a C compiler in the image, so the C compiler is an unnecessary dependency. Including an unnecessary dependency in our runtime image is a horrible design, similar to including an unnecessary Python dependency in our requirements.txt or setup.py. As great software developers, we &lt;span class="caps"&gt;HATE&lt;/span&gt; bad system design, so let’s find a way to resolve the “bad” and the “ugly” while preserving the “good”!&lt;/p&gt;
 &lt;h3 id="example-3-failed-attempt-at-simply-uninstalling-c-compiler"&gt;Example 3: failed attempt at simply “uninstalling” C compiler&lt;a class="headerlink" href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h3&gt;
@@ -603,7 +603,7 @@ build-small:
 &lt;span class="k"&gt;RUN&lt;/span&gt; apk del linux-headers g++
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now run the following shell command:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-uninstall-big
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;make build-uninstall-big
 
 &lt;span class="go"&gt;REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE&lt;/span&gt;
 &lt;span class="go"&gt;blog-python         big-uninstall       10a0eb5d42aa        Less than a second ago   251MB&lt;/span&gt;
@@ -639,7 +639,7 @@ build-small:
       uwsgi
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now run the following shell command:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$&lt;/span&gt; make build-small
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;make build-small
 
 &lt;span class="go"&gt;REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE&lt;/span&gt;
 &lt;span class="go"&gt;blog-python         small               b952f6280b00        1 second ago        97.4MB&lt;/span&gt;
@@ -660,14 +660,14 @@ build-small:
 &lt;p&gt;Thanks to Docker’s multi-stage builds, we are able to compile our Python package and avoid deploying the build’s system dependencies in our final image.&lt;/p&gt;
 &lt;h3 id="difference-between-pip-install-and-pip-wheel"&gt;Difference between “pip install” and “pip wheel”&lt;a class="headerlink" href="#difference-between-pip-install-and-pip-wheel" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Docker multi-stage builds are cool and all, but I’ve seen many articles about them. Python’s packaging tool, &lt;a href="https://pip.pypa.io/en/stable/"&gt;pip&lt;/a&gt;, hasn’t gotten as much careful attention from the blogging community. Hopefully this section can clear up one common point of confusion: &lt;a href="#pip-install"&gt;pip install&lt;/a&gt; vs &lt;a href="#pip-wheel"&gt;pip wheel&lt;/a&gt;.&lt;/p&gt;
-&lt;h4&gt;pip install&lt;/h4&gt;
+&lt;h4 id="pip-install"&gt;pip install&lt;a class="headerlink" href="#pip-install" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;This is the command most people are familiar with. At a high level, it takes a Python package, runs its setup.py, downloads and installs its dependencies, and potentially does a lot more. Run “pip install” when you want to expand a package’s contents and use it as its author intended.&lt;/p&gt;
 &lt;p&gt;A good mental model: “pip install” takes a consolidated bundle of code / build instructions and places the package’s content and dependencies wherever they need to go on an operating system. Once “pip install” runs on our machine, file placement throughout our file system can be pretty &lt;a href="http://stayhawaiian.blogspot.com/2010/05/hamajang.html"&gt;hamajang&lt;/a&gt;, depending on a package’s setup.py instructions.&lt;/p&gt;
-&lt;h4&gt;pip wheel&lt;/h4&gt;
+&lt;h4 id="pip-wheel"&gt;pip wheel&lt;a class="headerlink" href="#pip-wheel" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;This tool is mostly used by library developers wanting to distribute their packages in a user-friendly way. For example, &lt;a href="http://scikit-learn.org"&gt;scikitlearn&lt;/a&gt;, a popular Python library for machine learning, requires &lt;a href="http://scikit-learn.org/stable/developers/advanced_installation.html"&gt;a lot of system dependencies&lt;/a&gt; to build. Many Python users, especially data scientists, are either unwilling or unable to install these dependencies on their host machines. This user-characteristic led to unfortunate platforms like &lt;a href="https://www.anaconda.com/what-is-anaconda/"&gt;Anaconda&lt;/a&gt; (author opinion). On a more mature note, for those of us with the appropriate dependencies installed, the installation process would often take a very long time; C, &lt;span class="caps"&gt;FORTRAN&lt;/span&gt;, and possibly other languages each needed to be compiled, and installing code written in these languages often leads to a long coffee break.&lt;/p&gt;
 &lt;p&gt;Wheels enable Python developers to compile a package, and its dependencies, in a distributable form targeting common operating system architectures. Today, most scikitlearn users install it &lt;a href="http://scikit-learn.org/stable/install.html"&gt;using its wheel&lt;/a&gt;, which takes a fraction of the time of the regular build process.&lt;/p&gt;
 &lt;p&gt;A good mental model: “pip wheel” takes a Python package, makes it ready to be installed on any target machine &lt;span class="caps"&gt;WITHOUT&lt;/span&gt; its build dependencies, and puts it in &lt;span class="caps"&gt;ONE&lt;/span&gt; easily-distributed archive file.&lt;/p&gt;
-&lt;h4&gt;Why we care about this?&lt;/h4&gt;
+&lt;h4 id="why-we-care-about-this"&gt;Why we care about this?&lt;a class="headerlink" href="#why-we-care-about-this" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;Not all Python packages are distributed as wheels. There are some packages, based mostly on C, that are hard to compile once and use in many places. uWSGI appears to be one of those packages. To build our final image, we construct a throw-away container to construct a wheel for uWSGI.&lt;/p&gt;
 &lt;h2 id="conclusion"&gt;Conclusion&lt;a class="headerlink" href="#conclusion" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;When building a Docker container for a Python application, we can install packages requiring build-time system dependencies &lt;span class="caps"&gt;AND&lt;/span&gt; remove these system dependencies from our final Docker image through a combination of Docker multi-stage builds, pip wheel, and pip install.&lt;/p&gt;
