@@ -1,3 +1,4 @@
+SHELL=/bin/bash
 GITHUB_PAGES_BRANCH=master
 PELICAN_THEME_GIT_URL=git@github.com:pappasam/pelican-alchemy.git
 
@@ -7,7 +8,8 @@ help:  ## Print this help menu
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: setup
-setup: pelican-themes/pelican-theme  ## Install local dependencies
+setup: pelican-themes/pelican-theme  ## Install / update local dependencies
+	( cd ./pelican-themes/pelican-theme ; git pull )
 	poetry install
 
 .PHONY: serve
