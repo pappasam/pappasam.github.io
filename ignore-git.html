@@ -25,12 +25,12 @@
         href="https://samroeca.com/feeds/software-development.atom.xml">  
   <meta name="description" content="Discover two techniques to ignore files from a Git-based version controlled project. The first technique enables Git to ignore every file in a directory other than the directory itself. The second technique enables a user to automatically ignore a file without adding it to a project’s root gitignore.">
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117115805-1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ5WVT7YQL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-117115805-1');
+    gtag('config', 'G-FJ5WVT7YQL');
   </script>
 </head>
 
@@ -124,9 +124,9 @@ special .gitignore contents:
 </code></pre></div>
 <p>I find myself using this trick so often that I’ve added the instance folder and its accompanying gitignore file into my project skeletons.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># ~/.bashrc (I actually use zsh + ~/.zshrc, but it's the same)</span>
-<span class="k">function</span> make_instance<span class="o">()</span> <span class="o">{</span>
-  mkdir instance
-  cat &gt; instance/.gitignore <span class="s">&lt;&lt;EOL</span>
+<span class="k">function</span><span class="w"> </span>make_instance<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span>mkdir<span class="w"> </span>instance
+<span class="w">  </span>cat<span class="w"> </span>&gt;<span class="w"> </span>instance/.gitignore<span class="w"> </span><span class="s">&lt;&lt;EOL</span>
 <span class="s"># Ignore all files in this directory</span>
 <span class="s"># EXCEPT for this .gitignore file</span>
 <span class="s">*</span>

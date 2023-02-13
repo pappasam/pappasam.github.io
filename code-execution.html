@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Immediate execution of Python class definitions | Sam's world
+</title>
+  <link rel="canonical" href="./code-execution.html">
+
+
+  <link rel="stylesheet" href="./theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="./theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="./theme/css/theme.css">
+  <link rel="stylesheet" href="./static/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="http://localhost:8000/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed"
+        href="http://localhost:8000/feed/atom.xml">  <link rel="alternate" type="application/rss+xml" title="RSS Feed"
+        href="http://localhost:8000/feed/rss.xml">  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="http://localhost:8000/feeds/software-development.atom.xml">  
+  <meta name="description" content="Classes are confusing. Python class definitions are especially confusing. Learn how the code execution environment differs between Python’s “class definitions”, “function bodies”, and “modules”.">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+    <div class="col-sm-4">
+      <a href="./">
+        <img class="img-fluid rounded" src=./images/sam-headshot-kepler-200x200.jpg alt="Sam's world">
+      </a>
+    </div>
+  <div class="col-sm-8">
+    <h1 class="title"><a href="./">Sam's world</a></h1>
+      <p class="text-muted">A stream of thought, whim, and wisdom</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="./pages/about.html">Bio</a></li>
+            <li class="list-inline-item"><a href="./pages/portfolio.html">Portfolio</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/pappasam" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/samuel-roeca-23010735" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="far fa-envelope" href="mailto:samuel.roeca@gmail.com" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fas fa-code-branch" href="https://github.com/pappasam/pappasam.github.io" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fas fa-rss-square" href="./feed/rss.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="./feed/atom.xml" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Immediate execution of Python class&nbsp;definitions
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2021-10-29T00:00:00-05:00">
+          <i class="fas fa-clock"></i>
+          Fri 29 October 2021
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="./category/software-development.html">Software Development</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="./tag/python.html">#python</a>,               <a href="./tag/class.html">#class</a>,               <a href="./tag/function.html">#function</a>,               <a href="./tag/module.html">#module</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <!-- markdownlint-disable MD033 -->
+<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#first-modules">First: modules</a></li>
+<li><a href="#functions">Functions</a></li>
+</ul>
+</div>
+<!-- https://docs.python.org/3/tutorial/classes.html#classes -->
+<!-- https://docs.python.org/3/tutorial/modules.html#modules -->
+<!-- https://docs.python.org/3/tutorial/controlflow.html#defining-functions -->
+<!-- https://docs.python.org/3/reference/import.html#packages -->
+<p>Code placed at the top-level of a Python <a href="https://docs.python.org/3/tutorial/classes.html#classes">class definition</a> executes immediately, during “class creation” (which differs. This, at-times unexpectedly, resembles code placed at the <a href="https://docs.python.org/3/tutorial/modules.html#modules">module level</a> and differs significantly from code living in Python <a href="https://docs.python.org/3/tutorial/controlflow.html#defining-functions">function bodies</a>.</p>
+<p>This may not sound strange, but it can confuse heck out of beginners. In order to see this at work, we’ll begin with the following simple example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">WillFail</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"I have raised"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"world"</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"I will never be called :("</span><span class="p">)</span>
+</code></pre></div>
+<p>If class statements behaved as most users expect, you’d think this would print <code>I will never be called :(</code> to the console. Sadly, that negative statement will never see the light of day…</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>python main.py
+<span class="go">Traceback (most recent call last):</span>
+<span class="go">  File "/path/to/main.py", line 1, in &lt;module&gt;</span>
+<span class="go">    class WillFail:</span>
+<span class="go">  File "/path/to/main.py", line 2, in WillFail</span>
+<span class="go">    raise ValueError("I have raised")</span>
+<span class="go">ValueError: I have raised</span>
+</code></pre></div>
+<h2 id="first-modules">First: modules<a class="headerlink" href="#first-modules" title="Permanent link">¶</a></h2>
+<p>The first concept we’ll cover are <a href="">modules</a></p>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">¶</a></h2>
+<p>This blog post was inspired by a persistent problem I’ve faced when using <a href="https://www.sqlalchemy.org/">SQLAlchemy</a>.</p>
+      <hr>
+      <div class="row text-center">
+          <div class="col-sm-6">
+              <a href="./coc-plugin.html">
+                &larr;how to write a coc.nvim&nbsp;extension
+              </a>
+          </div>
+          <div class="col-sm-6">
+          </div>
+      </div>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-8 list-inline">
+    <li class="list-inline-item"><a href="./categories.html">Categories</a></li>
+    <li class="list-inline-item"><a href="./archives.html">Archives</a></li>
+    <li class="list-inline-item"><a href="./tags.html">Tags</a></li>
+  </ul>
+  <p class="col-sm-4 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>

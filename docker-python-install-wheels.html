@@ -25,12 +25,12 @@
         href="https://samroeca.com/feeds/software-development.atom.xml">  
   <meta name="description" content="Create a small Python Docker container using Docker multi-stage builds and Python wheels.">
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117115805-1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ5WVT7YQL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-117115805-1');
+    gtag('config', 'G-FJ5WVT7YQL');
   </script>
 </head>
 
@@ -144,12 +144,12 @@ build-small:
 <h3 id="example-1-broken-build-requiring-a-c-compiler">Example 1: broken build requiring a C compiler<a class="headerlink" href="#example-1-broken-build-requiring-a-c-compiler" title="Permanent link">¶</a></h3>
 <p>We have a simple, <a href="https://docs.docker.com/engine/reference/builder/#entrypoint">entrypoint</a>-less Docker container in which we must install <a href="https://uwsgi-docs.readthedocs.io/en/latest/">uWSGI</a>. In the uWSGI <a href="https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html">quickstart</a> guide, its developers clarify that it “is a (big) C application, so you need a C compiler (like gcc or clang) and the Python development headers”.</p>
 <p>Copy the following code into a file called “Dockerfile.break”:</p>
-<div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">breakimage</span>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.6-alpine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s">breakimage</span>
 
-<span class="k">RUN</span> pip install uwsgi
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>uwsgi
 </code></pre></div>
 <p>Now run the following shell command in the same directory as your Dockerfile.break.</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-break
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make<span class="w"> </span>build-break
 
 <span class="go">Traceback (most recent call last):</span>
 <span class="go">  File "&lt;string&gt;", line 1, in &lt;module&gt;</span>
@@ -173,14 +173,14 @@ build-small:
 <h3 id="example-2-large-build-with-c-compiler-installed">Example 2: large build with C compiler installed<a class="headerlink" href="#example-2-large-build-with-c-compiler-installed" title="Permanent link">¶</a></h3>
 <p>In this example, we’ll install our system dependencies so uWSGI can actually be built.</p>
 <p>Copy the following code into a file called “Dockerfile.big”:</p>
-<div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage</span>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.6-alpine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s">bigimage</span>
 
-<span class="k">RUN</span> apk add --no-cache linux-headers g++
+<span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>--no-cache<span class="w"> </span>linux-headers<span class="w"> </span>g++
 
-<span class="k">RUN</span> pip install uwsgi
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>uwsgi
 </code></pre></div>
 <p>Now run the following shell command:</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-big
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make<span class="w"> </span>build-big
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE</span>
 <span class="go">blog-python         big                 8a68d0dad407        Less than a second ago   251MB</span>
@@ -198,16 +198,16 @@ build-small:
 <h3 id="example-3-failed-attempt-at-simply-uninstalling-c-compiler">Example 3: failed attempt at simply “uninstalling” C compiler<a class="headerlink" href="#example-3-failed-attempt-at-simply-uninstalling-c-compiler" title="Permanent link">¶</a></h3>
 <p>Unfortunately, if we want to reduce our image size, we cannot simply “uninstall” the C compiler. For reasons that I do not fully comprehend at this time, Docker caches anything you install in an image, so uninstalling a dependency does <span class="caps">NOT</span> reduce the image size.</p>
 <p>Copy the following code into a file called “Dockerfile.uninstall”:</p>
-<div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage-uninstalled</span>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.6-alpine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s">bigimage-uninstalled</span>
 
-<span class="k">RUN</span> apk add --no-cache linux-headers g++
+<span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>--no-cache<span class="w"> </span>linux-headers<span class="w"> </span>g++
 
-<span class="k">RUN</span> pip install uwsgi
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>uwsgi
 
-<span class="k">RUN</span> apk del linux-headers g++
+<span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>del<span class="w"> </span>linux-headers<span class="w"> </span>g++
 </code></pre></div>
 <p>Now run the following shell command:</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-uninstall-big
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make<span class="w"> </span>build-uninstall-big
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED                  SIZE</span>
 <span class="go">blog-python         big-uninstall       10a0eb5d42aa        Less than a second ago   251MB</span>
@@ -220,30 +220,30 @@ build-small:
 <p>Copy the following code into a file called “Dockerfile.small”:</p>
 <div class="highlight"><pre><span></span><code><span class="c">###########################################</span>
 <span class="c"># Throwaway image with C compiler installed</span>
-<span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">bigimage</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.6-alpine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s">bigimage</span>
 
 <span class="c"># install the C compiler</span>
-<span class="k">RUN</span> apk add --no-cache linux-headers g++
+<span class="k">RUN</span><span class="w"> </span>apk<span class="w"> </span>add<span class="w"> </span>--no-cache<span class="w"> </span>linux-headers<span class="w"> </span>g++
 
 <span class="c"># instead of installing, create a wheel</span>
-<span class="k">RUN</span> pip wheel --wheel-dir<span class="o">=</span>/root/wheels uwsgi
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>wheel<span class="w"> </span>--wheel-dir<span class="o">=</span>/root/wheels<span class="w"> </span>uwsgi
 
 <span class="c">###########################################</span>
 <span class="c"># Image WITHOUT C compiler but WITH uWSGI</span>
-<span class="k">FROM</span> <span class="s">python:3.6-alpine</span> <span class="k">as</span> <span class="s">smallimage</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">python:3.6-alpine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s">smallimage</span>
 
-<span class="k">COPY</span> --from<span class="o">=</span>bigimage /root/wheels /root/wheels
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>bigimage<span class="w"> </span>/root/wheels<span class="w"> </span>/root/wheels
 
 <span class="c"># Ignore the Python package index</span>
 <span class="c"># and look for archives in</span>
 <span class="c"># /root/wheels directory</span>
-<span class="k">RUN</span> pip install <span class="se">\</span>
-      --no-index <span class="se">\</span>
-      --find-links<span class="o">=</span>/root/wheels <span class="se">\</span>
-      uwsgi
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--no-index<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--find-links<span class="o">=</span>/root/wheels<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>uwsgi
 </code></pre></div>
 <p>Now run the following shell command:</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make build-small
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>make<span class="w"> </span>build-small
 
 <span class="go">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span>
 <span class="go">blog-python         small               b952f6280b00        1 second ago        97.4MB</span>

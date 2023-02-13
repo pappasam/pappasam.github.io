@@ -25,12 +25,12 @@
         href="https://samroeca.com/feeds/software-development.atom.xml">  
   <meta name="description" content="Build a “coc.nvim” extension that wraps an executable language server. You should learn what makes coc a stand-out LSP client and be able to write your own coc extension.">
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117115805-1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ5WVT7YQL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-117115805-1');
+    gtag('config', 'G-FJ5WVT7YQL');
   </script>
 </head>
 
@@ -161,19 +161,19 @@
 <h3 id="register-a-language-server">Register a language server<a class="headerlink" href="#register-a-language-server" title="Permanent link">¶</a></h3>
 <p>Without an extension, coc behaves like a simple language client. For simplicity’s sake, let’s assume we’re all Python developers and that we’d like to use a language server named <a href="https://github.com/pappasam/jedi-language-server">jedi-language-server</a> with Vim.</p>
 <p>Within your current Python environment, install jedi-language-server:</p>
-<div class="highlight"><pre><span></span><code>pip install jedi-language-server
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>jedi-language-server
 </code></pre></div>
 <p>Now run jedi-language-server:</p>
 <div class="highlight"><pre><span></span><code>jedi-language-server
 </code></pre></div>
 <p>Notice that the process hangs; it’s waiting to receive standard input and will respond with standard output. This server can run inside of Vim by placing the following code in the <code>languageserver</code> section of your coc-settings.json:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-  <span class="nt">"languageserver"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">"python"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">"command"</span><span class="p">:</span> <span class="s2">"jedi-language-server"</span><span class="p">,</span>
-      <span class="nt">"filetypes"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"python"</span><span class="p">]</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="nt">"languageserver"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"python"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jedi-language-server"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"filetypes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"python"</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>If you’ve configured coc.nvim and installed jedi-language-server in an accessible location, Vim and jedi-language-server will communicate to provide you autocompletion, goto definition, etc. Hooray!</p>
@@ -196,7 +196,7 @@
 <p>The reader may address other requirements as a post-blog exercise.</p>
 <h4 id="project-skaffolding">Project skaffolding<a class="headerlink" href="#project-skaffolding" title="Permanent link">¶</a></h4>
 <p>In <code>~/src</code>, use <a href="https://github.com/fannheyward/create-coc-extension">create-coc-extension</a> to create a project skeleton:</p>
-<div class="highlight"><pre><span></span><code><span class="gp">$ </span>yarn create coc-extension coc-jls
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>yarn<span class="w"> </span>create<span class="w"> </span>coc-extension<span class="w"> </span>coc-jls
 <span class="go">...</span>
 <span class="go">? Project title: coc-jls</span>
 <span class="go">? Project description: A great project</span>
@@ -206,7 +206,7 @@
 <span class="go">? Install node dependencies? Yes</span>
 <span class="go">  installing node dependencies...</span>
 <span class="go">Done...</span>
-<span class="gp">$ </span><span class="nb">cd</span> coc-jls
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>coc-jls
 <span class="gp">$ </span>yarn
 </code></pre></div>
 <p>You should have the following version-controlled files in coc-jls:</p>
@@ -223,22 +223,22 @@ yarn.lock
 <p>Delete the files in <code>src</code>; we’ll be writing these from scratch.</p>
 <h4 id="first-file">First file<a class="headerlink" href="#first-file" title="Permanent link">¶</a></h4>
 <p>To get a simple wrapper around an existing jedi-language-server executable, place the following code in <code>src/index.ts</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ExtensionContext</span><span class="p">,</span> <span class="nx">services</span><span class="p">,</span> <span class="nx">workspace</span><span class="p">,</span> <span class="nx">LanguageClient</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">'coc.nvim'</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExtensionContext</span><span class="p">,</span><span class="w"> </span><span class="nx">services</span><span class="p">,</span><span class="w"> </span><span class="nx">workspace</span><span class="p">,</span><span class="w"> </span><span class="nx">LanguageClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'coc.nvim'</span>
 
-<span class="k">export</span> <span class="k">async</span> <span class="kd">function</span> <span class="nx">activate</span><span class="p">(</span><span class="nx">context</span>: <span class="kt">ExtensionContext</span><span class="p">)</span><span class="o">:</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">serverOptions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">command</span><span class="o">:</span> <span class="s1">'jedi-language-server'</span><span class="p">,</span> <span class="c1">// run jls</span>
-  <span class="p">}</span>
-  <span class="kd">const</span> <span class="nx">clientOptions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">documentSelector</span><span class="o">:</span> <span class="p">[</span><span class="s1">'python'</span><span class="p">],</span> <span class="c1">// run jls on py files</span>
-  <span class="p">}</span>
-  <span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">LanguageClient</span><span class="p">(</span>
-    <span class="s1">'coc-jls'</span><span class="p">,</span> <span class="c1">// the id</span>
-    <span class="s1">'coc-jls'</span><span class="p">,</span> <span class="c1">// the name of the language server</span>
-    <span class="nx">serverOptions</span><span class="p">,</span>
-    <span class="nx">clientOptions</span>
-  <span class="p">)</span>
-  <span class="nx">context</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">services</span><span class="p">.</span><span class="nx">registLanguageClient</span><span class="p">(</span><span class="nx">client</span><span class="p">))</span>
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">activate</span><span class="p">(</span><span class="nx">context</span><span class="o">:</span><span class="w"> </span><span class="kt">ExtensionContext</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">serverOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">command</span><span class="o">:</span><span class="w"> </span><span class="s1">'jedi-language-server'</span><span class="p">,</span><span class="w"> </span><span class="c1">// run jls</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">clientOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">documentSelector</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'python'</span><span class="p">],</span><span class="w"> </span><span class="c1">// run jls on py files</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">LanguageClient</span><span class="p">(</span>
+<span class="w">    </span><span class="s1">'coc-jls'</span><span class="p">,</span><span class="w"> </span><span class="c1">// the id</span>
+<span class="w">    </span><span class="s1">'coc-jls'</span><span class="p">,</span><span class="w"> </span><span class="c1">// the name of the language server</span>
+<span class="w">    </span><span class="nx">serverOptions</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">clientOptions</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">context</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">services</span><span class="p">.</span><span class="nx">registLanguageClient</span><span class="p">(</span><span class="nx">client</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>This code tells coc to register a new language server named <code>coc-jls</code> that executes the command <code>jedi-language-server</code> when Vim edits Python file(s). Now build the project with the following command:</p>
@@ -251,50 +251,50 @@ yarn.lock
 <h4 id="user-configuration">User configuration<a class="headerlink" href="#user-configuration" title="Permanent link">¶</a></h4>
 <p>We’ve wrapped jedi-language-server with a coc extension and now it’s time to add some user configuration! Coc provides a simple mechanism to help users communicate their configuration values like VSCode: through the package.json. Make sure the following lines are in your package.json:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-  <span class="nt">"contributes"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">"configuration"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
-      <span class="nt">"title"</span><span class="p">:</span> <span class="s2">"coc-jls configuration"</span><span class="p">,</span>
-      <span class="nt">"properties"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">"coc-jls.enabled"</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">"type"</span><span class="p">:</span> <span class="s2">"boolean"</span><span class="p">,</span>
-          <span class="nt">"default"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-          <span class="nt">"description"</span><span class="p">:</span> <span class="s2">"Enable coc-jls extension"</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+<span class="w">  </span><span class="nt">"contributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coc-jls configuration"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"coc-jls.enabled"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enable coc-jls extension"</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>This says that the coc-jls extension contributes a configuration key <code>coc-jls.enabled</code> whose default value is <code>true</code>. If a user wants to disable <code>coc-jls</code>, they must add the following line to the top level of coc-settings.json:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-  <span class="nt">"coc-jls.enabled"</span><span class="p">:</span> <span class="kc">false</span>
+<span class="w">  </span><span class="nt">"coc-jls.enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Now we must add some logic to our typescript code to read the user configuration and disable the server if the user has chosen not to have it enabled:</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ExtensionContext</span><span class="p">,</span> <span class="nx">services</span><span class="p">,</span> <span class="nx">workspace</span><span class="p">,</span> <span class="nx">LanguageClient</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">'coc.nvim'</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExtensionContext</span><span class="p">,</span><span class="w"> </span><span class="nx">services</span><span class="p">,</span><span class="w"> </span><span class="nx">workspace</span><span class="p">,</span><span class="w"> </span><span class="nx">LanguageClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'coc.nvim'</span>
 
-<span class="k">export</span> <span class="k">async</span> <span class="kd">function</span> <span class="nx">activate</span><span class="p">(</span><span class="nx">context</span>: <span class="kt">ExtensionContext</span><span class="p">)</span><span class="o">:</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="c1">// BEGIN NEW CODE</span>
-  <span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">workspace</span><span class="p">.</span><span class="nx">getConfiguration</span><span class="p">(</span><span class="s1">'coc-jls'</span><span class="p">)</span>
-  <span class="kd">const</span> <span class="nx">isEnable</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">get</span><span class="o">&lt;</span><span class="kt">boolean</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">'enable'</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isEnable</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span>
-  <span class="p">}</span>
-  <span class="c1">// END NEW CODE</span>
-  <span class="kd">const</span> <span class="nx">serverOptions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">command</span><span class="o">:</span> <span class="s1">'jedi-language-server'</span><span class="p">,</span> <span class="c1">// run jls</span>
-  <span class="p">}</span>
-  <span class="kd">const</span> <span class="nx">clientOptions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">documentSelector</span><span class="o">:</span> <span class="p">[</span><span class="s1">'python'</span><span class="p">],</span> <span class="c1">// run jls on py files</span>
-  <span class="p">}</span>
-  <span class="kd">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">LanguageClient</span><span class="p">(</span>
-    <span class="s1">'coc-jls'</span><span class="p">,</span> <span class="c1">// the id</span>
-    <span class="s1">'coc-jls'</span><span class="p">,</span> <span class="c1">// the name of the language server</span>
-    <span class="nx">serverOptions</span><span class="p">,</span>
-    <span class="nx">clientOptions</span>
-  <span class="p">)</span>
-  <span class="nx">context</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">services</span><span class="p">.</span><span class="nx">registLanguageClient</span><span class="p">(</span><span class="nx">client</span><span class="p">))</span>
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">activate</span><span class="p">(</span><span class="nx">context</span><span class="o">:</span><span class="w"> </span><span class="kt">ExtensionContext</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// BEGIN NEW CODE</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">workspace</span><span class="p">.</span><span class="nx">getConfiguration</span><span class="p">(</span><span class="s1">'coc-jls'</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">isEnable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">get</span><span class="o">&lt;</span><span class="kt">boolean</span><span class="o">&gt;</span><span class="p">(</span><span class="s1">'enable'</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">isEnable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="c1">// END NEW CODE</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">serverOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">command</span><span class="o">:</span><span class="w"> </span><span class="s1">'jedi-language-server'</span><span class="p">,</span><span class="w"> </span><span class="c1">// run jls</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">clientOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">documentSelector</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'python'</span><span class="p">],</span><span class="w"> </span><span class="c1">// run jls on py files</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">LanguageClient</span><span class="p">(</span>
+<span class="w">    </span><span class="s1">'coc-jls'</span><span class="p">,</span><span class="w"> </span><span class="c1">// the id</span>
+<span class="w">    </span><span class="s1">'coc-jls'</span><span class="p">,</span><span class="w"> </span><span class="c1">// the name of the language server</span>
+<span class="w">    </span><span class="nx">serverOptions</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">clientOptions</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="nx">context</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">services</span><span class="p">.</span><span class="nx">registLanguageClient</span><span class="p">(</span><span class="nx">client</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Now run <code>yarn</code> and voilà: users can now disable coc-jls without needing to uninstall the extension. Success!</p>

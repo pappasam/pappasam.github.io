@@ -25,12 +25,12 @@
         href="https://samroeca.com/feeds/software-development.atom.xml">  
   <meta name="description" content="Develop Unix-like pipelines in Python.">
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117115805-1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ5WVT7YQL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'UA-117115805-1');
+    gtag('config', 'G-FJ5WVT7YQL');
   </script>
 </head>
 
@@ -115,13 +115,13 @@
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># Count the number of words</span>
-<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> wc -w
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"hello hello hello world world"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-w
 
 <span class="c1"># Count the number of words that are not "hello"</span>
-<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> sed <span class="s1">'s/hello//g'</span> <span class="p">|</span> wc -w
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"hello hello hello world world"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">'s/hello//g'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-w
 
 <span class="c1"># Count the number of words that are not "world"</span>
-<span class="nb">echo</span> <span class="s2">"hello hello hello world world"</span> <span class="p">|</span> sed <span class="s1">'s/world//g'</span> <span class="p">|</span> wc -w
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"hello hello hello world world"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">'s/world//g'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-w
 
 <span class="c1"># Should print the following to console:</span>
 <span class="c1"># 5</span>
@@ -177,7 +177,7 @@ name for each step in the process.</p>
         <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
         <span class="n">function_pipeline</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-    <span class="sd">'''A generic Unix-like pipeline</span>
+<span class="w">    </span><span class="sd">'''A generic Unix-like pipeline</span>
 
 <span class="sd">    :param value: the value you want to pass through a pipeline</span>
 <span class="sd">    :param function_pipeline: an ordered list of functions that</span>
@@ -238,7 +238,7 @@ name for each step in the process.</p>
         <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
         <span class="n">function_pipeline</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">T</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-    <span class="sd">'''A generic Unix-like pipeline</span>
+<span class="w">    </span><span class="sd">'''A generic Unix-like pipeline</span>
 
 <span class="sd">    :param value: the value you want to pass through a pipeline</span>
 <span class="sd">    :param function_pipeline: an ordered list of functions that</span>
