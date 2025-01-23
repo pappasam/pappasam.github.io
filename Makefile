@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 GITHUB_PAGES_BRANCH=master
-PELICAN_THEME_GIT_URL=git@github.com:pappasam/pelican-alchemy.git
+PELICAN_THEME_GIT_URL=https://github.com/pappasam/pelican-alchemy
 
 .PHONY: help
 help:  ## Print this help menu
