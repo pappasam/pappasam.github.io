@@ -97,9 +97,9 @@ PLUGINS = [
 SITEMAP = {
     "format": "xml",
     "priorities": {
-        "articles": 1,
-        "pages": 1,
-        "indexes": 1,
+        "articles": 0.5,
+        "pages": 0.5,
+        "indexes": 0.5,
     },
     "changefreqs": {
         "articles": "always",
