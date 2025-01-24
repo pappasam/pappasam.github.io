@@ -112,7 +112,7 @@
 <p>Please disable Python-specific coc extensions (<a href="https://github.com/pappasam/coc-jedi">coc-jedi</a>, etc). Some terminology used throughout the post:</p>
 <ul>
 <li>Vim: Vim or Neovim</li>
-<li>vimrc: <code>~/.config/nvim/init.vim</code> for Neovim or <code>~/.vimrc</code> for Vim</li>
+<li>vimrc: <code>~/.config/nvim/init.vim</code> for Neovim or <code>~/.vimrc</code> for Vim</li>
 <li>coc-settings.json: <code>~/.config/nvim/.coc-settings.json</code> by default</li>
 </ul>
 <h2 id="background">Background<a class="headerlink" href="#background" title="Permanent link">¶</a></h2>
@@ -126,7 +126,7 @@
 <p>Vim’s diverse plugins and community-supported tooling are what keep me coming back, but not all developers are like me. Visual Studio Code, Nodepad++, and others were more popular than Vim in the <a href="https://insights.stackoverflow.com/survey/2019#technology-_-most-popular-development-environments">2019 StackOverflow developer survey</a>:</p>
 <p><img alt="stack overflow survey" src="./images/coc-plugin/so-2019-dev-env.png"/></p>
 <p>These popularity differences are starker across programming language communities. For example, Vim’s Java development environment was historically abysmal enough to generate some <a href="https://news.ycombinator.com/item?id=9713478">heated conversations</a>. My non-scientific evaluation of the community’s sentiment: obstinate, impractical developers used Vim for Java development while practical, no-nonsense creators preferred Eclipse. Because of this sentiment, tooling for Java evolved in the Eclipse world while Vim’s Java support remained neglected.</p>
-<p>The Java pattern mentioned in the previous paragraph happens, to some extent, in all programming languages. Developers became drawn to editors best-supported their language of choice: PyCharm/Vim for Python, <a href="https://www.eclipse.org/eclipseide/">Eclipse</a> for Java, <a href="https://code.visualstudio.com/">VSCode</a> for TypeScipt/JavaScript, etc. This, in turn, forced developers into mind-bending context switches when changing languages. To become proficient with a new programming language, a developer needed to learn a whole new text editor and tooling ecosystem! Like asking a Jedi to use another Jedi’s light saber, forcing a developer to learn and use <a href="https://en.wikipedia.org/wiki/Emacs">Emacs</a> because it has better support for <code>&lt;insert language here&gt;</code> can evoke uncomfortable feelings (at best):</p>
+<p>The Java pattern mentioned in the previous paragraph happens, to some extent, in all programming languages. Developers became drawn to editors best-supported their language of choice: PyCharm/Vim for Python, <a href="https://www.eclipse.org/eclipseide/">Eclipse</a> for Java, <a href="https://code.visualstudio.com/">VSCode</a> for TypeScipt/JavaScript, etc. This, in turn, forced developers into mind-bending context switches when changing languages. To become proficient with a new programming language, a developer needed to learn a whole new text editor and tooling ecosystem! Like asking a Jedi to use another Jedi’s light saber, forcing a developer to learn and use <a href="https://en.wikipedia.org/wiki/Emacs">Emacs</a> because it has better support for <code>&lt;insert language here&gt;</code> can evoke uncomfortable feelings (at best):</p>
 <p><img alt="Vi versus emacs cartoon" src="https://itsfoss.com/wp-content/uploads/2016/07/vi-emacs.png"/></p>
 <p>The rise of <a href="https://www.w3schools.com/whatis/whatis_fullstack.asp">full stack development</a> and our general expectation that developers be comfortable writing code in more than one language made it so that by mid 2015, we seemed all-but doomed to a life of eternal context switching.</p>
 <p><img alt="broken bridge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bridging_the_gap_%2825429796194%29.jpg/640px-Bridging_the_gap_%2825429796194%29.jpg"/></p>
@@ -149,14 +149,14 @@
 <p>The above dream seemed like it would herald a new dawn for developers: we can use our favorite tools and have similar, powerful programming language support! As the auguries looked good and a golden age seemed imminent, VSCode’s popularity began generating some bad, familiar omens…</p>
 <p><img alt="black cat bad omen" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Black_pussy_-_panoramio.jpg/640px-Black_pussy_-_panoramio.jpg"/></p>
 <h3 id="vscode-client-power">VSCode: client power<a class="headerlink" href="#vscode-client-power" title="Permanent link">¶</a></h3>
-<p>The <span class="caps">LSP</span> dream described in the previous section was similar to <a href="https://en.wikipedia.org/wiki/Tim_Berners-Lee">Tim Berners-Lee</a>‘s dream for a world wide web: web clients, supporting web protocols, could enable communication between web servers and a user environment (the operating system). This dream sparked development of all sorts of web clients (browsers) and culminated in the <a href="https://en.wikipedia.org/wiki/Browser_wars">first browser war</a>. According to Wikipedia, during this time, Netscape Navigator and Internet Explorer implemented proprietary html tags like <code>&lt;blink&gt;</code> for Navigator and <code>&lt;marquee&gt;</code> for Internet Explorer. They also rapidly developed their own features and began diverging from <a href="https://en.wikipedia.org/wiki/World_Wide_Web_Consortium"><span class="caps">W3C</span></a>‘s recommended spec. This resulted in efficient Internet Explorer <span class="caps">HTML</span> being less efficient or broken on Navigator (and vise versa). This forced users to pick browsers based on custom compatibility with their favorite sites and ultimately resulted in <a href="https://en.wikipedia.org/wiki/United_States_v._Microsoft_Corp.">United States v. Microsoft Corp</a>. Basically, things got ugly.</p>
+<p>The <span class="caps">LSP</span> dream described in the previous section was similar to <a href="https://en.wikipedia.org/wiki/Tim_Berners-Lee">Tim Berners-Lee</a>‘s dream for a world wide web: web clients, supporting web protocols, could enable communication between web servers and a user environment (the operating system). This dream sparked development of all sorts of web clients (browsers) and culminated in the <a href="https://en.wikipedia.org/wiki/Browser_wars">first browser war</a>. According to Wikipedia, during this time, Netscape Navigator and Internet Explorer implemented proprietary html tags like <code>&lt;blink&gt;</code> for Navigator and <code>&lt;marquee&gt;</code> for Internet Explorer. They also rapidly developed their own features and began diverging from <a href="https://en.wikipedia.org/wiki/World_Wide_Web_Consortium"><span class="caps">W3C</span></a>‘s recommended spec. This resulted in efficient Internet Explorer <span class="caps">HTML</span> being less efficient or broken on Navigator (and vise versa). This forced users to pick browsers based on custom compatibility with their favorite sites and ultimately resulted in <a href="https://en.wikipedia.org/wiki/United_States_v._Microsoft_Corp.">United States v. Microsoft Corp</a>. Basically, things got ugly.</p>
 <p><img alt="Browser wars" src="https://joaopsilva.github.io/talks/End-to-End-JavaScript-with-the-MEAN-Stack/img/ie-vs-netscape.jpg"/></p>
 <p>Although what is happening today in the text editing community is tamer, it resembles the first browser war in that VSCode has become the de-facto standard for Language Clients. Authors of Language Servers may target VSCode without fully supporting the current <span class="caps">LSP</span> spec or by inadvertently supporting VSCode features that are not in the spec. This means that <a href="https://atom.io/">Atom</a> users might be using a correctly-implemented language client that does not work with certain language servers. Additionally, there may be no way to easily configure certain language servers without VSCode’s configuration options. This means that if you want to get the best language support possible across all language servers, as of August 2020, you pretty much need to use something that resembles VSCode.</p>
 <p><img alt="you can't sit with us" src="https://memegenerator.net/img/instances/58875816/you-cant-sit-with-us.jpg"/></p>
 <p>As the VSCode ecosystem seemed like it had formed an exclusive clique, <a href="https://github.com/chemzqm">Qiming zhao</a> (@chemzqm on social media) realized that Vim could join the party by <a href="https://news.ycombinator.com/item?id=19532429">implementing a VSCode bridge for Neovim</a>. Qiming zhao named this <span class="caps">LSP</span> bridge “coc.nvim”.</p>
 <p><img alt="Python bridge" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Amsterdam_Python_Bridge_10.jpg/640px-Amsterdam_Python_Bridge_10.jpg"/></p>
 <h2 id="cocnvim">coc.nvim<a class="headerlink" href="#cocnvim" title="Permanent link">¶</a></h2>
-<p><a href="https://github.com/neoclide/coc.nvim">coc.nvim</a> is a language client for Vim that can be configured similarly to VSCode. Vim is configured with <a href="https://en.wikipedia.org/wiki/Vim_%28text_editor%29#Vim_script">Vim script</a>, <a href="https://en.wikipedia.org/wiki/C_%28programming_language%29">C</a>, <a href="https://en.wikipedia.org/wiki/Lua_%28programming_language%29">lua</a> (if using Neovim), and any other language if you’re feeling fancy enough these days. VSCode is configured with <a href="https://en.wikipedia.org/wiki/JSON">json</a> and <a href="https://en.wikipedia.org/wiki/TypeScript">TypeScript</a>. “coc.nvim” makes it so we can configure “coc.nvim”-managed features using <code>json</code> and <code>typescript</code> while still being able to use Vim’s configuration for everything else. Basically, it’s this:</p>
+<p><a href="https://github.com/neoclide/coc.nvim">coc.nvim</a> is a language client for Vim that can be configured similarly to VSCode. Vim is configured with <a href="https://en.wikipedia.org/wiki/Vim_%28text_editor%29#Vim_script">Vim script</a>, <a href="https://en.wikipedia.org/wiki/C_%28programming_language%29">C</a>, <a href="https://en.wikipedia.org/wiki/Lua_%28programming_language%29">lua</a> (if using Neovim), and any other language if you’re feeling fancy enough these days. VSCode is configured with <a href="https://en.wikipedia.org/wiki/JSON">json</a> and <a href="https://en.wikipedia.org/wiki/TypeScript">TypeScript</a>. “coc.nvim” makes it so we can configure “coc.nvim”-managed features using <code>json</code> and <code>typescript</code> while still being able to use Vim’s configuration for everything else. Basically, it’s this:</p>
 <p><img alt="have your cake and eat it too" src="https://teflgeek.files.wordpress.com/2012/05/cake-and-eating-it-too.jpeg"/></p>
 <h3 id="register-a-language-server">Register a language server<a class="headerlink" href="#register-a-language-server" title="Permanent link">¶</a></h3>
 <p>Without an extension, coc behaves like a simple language client. For simplicity’s sake, let’s assume we’re all Python developers and that we’d like to use a language server named <a href="https://github.com/pappasam/jedi-language-server">jedi-language-server</a> with Vim.</p>
@@ -166,7 +166,7 @@
 <p>Now run jedi-language-server:</p>
 <div class="highlight"><pre><span></span><code>jedi-language-server
 </code></pre></div>
-<p>Notice that the process hangs; it’s waiting to receive standard input and will respond with standard output. This server can run inside of Vim by placing the following code in the <code>languageserver</code> section of your coc-settings.json:</p>
+<p>Notice that the process hangs; it’s waiting to receive standard input and will respond with standard output. This server can run inside of Vim by placing the following code in the <code>languageserver</code> section of your coc-settings.json:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"languageserver"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"python"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -220,9 +220,9 @@ tsconfig.json
 webpack.config.js
 yarn.lock
 </code></pre></div>
-<p>Delete the files in <code>src</code>; we’ll be writing these from scratch.</p>
+<p>Delete the files in <code>src</code>; we’ll be writing these from scratch.</p>
 <h4 id="first-file">First file<a class="headerlink" href="#first-file" title="Permanent link">¶</a></h4>
-<p>To get a simple wrapper around an existing jedi-language-server executable, place the following code in <code>src/index.ts</code>:</p>
+<p>To get a simple wrapper around an existing jedi-language-server executable, place the following code in <code>src/index.ts</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExtensionContext</span><span class="p">,</span><span class="w"> </span><span class="nx">services</span><span class="p">,</span><span class="w"> </span><span class="nx">workspace</span><span class="p">,</span><span class="w"> </span><span class="nx">LanguageClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'coc.nvim'</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">activate</span><span class="p">(</span><span class="nx">context</span><span class="o">:</span><span class="w"> </span><span class="kt">ExtensionContext</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -241,7 +241,7 @@ yarn.lock
 <span class="w">  </span><span class="nx">context</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">services</span><span class="p">.</span><span class="nx">registLanguageClient</span><span class="p">(</span><span class="nx">client</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>This code tells coc to register a new language server named <code>coc-jls</code> that executes the command <code>jedi-language-server</code> when Vim edits Python file(s). Now build the project with the following command:</p>
+<p>This code tells coc to register a new language server named <code>coc-jls</code> that executes the command <code>jedi-language-server</code> when Vim edits Python file(s). Now build the project with the following command:</p>
 <div class="highlight"><pre><span></span><code>yarn
 </code></pre></div>
 <p>Open an empty file (test.py works) with Vim and run the following command:</p>
@@ -266,7 +266,7 @@ yarn.lock
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>This says that the coc-jls extension contributes a configuration key <code>coc-jls.enabled</code> whose default value is <code>true</code>. If a user wants to disable <code>coc-jls</code>, they must add the following line to the top level of coc-settings.json:</p>
+<p>This says that the coc-jls extension contributes a configuration key <code>coc-jls.enabled</code> whose default value is <code>true</code>. If a user wants to disable <code>coc-jls</code>, they must add the following line to the top level of coc-settings.json:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"coc-jls.enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="p">}</span>
@@ -297,7 +297,7 @@ yarn.lock
 <span class="w">  </span><span class="nx">context</span><span class="p">.</span><span class="nx">subscriptions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">services</span><span class="p">.</span><span class="nx">registLanguageClient</span><span class="p">(</span><span class="nx">client</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Now run <code>yarn</code> and voilà: users can now disable coc-jls without needing to uninstall the extension. Success!</p>
+<p>Now run <code>yarn</code> and voilà: users can now disable coc-jls without needing to uninstall the extension. Success!</p>
 <h3 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">¶</a></h3>
 <p>To “deploy” this extension, one approach is to upload your project GitHub, add it to your Package or Plugin manager configuration, and install. If you’re using <a href="https://github.com/junegunn/vim-plug">Vim-Plug</a>, put the following in your vimrc:</p>
 <div class="highlight"><pre><span></span><code>Plug <span class="s1">'your-username/coc-jls'</span><span class="p">,</span> {<span class="s1">'do'</span>: <span class="s1">'yarn install --frozen-lockfile &amp;&amp; yarn build'</span>}
@@ -319,6 +319,9 @@ yarn.lock
               </a>
           </div>
           <div class="col-sm-6">
+              <a href="https://samroeca.com/back-2025.html">
+                i&#8217;m&nbsp;back!&rarr;
+              </a>
           </div>
       </div>
     </div>
